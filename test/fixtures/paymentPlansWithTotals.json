@@ -1,0 +1,16 @@
+[
+  {
+    "end_date": "2021-08-01",
+    "start_date": "2021-04-01",
+    "total_price": 300.00,
+    "reference": "hello",
+    "is_shared": 0
+  },
+  {
+    "end_date": "2021-04-01",
+    "start_date": "2021-02-01",
+    "total_price": 400.00,
+    "reference": "hello again",
+    "is_shared": 1
+  }
+]

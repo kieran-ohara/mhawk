@@ -1,0 +1,15 @@
+[
+  {
+    "start_date": "2020-03-01",
+    "monthly_price": 100.00,
+    "reference": "payment plan 1",
+    "is_shared": 0
+  },
+  {
+    "end_date": "2020-01-01",
+    "start_date": "2020-02-01",
+    "monthly_price": 200.00,
+    "reference": "payment plan 2",
+    "is_shared": 1
+  }
+]
