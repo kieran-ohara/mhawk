@@ -1,0 +1,6 @@
+/.envrc
+/.next/
+/build
+/dist
+/node_modules
+/out/

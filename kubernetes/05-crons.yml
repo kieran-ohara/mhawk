@@ -1,0 +1,139 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: mhawk-cron
+  namespace: mhawk
+  labels:
+    app.kubernetes.io/name: mhawk
+spec:
+  schedule: "0 10 18 * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: cron
+            image: kieranbamforth/mhawk:11
+            args:
+              - dist/cli/main.bundle.js
+            env:
+              - name: MYSQL_HOST
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-db
+                    key: MYSQL_HOST
+              - name: MYSQL_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-db
+                    key: MYSQL_USER
+              - name: MYSQL_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-db
+                    key: MYSQL_PASSWORD
+              - name: MYSQL_DATABASE
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-db
+                    key: MYSQL_DATABASE
+              - name: MYSQL_PORT
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-db
+                    key: MYSQL_PORT
+              - name: MONZO_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-secret
+                    key: MONZO_CLIENT_ID
+              - name: MONZO_CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-secret
+                    key: MONZO_CLIENT_SECRET
+              - name: MONZO_REDIRECT
+                value: "https://mhawk.k8s.istio.kieranbamforth.me/api/v0/auth/monzo/callback"
+              - name: DEBUG
+                value: mhawk-*
+            resources:
+              limits:
+                memory: "100Mi"
+              requests:
+                cpu: 50m
+                memory: "100Mi"
+            securityContext:
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1000
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: mhawk-daily
+  namespace: mhawk
+  labels:
+    app.kubernetes.io/name: mhawk
+spec:
+  schedule: "0 10 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: cron
+            image: kieranbamforth/mhawk:11
+            args:
+              - dist/cli/dollar.bundle.js
+            env:
+              - name: MYSQL_HOST
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-db
+                    key: MYSQL_HOST
+              - name: MYSQL_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-db
+                    key: MYSQL_USER
+              - name: MYSQL_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-db
+                    key: MYSQL_PASSWORD
+              - name: MYSQL_DATABASE
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-db
+                    key: MYSQL_DATABASE
+              - name: MYSQL_PORT
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-db
+                    key: MYSQL_PORT
+              - name: MONZO_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-secret
+                    key: MONZO_CLIENT_ID
+              - name: MONZO_CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-secret
+                    key: MONZO_CLIENT_SECRET
+              - name: MONZO_REDIRECT
+                value: "https://mhawk.k8s.istio.kieranbamforth.me/api/v0/auth/monzo/callback"
+              - name: DEBUG
+                value: mhawk-*
+            resources:
+              limits:
+                memory: "100Mi"
+              requests:
+                cpu: 50m
+                memory: "100Mi"
+            securityContext:
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1000

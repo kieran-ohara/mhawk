@@ -1,0 +1,38 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: mhawk-vservice
+  namespace: istio-system
+spec:
+  gateways:
+    - default-gateway
+  hosts:
+  - mhawk.k8s.istio.kieranbamforth.me
+  http:
+  - name: "mhawk"
+    route:
+    - destination:
+        host: mhawk-service.mhawk.svc.cluster.local
+        port:
+          number: 3000
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: mhawk-authz
+ namespace: istio-system
+spec:
+ action: DENY
+ rules:
+   - to:
+     - operation:
+         paths: [
+           "/api/v0/auth/*",
+         ]
+         methods: ["GET"]
+     - operation:
+         paths: [
+           "/api/v0/payment-plans",
+           "/api/v0/monthly-payments"
+         ]
+         methods: ["POST"]
