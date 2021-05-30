@@ -1,7 +1,7 @@
 import debug from 'debug';
 import { MonzoClient, getLoginForUserId } from '../lib/monzo';
 import { closePool } from '../lib/mysql';
-import { daysUntilPayDay } from '../lib/options';
+import { daysUntilPayDay } from '../lib/user';
 
 const log = debug('mhawk-daily-dollar');
 
