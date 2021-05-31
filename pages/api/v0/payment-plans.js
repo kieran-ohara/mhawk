@@ -5,7 +5,17 @@ const log = debug('mhawk-payment-plans');
 
 const getController = async function getController(req, res) {
   try {
-    const content = await getPaymentPlans();
+    const content = await getPaymentPlans((params) => {
+      if (req.query.has_end_date === 'true') {
+        log('has end date');
+        return `WHERE ${params.plansTableName}.end_date IS NOT NULL`;
+      }
+      if (req.query.has_end_date === 'false') {
+        log('does not has');
+        return `WHERE ${params.plansTableName}.end_date IS NULL`;
+      }
+      return '';
+    });
     res.status(200).json(content);
   } catch (error) {
     res.status(500).json({ error });
