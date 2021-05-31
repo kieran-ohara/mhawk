@@ -19,7 +19,7 @@ const getController = async function getController(req, res) {
         const dateAsString = dateWithOffset.toISOString().split('T')[0];
         return `
         WHERE (DATE('${dateAsString}') BETWEEN ${params.plansTableName}.start_date AND ${params.plansTableName}.end_date)
-        OR (${params.plansTableName}.start_date >= '${dateAsString}' AND ${params.plansTableName}.end_date IS NULL)
+        OR (${params.plansTableName}.start_date <= '${dateAsString}' AND ${params.plansTableName}.end_date IS NULL)
         `;
       }
       return '';
