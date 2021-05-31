@@ -1,4 +1,5 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Link from 'next/link'
 import React from 'react';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -6,7 +7,8 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
+import EventIcon from '@material-ui/icons/Event';
+import ReplayIcon from '@material-ui/icons/Replay';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -68,10 +70,18 @@ function ResponsiveDrawer(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemIcon><DoneAllIcon /></ListItemIcon>
-          <ListItemText primary="Finite Payments" />
-        </ListItem>
+        <Link href="/payments/finite">
+          <ListItem button>
+            <ListItemIcon><EventIcon /></ListItemIcon>
+            <ListItemText primary="Finite Payments" />
+          </ListItem>
+        </Link>
+        <Link href="/payments/recurring">
+          <ListItem button>
+            <ListItemIcon><ReplayIcon /></ListItemIcon>
+            <ListItemText primary="Recurring Payments" />
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
