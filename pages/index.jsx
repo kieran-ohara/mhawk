@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { DataGrid } from '@material-ui/data-grid';
+import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 function renderDate(date) {
@@ -11,13 +11,42 @@ function renderDate(date) {
 }
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 100 },
+  {
+    field: 'id',
+    type: 'number',
+    hide: true,
+    headerName: 'ID',
+    width: 90,
+  },
   { field: 'reference', headerName: 'Reference', width: 160 },
   {
-    field: 'fullName',
+    field: 'monthly_price',
+    type: 'number',
+    headerName: 'Monthly Price',
+    width: 165,
+    valueFormatter: (params) => `£${params.getValue(params.id, 'monthly_price')}`,
+  },
+  {
+    field: 'start_date',
+    type: 'date',
+    hide: true,
+    headerName: 'Start Date',
+    width: 180,
+    valueFormatter: (params) => renderDate(new Date(params.getValue(params.id, 'start_date'))),
+  },
+  {
+    field: 'end_date',
+    type: 'date',
+    headerName: 'End Date',
+    width: 180,
+    valueFormatter: (params) => renderDate(new Date(params.getValue(params.id, 'end_date'))),
+  },
+  {
+    field: 'payments_count',
+    type: 'number',
     headerName: 'Payments Made',
     width: 180,
-    valueGetter: (params) => {
+    valueFormatter: (params) => {
       let string = `${params.getValue(params.id, 'payments_count')}`;
       const dateDiff = params.getValue(params.id, 'date_diff_months');
       if (dateDiff !== null) {
@@ -25,24 +54,6 @@ const columns = [
       }
       return string;
     },
-  },
-  {
-    field: 'monthly_price_calculated',
-    headerName: 'Monthly Price',
-    width: 180,
-    valueGetter: (params) => `£${params.getValue(params.id, 'monthly_price')}`,
-  },
-  {
-    field: 'start_date_calculated',
-    headerName: 'Start Date',
-    width: 180,
-    valueGetter: (params) => renderDate(new Date(params.getValue(params.id, 'start_date'))),
-  },
-  {
-    field: 'end_date_calculated',
-    headerName: 'End Date',
-    width: 180,
-    valueGetter: (params) => renderDate(new Date(params.getValue(params.id, 'end_date'))),
   },
 ];
 
@@ -64,7 +75,15 @@ export default function Home() {
     <div style={{ height: 'calc(100% - 64px)' }}>
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>
-          <DataGrid rows={data} columns={columns} pageSize={25} density="compact" />
+          <DataGrid
+            rows={data}
+            columns={columns}
+            pageSize={25}
+            density="compact"
+            components={{
+              Toolbar: GridToolbar,
+            }}
+          />
         </div>
       </div>
     </div>
