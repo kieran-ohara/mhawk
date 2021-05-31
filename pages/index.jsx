@@ -64,7 +64,7 @@ export default function Home() {
     <div style={{ height: 'calc(100% - 64px)' }}>
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>
-          <DataGrid rows={data} columns={columns} pageSize={25} />
+          <DataGrid rows={data} columns={columns} pageSize={25} density="compact" />
         </div>
       </div>
     </div>
