@@ -8,6 +8,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import EventIcon from '@material-ui/icons/Event';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
 import ReplayIcon from '@material-ui/icons/Replay';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -71,10 +72,16 @@ function ResponsiveDrawer(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
+        <Link href="/monthly-outgoings">
+          <ListItem button>
+            <ListItemIcon><EventIcon /></ListItemIcon>
+            <ListItemText primary="Monthly Outgoings" />
+          </ListItem>
+        </Link>
         <ListSubheader>Payment Plans</ListSubheader>
         <Link href="/payment-plans/finite">
           <ListItem button>
-            <ListItemIcon><EventIcon /></ListItemIcon>
+            <ListItemIcon><DoneAllIcon /></ListItemIcon>
             <ListItemText primary="Finite Payments" />
           </ListItem>
         </Link>

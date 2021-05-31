@@ -7,17 +7,26 @@ const getController = async function getController(req, res) {
   try {
     const content = await getPaymentPlans((params) => {
       if (req.query.has_end_date === 'true') {
-        log('has end date');
         return `WHERE ${params.plansTableName}.end_date IS NOT NULL`;
       }
       if (req.query.has_end_date === 'false') {
-        log('does not has');
         return `WHERE ${params.plansTableName}.end_date IS NULL`;
+      }
+      if (req.query.payments_for_month) {
+        const date = new Date(req.query.payments_for_month);
+        const offset = date.getTimezoneOffset();
+        const dateWithOffset = new Date(date.getTime() - (offset * 60 * 1000));
+        const dateAsString = dateWithOffset.toISOString().split('T')[0];
+        return `
+        WHERE (DATE('${dateAsString}') BETWEEN ${params.plansTableName}.start_date AND ${params.plansTableName}.end_date)
+        OR (${params.plansTableName}.start_date >= '${dateAsString}' AND ${params.plansTableName}.end_date IS NULL)
+        `;
       }
       return '';
     });
     res.status(200).json(content);
   } catch (error) {
+    log(error);
     res.status(500).json({ error });
   }
 };
