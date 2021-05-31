@@ -1,7 +1,6 @@
 import useSWR from 'swr';
 import { DataGrid } from '@material-ui/data-grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Container from '@material-ui/core/Container';
 
 function renderDate(date) {
   if (date !== null) {
@@ -62,8 +61,12 @@ export default function Home() {
   }
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
-      <DataGrid rows={data} columns={columns} pageSize={5} />
+    <div style={{ height: 'calc(100% - 64px)' }}>
+      <div style={{ display: 'flex', height: '100%' }}>
+        <div style={{ flexGrow: 1 }}>
+          <DataGrid rows={data} columns={columns} pageSize={25} />
+        </div>
+      </div>
     </div>
   );
 }
