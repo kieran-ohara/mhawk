@@ -13,6 +13,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -70,13 +71,14 @@ function ResponsiveDrawer(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        <Link href="/payments/finite">
+        <ListSubheader>Payment Plans</ListSubheader>
+        <Link href="/payment-plans/finite">
           <ListItem button>
             <ListItemIcon><EventIcon /></ListItemIcon>
             <ListItemText primary="Finite Payments" />
           </ListItem>
         </Link>
-        <Link href="/payments/recurring">
+        <Link href="/payment-plans/recurring">
           <ListItem button>
             <ListItemIcon><ReplayIcon /></ListItemIcon>
             <ListItemText primary="Recurring Payments" />

@@ -3,7 +3,7 @@ module.exports = {
     return [
       {
         source: '/',
-        destination: '/payments/finite',
+        destination: '/payment-plans/finite',
         permanent: true,
       },
     ];
