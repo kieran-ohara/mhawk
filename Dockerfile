@@ -9,6 +9,7 @@ ADD package-lock.json ./
 RUN npm install
 
 COPY cli ./cli
+COPY components ./components
 COPY lib ./lib
 COPY pages ./pages
 COPY public ./public
