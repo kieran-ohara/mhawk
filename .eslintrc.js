@@ -19,6 +19,7 @@ module.exports = {
     'react',
   ],
   rules: {
+    'arrow-body-style': 'off',
     'import/prefer-default-export': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/prop-types': 'off',
