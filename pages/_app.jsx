@@ -150,7 +150,9 @@ function ResponsiveDrawer(props) {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Component {...pageProps} />
+          <div style={{ height: 'calc(100vh - 64px)' }}>
+            <Component {...pageProps} />
+          </div>
         </main>
       </div>
     </>

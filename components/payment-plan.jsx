@@ -75,19 +75,17 @@ function PaymentPlan(props) {
   }
 
   return (
-    <div style={{ height: 'calc(100% - 64px)' }}>
-      <div style={{ display: 'flex', height: '100%' }}>
-        <div style={{ flexGrow: 1 }}>
-          <DataGrid
-            rows={data}
-            columns={concatColumns}
-            pageSize={25}
-            density="compact"
-            components={{
-              Toolbar: GridToolbar,
-            }}
-          />
-        </div>
+    <div style={{ display: 'flex', height: '100%' }}>
+      <div style={{ flexGrow: 1 }}>
+        <DataGrid
+          rows={data}
+          columns={concatColumns}
+          pageSize={25}
+          density="compact"
+          components={{
+            Toolbar: GridToolbar,
+          }}
+        />
       </div>
     </div>
   );
