@@ -12,6 +12,7 @@
     "@material-ui/data-grid": "*",
     "@material-ui/icons": "^4.11.2",
     "axios": "^0.21.1",
+    "date-fns": "^2.22.1",
     "debug": "^2.6.9",
     "mysql": "^2.18.1",
     "next": "10.2.0",

@@ -1,5 +1,5 @@
 import debug from 'debug';
-import { getMonthlyPaymentsForDate } from '../../../lib/payment-plans';
+import { getPaymentPlansActiveForMonth } from '../../../lib/payment-plans';
 
 const log = debug('mhawk-forecast');
 
@@ -10,7 +10,7 @@ const getController = async function getController(req, res) {
       date = new Date(req.query.date);
     }
 
-    const result = await getMonthlyPaymentsForDate(date);
+    const result = await getPaymentPlansActiveForMonth(date);
     const sumOutgoings = result.reduce((acc, item) => acc + item.monthly_price, 0);
     const grossMonth = 2756;
 
