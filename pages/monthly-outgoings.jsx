@@ -1,9 +1,12 @@
+import useSWR from 'swr';
+
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Link from 'next/link';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
@@ -74,6 +77,19 @@ export default function Home() {
   const options = { month: 'long' };
   const dateLocaleString = paymentsForMonth.toLocaleString('en-GB', options);
 
+  const { data } = useSWR(
+    `/api/v0/monthly-outgoings?date=${dateString}`,
+    (req) => fetch(req).then((res) => res.json()),
+  );
+
+  if (!data) {
+    return (
+      <>
+        <LinearProgress />
+      </>
+    );
+  }
+
   return (
     <>
       <div className={classes.root}>
@@ -100,6 +116,9 @@ export default function Home() {
                 </IconButton>
               </Link>
             </div>
+            <Typography>
+              {`£${data.gross_month} - £${data.sum} = £${data.net_month}`}
+            </Typography>
           </aside>
         </Hidden>
       </div>
