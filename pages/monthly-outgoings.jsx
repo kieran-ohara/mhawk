@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 import { PaymentPlan } from '../components/payment-plan';
 
-const getIsRecurringPayment = (params) => params.getValue(params.id, 'end_date') !== null;
+const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !== null;
 
 const columns = [
   {
@@ -26,7 +26,9 @@ const columns = [
     type: 'boolean',
     headerName: 'Is Recurring',
     width: 160,
-    valueGetter: getIsRecurringPayment,
+    valueGetter: (params) => {
+      return !paymentHasEndDate(params);
+    },
   },
 ];
 
