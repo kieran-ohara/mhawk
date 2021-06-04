@@ -12,12 +12,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 import { PaymentPlan } from '../components/payment-plan';
 
+const getIsRecurringPayment = (params) => params.getValue(params.id, 'end_date') !== null;
+
 const columns = [
   {
     field: 'payments_count',
     type: 'number',
     headerName: 'Payments Made',
     width: 180,
+  },
+  {
+    field: 'is_recurring',
+    type: 'boolean',
+    headerName: 'Is Recurring',
+    width: 160,
+    valueGetter: getIsRecurringPayment,
   },
 ];
 
