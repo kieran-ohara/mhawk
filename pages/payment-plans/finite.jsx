@@ -22,6 +22,19 @@ const columns = [
       return string;
     },
   },
+  {
+    field: 'payments_sum',
+    type: 'number',
+    headerName: 'Total Paid',
+    width: 180,
+    valueFormatter: (params) => {
+      const string = `${params.getValue(params.id, 'payments_sum')}`;
+      if (string !== 'null') {
+        return `£${string}`;
+      }
+      return '£0';
+    },
+  },
 ];
 
 export default function Home() {
