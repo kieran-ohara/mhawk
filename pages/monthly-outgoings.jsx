@@ -16,12 +16,6 @@ const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !==
 
 const columns = [
   {
-    field: 'payments_count',
-    type: 'number',
-    headerName: 'Payments Made',
-    width: 180,
-  },
-  {
     field: 'is_recurring',
     type: 'boolean',
     headerName: 'Is Recurring',
