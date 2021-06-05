@@ -72,13 +72,14 @@ function ResponsiveDrawer(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
+        <ListSubheader>Live It</ListSubheader>
         <Link href="/monthly-outgoings">
           <ListItem button>
             <ListItemIcon><EventIcon /></ListItemIcon>
             <ListItemText primary="Monthly Outgoings" />
           </ListItem>
         </Link>
-        <ListSubheader>Payment Plans</ListSubheader>
+        <ListSubheader>Plan It</ListSubheader>
         <Link href="/payment-plans/finite">
           <ListItem button>
             <ListItemIcon><DoneAllIcon /></ListItemIcon>
