@@ -11,6 +11,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 import { PaymentPlan } from '../components/payment-plan';
+import usePaymentPlanMutations from '../hooks/payment-plan-mutations';
 
 const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !== null;
 
@@ -59,7 +60,6 @@ export default function MonthlyOutgoings() {
   // eslint-disable-next-line
   const { payments_for_month } = router.query;
 
-
   // LOL
   let paymentsForMonth;
   let dateString;
@@ -82,10 +82,30 @@ export default function MonthlyOutgoings() {
   const options = { month: 'long' };
   const dateLocaleString = paymentsForMonth.toLocaleString('en-GB', options);
 
-  const { data } = useSWR(
+  const { getActiveMutationsForDate } = usePaymentPlanMutations();
+
+  const { data, error } = useSWR(
     `/api/v0/monthly-outgoings?date=${dateString}`,
-    (req) => fetch(req).then((res) => res.json()),
+    (req) => {
+      return Promise.all([
+        fetch(req),
+        getActiveMutationsForDate(paymentsForMonth),
+      ]).then(async (res) => {
+        const [fetchResult, mutations] = res;
+        const fetchJson = await fetchResult.json();
+        fetchJson.items = fetchJson.items.concat(mutations.create);
+        return fetchJson;
+      });
+    },
   );
+
+  if (error) {
+    return (
+      <>
+        <p>{error}</p>
+      </>
+    );
+  }
 
   if (!data) {
     return (
