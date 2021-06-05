@@ -53,7 +53,7 @@ function toYYYYMMDD(date) {
   return date.toISOString().split('T')[0];
 }
 
-export default function Home() {
+export default function MonthlyOutgoings() {
   const classes = useStyles();
   const router = useRouter();
   // eslint-disable-next-line
@@ -100,7 +100,7 @@ export default function Home() {
       <div className={classes.root}>
         <div className={classes.content}>
           <PaymentPlan
-            dataURI={`/api/v0/payment-plans?payments_for_month=${dateString}`}
+            data={data.items}
             columns={columns}
           />
         </div>

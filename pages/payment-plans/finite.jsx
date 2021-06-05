@@ -1,3 +1,4 @@
+import useSWR from 'swr';
 import { PaymentPlan, renderDate } from '../../components/payment-plan';
 
 const columns = [
@@ -37,10 +38,15 @@ const columns = [
   },
 ];
 
-export default function Home() {
+export default function FinitePayments() {
+  const { data } = useSWR(
+    '/api/v0/payment-plans?has_end_date=false',
+    (req) => fetch(req).then((res) => res.json()),
+  );
+
   return (
     <PaymentPlan
-      dataURI="/api/v0/payment-plans?has_end_date=true"
+      data={data}
       columns={columns}
     />
   );

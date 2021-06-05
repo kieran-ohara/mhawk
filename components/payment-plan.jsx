@@ -1,5 +1,7 @@
-import useSWR from 'swr';
-import { DataGrid, GridToolbar } from '@material-ui/data-grid';
+import {
+  DataGrid,
+  GridToolbar,
+} from '@material-ui/data-grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 function renderDate(date) {
@@ -56,15 +58,10 @@ const crudColumns = [
 ];
 
 function PaymentPlan(props) {
-  const { dataURI, columns } = props;
+  const { columns, data } = props;
   const concatColumns = commonColumns
     .concat(columns)
     .concat(crudColumns);
-
-  const { data } = useSWR(
-    dataURI,
-    (req) => fetch(req).then((res) => res.json()),
-  );
 
   if (!data) {
     return (
