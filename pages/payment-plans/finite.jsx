@@ -1,5 +1,10 @@
+import React from 'react';
+import differenceInMonths from 'date-fns/differenceInMonths';
 import useSWR from 'swr';
+import usePaymentPlanMutations from '../../hooks/payment-plan-mutations';
+
 import { PaymentPlan, renderDate } from '../../components/payment-plan';
+import CreatePaymentPlanWithTotalDialog from '../../components/create-payment-plan-with-total';
 
 const columns = [
   {
@@ -44,10 +49,48 @@ export default function FinitePayments() {
     (req) => fetch(req).then((res) => res.json()),
   );
 
+  const [open, setOpen] = React.useState(true);
+  const { createPaymentPlan } = usePaymentPlanMutations();
+
+  const handleOk = (okData) => {
+    const {
+      reference,
+      totalPrice,
+      startDate,
+      endDate,
+      isShared,
+    } = okData;
+
+    const diffMonths = (differenceInMonths(endDate, startDate) + 1);
+    const totalPriceAsFloat = parseFloat(totalPrice);
+    const monthlyPrice = (totalPriceAsFloat / diffMonths).toFixed(2);
+
+    createPaymentPlan({
+      reference,
+      monthlyPrice,
+      startDate,
+      endDate,
+      isShared: isShared ? 1 : 0,
+    });
+
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
   return (
-    <PaymentPlan
-      data={data}
-      columns={columns}
-    />
+    <>
+      <PaymentPlan
+        data={data}
+        columns={columns}
+      />
+      <CreatePaymentPlanWithTotalDialog
+        handleOk={handleOk}
+        open={open}
+        handleCancel={handleCancel}
+      />
+    </>
   );
 }
