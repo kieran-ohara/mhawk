@@ -42,13 +42,10 @@ export default function handler(req, res) {
 
   switch (method) {
     case 'GET':
-      getController(req, res);
-      break;
+      return getController(req, res);
     case 'POST':
-      postController(req, res);
-      break;
+      return postController(req, res);
     default:
-      res.status(400);
-      break;
+      return res.status(400);
   }
 }
