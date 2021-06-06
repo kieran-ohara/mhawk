@@ -94,6 +94,12 @@ export default function MonthlyOutgoings() {
         const [fetchResult, mutations] = res;
         const fetchJson = await fetchResult.json();
         fetchJson.items = fetchJson.items.concat(mutations.create);
+
+        const sumMutations = mutations.create.reduce((acc, mutation) => {
+          return acc + parseFloat(mutation.monthly_price);
+        }, 0);
+
+        fetchJson.sum = parseFloat(fetchJson.sum) + sumMutations;
         return fetchJson;
       });
     },
