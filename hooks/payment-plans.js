@@ -13,8 +13,11 @@ export default function usePaymentPlans(params) {
         getMutations,
       ]).then(async (res) => {
         const [fetchResult, mutations] = res;
-        const fetchJson = await fetchResult.json();
-        const concat = fetchJson.concat(mutations.create);
+        let fetchJson = await fetchResult.json();
+        fetchJson = fetchJson.map((entry) => ({ committed: true, ...entry }));
+        const concat = fetchJson.concat(mutations.create.map(
+          (entry) => ({ committed: false, ...entry }),
+        ));
         return concat;
       });
     },

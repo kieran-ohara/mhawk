@@ -1,5 +1,4 @@
 import React from 'react';
-import usePaymentPlans from '../../hooks/payment-plans';
 import differenceInMonths from 'date-fns/differenceInMonths';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +8,7 @@ import Fab from '@material-ui/core/Fab';
 
 import CreatePaymentPlanWithTotalDialog from '../../components/create-payment-plan-with-total';
 import usePaymentPlanMutations from '../../hooks/payment-plan-mutations';
+import usePaymentPlans from '../../hooks/payment-plans';
 import { PaymentPlan, renderDate } from '../../components/payment-plan';
 
 const columns = [
@@ -46,6 +46,12 @@ const columns = [
       return '£0';
     },
   },
+  {
+    field: 'committed',
+    type: 'boolean',
+    headerName: 'Committed',
+    width: 180,
+  },
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -65,8 +71,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FinitePayments() {
-  const { paymentPlans, isLoading, isError } = usePaymentPlans(
-    { has_end_date: true }
+  const { paymentPlans } = usePaymentPlans(
+    { has_end_date: true },
   );
 
   const [open, setOpen] = React.useState(false);
