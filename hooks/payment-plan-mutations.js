@@ -1,5 +1,6 @@
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
+import differenceInMonths from 'date-fns/differenceInMonths';
 
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -53,16 +54,23 @@ export default function usePaymentPlanMutations() {
       isShared,
     } = plan;
 
+    const now = new Date();
     const createMutation = {
       id: uuidv4(),
       reference,
       monthly_price: monthlyPrice,
       start_date: startDate,
       is_shared: isShared,
+      created_at: now,
+      updated_at: now,
+      payments_count: 0,
+      payments_sum: 0,
     };
     if (plan.endDate !== null) {
-      // eslint-disable-next-line
+      /* eslint-disable */
       createMutation['end_date'] = plan.endDate;
+      createMutation['date_diff_months'] = (differenceInMonths(plan.endDate, startDate) + 1);
+      /* eslint-enable */
     }
     const concatCreateMutations = mutations.create.concat(createMutation);
     const newMutations = mutations;
@@ -74,5 +82,6 @@ export default function usePaymentPlanMutations() {
   return {
     createPaymentPlan,
     getActiveMutationsForDate,
+    getMutations: mutations,
   };
 }
