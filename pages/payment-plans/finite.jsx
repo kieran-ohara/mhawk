@@ -1,5 +1,5 @@
 import React from 'react';
-import useSWR from 'swr';
+import usePaymentPlans from '../../hooks/payment-plans';
 import differenceInMonths from 'date-fns/differenceInMonths';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -65,9 +65,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FinitePayments() {
-  const { data } = useSWR(
-    '/api/v0/payment-plans?has_end_date=false',
-    (req) => fetch(req).then((res) => res.json()),
+  const { paymentPlans, isLoading, isError } = usePaymentPlans(
+    { has_end_date: true }
   );
 
   const [open, setOpen] = React.useState(false);
@@ -105,7 +104,7 @@ export default function FinitePayments() {
   return (
     <>
       <PaymentPlan
-        data={data}
+        data={paymentPlans}
         columns={columns}
       />
       <div className={classes.root}>
