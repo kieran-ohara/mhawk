@@ -2,6 +2,7 @@ import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 const key = 'paymentPlanMutations';
 const initialValue = {
@@ -12,7 +13,7 @@ const initialValue = {
 // eslint-disable-next-line
 export default function usePaymentPlanMutations() {
 
-  const [getMutations] = useState(() => {
+  const [mutations, setMutationsProp] = useState(() => {
     try {
       const item = window.localStorage.getItem(key);
       return JSON.parse(item) || initialValue;
@@ -22,7 +23,7 @@ export default function usePaymentPlanMutations() {
   });
 
   const getActiveMutationsForDate = (date) => {
-    const creations = getMutations.create.filter((mutation) => {
+    const creations = mutations.create.filter((mutation) => {
       if (isBefore(date, new Date(mutation.start_date))) {
         return false;
       }
@@ -35,12 +36,43 @@ export default function usePaymentPlanMutations() {
     });
     return {
       create: creations,
-      delete: getMutations.delete,
+      delete: mutations.delete,
     };
   };
 
+  const setMutations = (newMutations) => {
+    setMutationsProp(newMutations);
+    window.localStorage.setItem(key, JSON.stringify(newMutations));
+  };
+
+  const createPaymentPlan = (plan) => {
+    const {
+      reference,
+      monthlyPrice,
+      startDate,
+      isShared,
+    } = plan;
+
+    const createMutation = {
+      id: uuidv4(),
+      reference,
+      monthly_price: monthlyPrice,
+      start_date: startDate,
+      is_shared: isShared,
+    };
+    if (plan.endDate !== null) {
+      // eslint-disable-next-line
+      createMutation['end_date'] = plan.endDate;
+    }
+    const concatCreateMutations = mutations.create.concat(createMutation);
+    const newMutations = mutations;
+    newMutations.create = concatCreateMutations;
+
+    setMutations(newMutations);
+  };
+
   return {
-    getMutations,
+    createPaymentPlan,
     getActiveMutationsForDate,
   };
 }
