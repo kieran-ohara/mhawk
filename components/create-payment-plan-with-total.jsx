@@ -13,36 +13,22 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 
-import differenceInMonths from 'date-fns/differenceInMonths';
-import usePaymentPlanMutations from '../hooks/payment-plan-mutations';
-
-export default function CreatePaymentPlanWithTotalDialog() {
-  const { createPaymentPlan } = usePaymentPlanMutations();
-  const [open, setOpen] = React.useState(false);
+export default function CreatePaymentPlanWithTotalDialog(props) {
+  const { open, handleOk: handleOkProp, handleCancel } = props;
   const [reference, setReference] = React.useState('');
   const [totalPrice, setTotalPrice] = React.useState('0');
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
   const [isShared, setIsShared] = React.useState(false);
 
-  const handleCancel = () => {
-    setOpen(false);
-  };
-
   const handleOk = () => {
-    const diffMonths = (differenceInMonths(endDate, startDate) + 1);
-    const totalPriceAsFloat = parseFloat(totalPrice);
-    const monthlyPrice = (totalPriceAsFloat / diffMonths).toFixed(2);
-
-    createPaymentPlan({
+    handleOkProp({
       reference,
-      monthlyPrice,
+      totalPrice,
       startDate,
       endDate,
-      isShared: isShared ? 1 : 0,
+      isShared,
     });
-
-    setOpen(false);
   };
 
   const onDateChanged = (setter) => {

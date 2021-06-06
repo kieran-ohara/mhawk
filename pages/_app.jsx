@@ -23,7 +23,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import CreatePaymentPlanWithTotalDialog from '../components/create-payment-plan-with-total';
 
 const drawerWidth = 240;
 
@@ -161,7 +160,6 @@ function ResponsiveDrawer(props) {
           </div>
         </main>
       </div>
-      <CreatePaymentPlanWithTotalDialog />
     </>
   );
 }
