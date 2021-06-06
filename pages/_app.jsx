@@ -1,5 +1,5 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Link from 'next/link'
+import Link from 'next/link';
 import React from 'react';
 
 import AppBar from '@material-ui/core/AppBar';

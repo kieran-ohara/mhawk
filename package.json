@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "eslint --ext jsx --ext js .",
     "build": "webpack && next build",
     "start": "next start"
   },
