@@ -18,7 +18,7 @@ const getController = async function getController(req, res) {
     const [items, grossMonth] = result;
     const sumOutgoings = (items.reduce((acc, item) => acc + item.monthly_price, 0)).toFixed(2);
 
-    res.status(200).json({
+    return res.status(200).json({
       date,
       net_month: grossMonth - sumOutgoings,
       gross_month: grossMonth,
@@ -27,7 +27,7 @@ const getController = async function getController(req, res) {
     });
   } catch (error) {
     log(`error: ${error}`);
-    res.status(500).json({ error });
+    return res.status(500).json({ error });
   }
 };
 
@@ -36,10 +36,8 @@ export default function handler(req, res) {
 
   switch (method) {
     case 'GET':
-      getController(req, res);
-      break;
+      return getController(req, res);
     default:
-      res.status(400);
-      break;
+      return res.status(400);
   }
 }
