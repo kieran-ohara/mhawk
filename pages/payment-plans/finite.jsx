@@ -1,10 +1,15 @@
 import React from 'react';
-import differenceInMonths from 'date-fns/differenceInMonths';
 import useSWR from 'swr';
-import usePaymentPlanMutations from '../../hooks/payment-plan-mutations';
+import differenceInMonths from 'date-fns/differenceInMonths';
 
-import { PaymentPlan, renderDate } from '../../components/payment-plan';
+import { makeStyles } from '@material-ui/core/styles';
+
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+
 import CreatePaymentPlanWithTotalDialog from '../../components/create-payment-plan-with-total';
+import usePaymentPlanMutations from '../../hooks/payment-plan-mutations';
+import { PaymentPlan, renderDate } from '../../components/payment-plan';
 
 const columns = [
   {
@@ -43,14 +48,31 @@ const columns = [
   },
 ];
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
+}));
+
 export default function FinitePayments() {
   const { data } = useSWR(
     '/api/v0/payment-plans?has_end_date=false',
     (req) => fetch(req).then((res) => res.json()),
   );
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const { createPaymentPlan } = usePaymentPlanMutations();
+  const classes = useStyles();
 
   const handleOk = (okData) => {
     const {
@@ -86,6 +108,11 @@ export default function FinitePayments() {
         data={data}
         columns={columns}
       />
+      <div className={classes.root}>
+        <Fab color="primary" aria-label="add" onClick={() => setOpen(true)} className={classes.fab}>
+          <AddIcon />
+        </Fab>
+      </div>
       <CreatePaymentPlanWithTotalDialog
         handleOk={handleOk}
         open={open}
