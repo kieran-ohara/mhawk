@@ -29,11 +29,14 @@ const getController = async function getController(req, res) {
 
 const postController = async function postController(req, res) {
   try {
+    if (req.body.length === 0) {
+      return res.status(400).end();
+    }
     const content = await addPaymentPlans(req.body);
-    res.status(200).json(content);
+    return res.status(200).json(content);
   } catch (error) {
     log(error);
-    res.status(500).end();
+    return res.status(500).end();
   }
 };
 
