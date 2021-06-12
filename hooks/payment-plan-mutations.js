@@ -79,7 +79,26 @@ export default function usePaymentPlanMutations() {
     setMutations(newMutations);
   };
 
+  const commitMutations = () => {
+    return fetch('/api/v0/payment-plans', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(mutations.create.map((m) => {
+        delete m.id;
+        return m;
+      })),
+    }).then(() => {
+      setMutations({
+        create: [],
+        delete: mutations.delete,
+      });
+    });
+  };
+
   return {
+    commitMutations,
     createPaymentPlan,
     getActiveMutationsForDate,
     getMutations: mutations,
