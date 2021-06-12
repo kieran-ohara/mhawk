@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: mhawk
 spec:
-  schedule: "0 10 18 * *"
+  schedule: "0 10 14 * *"
   jobTemplate:
     spec:
       template:
