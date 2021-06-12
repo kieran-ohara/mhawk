@@ -23,7 +23,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
