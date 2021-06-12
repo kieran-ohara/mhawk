@@ -4,6 +4,7 @@ import differenceInMonths from 'date-fns/differenceInMonths';
 import { makeStyles } from '@material-ui/core/styles';
 
 import AddIcon from '@material-ui/icons/Add';
+import SaveIcon from '@material-ui/icons/Save';
 import Fab from '@material-ui/core/Fab';
 
 import CreatePaymentPlanWithTotalDialog from '../../components/create-payment-plan-with-total';
@@ -56,17 +57,12 @@ const columns = [
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(1),
-  },
-  fab: {
     position: 'absolute',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
+    '& > *': {
+      marginRight: theme.spacing(2),
+    },
   },
 }));
 
@@ -76,7 +72,7 @@ export default function FinitePayments() {
   );
 
   const [open, setOpen] = React.useState(false);
-  const { createPaymentPlan } = usePaymentPlanMutations();
+  const { createPaymentPlan, commitMutations } = usePaymentPlanMutations();
   const classes = useStyles();
 
   const handleOk = (okData) => {
@@ -107,6 +103,10 @@ export default function FinitePayments() {
     setOpen(false);
   };
 
+  const handleCommit = async () => {
+    await commitMutations();
+  };
+
   return (
     <>
       <PaymentPlan
@@ -114,8 +114,11 @@ export default function FinitePayments() {
         columns={columns}
       />
       <div className={classes.root}>
-        <Fab color="primary" aria-label="add" onClick={() => setOpen(true)} className={classes.fab}>
+        <Fab color="primary" aria-label="add" onClick={() => setOpen(true)}>
           <AddIcon />
+        </Fab>
+        <Fab color="primary" aria-label="add" onClick={handleCommit}>
+          <SaveIcon />
         </Fab>
       </div>
       <CreatePaymentPlanWithTotalDialog
