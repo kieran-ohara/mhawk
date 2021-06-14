@@ -36,3 +36,8 @@ spec:
            "/api/v0/monthly-payments"
          ]
          methods: ["POST"]
+     - operation:
+         paths: [
+           "/api/v0/payment-plan/*",
+         ]
+         methods: ["DELETE"]
