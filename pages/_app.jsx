@@ -103,6 +103,18 @@ function ResponsiveDrawer(props) {
             <ListItemText primary="Shared" />
           </ListItem>
         </Link>
+        <Link href="/tag/mortgage">
+          <ListItem button>
+            <ListItemIcon><LabelIcon /></ListItemIcon>
+            <ListItemText primary="Mortgage" />
+          </ListItem>
+        </Link>
+        <Link href="/tag/cover-bills">
+          <ListItem button>
+            <ListItemIcon><LabelIcon /></ListItemIcon>
+            <ListItemText primary="Cover Bills" />
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
