@@ -14,7 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 
 export default function CreatePaymentPlanWithTotalDialog(props) {
-  const { open, handleOk: handleOkProp, handleCancel } = props;
+  const { open, handleOk: handleOkProp, handleCancel, totalLabel } = props;
   const [reference, setReference] = React.useState('');
   const [totalPrice, setTotalPrice] = React.useState('0');
   const [startDate, setStartDate] = React.useState(new Date());
@@ -71,7 +71,7 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
             autoFocus
             margin="normal"
             id="total"
-            label="Total Amount"
+            label={totalLabel}
             required
             type="number"
             InputProps={{

@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import CreatePaymentPlanWithTotalDialog from '../../components/create-payment-plan-with-total';
 import usePaymentPlanMutations from '../../hooks/payment-plan-mutations';
@@ -70,12 +71,11 @@ export default function FinitePayments() {
   const { paymentPlans } = usePaymentPlans(
     { has_end_date: true },
   );
-
-  const [open, setOpen] = React.useState(false);
   const { createPaymentPlan, commitMutations } = usePaymentPlanMutations();
   const classes = useStyles();
 
-  const handleOk = (okData) => {
+  const [openDialogWithTotal, setOpenDialogWithTotal] = React.useState(false);
+  const handleOkWithTotal = (okData) => {
     const {
       reference,
       totalPrice,
@@ -96,11 +96,33 @@ export default function FinitePayments() {
       isShared: isShared ? 1 : 0,
     });
 
-    setOpen(false);
+    setOpenDialogWithTotal(false);
+  };
+
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const handleOk = (okData) => {
+    const {
+      reference,
+      totalPrice: monthlyPrice,
+      startDate,
+      endDate,
+      isShared,
+    } = okData;
+
+    createPaymentPlan({
+      reference,
+      monthlyPrice,
+      startDate,
+      endDate,
+      isShared: isShared ? 1 : 0,
+    });
+
+    setOpenDialog(false);
   };
 
   const handleCancel = () => {
-    setOpen(false);
+    setOpenDialogWithTotal(false);
+    setOpenDialog(false);
   };
 
   const handleCommit = async () => {
@@ -114,17 +136,33 @@ export default function FinitePayments() {
         columns={columns}
       />
       <div className={classes.root}>
-        <Fab color="primary" aria-label="add" onClick={() => setOpen(true)}>
-          <AddIcon />
-        </Fab>
-        <Fab color="primary" aria-label="add" onClick={handleCommit}>
-          <SaveIcon />
-        </Fab>
+        <Tooltip title="Add with Total" aria-label="add">
+          <Fab color="primary" aria-label="add" onClick={() => { setOpenDialogWithTotal(true); }}>
+            <AddIcon />
+          </Fab>
+        </Tooltip>
+        <Tooltip title="Add" aria-label="add">
+          <Fab color="primary" aria-label="add" onClick={() => { setOpenDialog(true); }}>
+            <AddIcon />
+          </Fab>
+        </Tooltip>
+        <Tooltip title="Commit Changes" aria-label="add">
+          <Fab color="primary" aria-label="add" onClick={handleCommit}>
+            <SaveIcon />
+          </Fab>
+        </Tooltip>
       </div>
       <CreatePaymentPlanWithTotalDialog
-        handleOk={handleOk}
-        open={open}
+        handleOk={handleOkWithTotal}
+        open={openDialogWithTotal}
         handleCancel={handleCancel}
+        totalLabel="Total Price"
+      />
+      <CreatePaymentPlanWithTotalDialog
+        handleOk={handleOk}
+        open={openDialog}
+        handleCancel={handleCancel}
+        totalLabel="Monthly Price"
       />
     </>
   );
