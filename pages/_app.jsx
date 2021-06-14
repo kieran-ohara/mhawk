@@ -18,6 +18,7 @@ import EventIcon from '@material-ui/icons/Event';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuIcon from '@material-ui/icons/Menu';
 import ReplayIcon from '@material-ui/icons/Replay';
+import LabelIcon from '@material-ui/icons/Label';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -93,6 +94,13 @@ function ResponsiveDrawer(props) {
           <ListItem button>
             <ListItemIcon><ReplayIcon /></ListItemIcon>
             <ListItemText primary="Recurring Payments" />
+          </ListItem>
+        </Link>
+        <ListSubheader>Tags</ListSubheader>
+        <Link href="/tag/is-shared">
+          <ListItem button>
+            <ListItemIcon><LabelIcon /></ListItemIcon>
+            <ListItemText primary="Shared" />
           </ListItem>
         </Link>
       </List>
