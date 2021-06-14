@@ -108,17 +108,6 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
               />
             </Grid>
           </MuiPickersUtilsProvider>
-          <FormControlLabel
-            control={(
-              <Checkbox
-                checked={isShared}
-                onChange={handleIsSharedChanged}
-                name="checkedB"
-                color="primary"
-              />
-        )}
-            label="Is Shared"
-          />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleCancel} color="primary">
