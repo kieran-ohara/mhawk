@@ -97,7 +97,7 @@ function ResponsiveDrawer(props) {
           </ListItem>
         </Link>
         <ListSubheader>Tags</ListSubheader>
-        <Link href="/tag/is-shared">
+        <Link href="/tag/shared">
           <ListItem button>
             <ListItemIcon><LabelIcon /></ListItemIcon>
             <ListItemText primary="Shared" />

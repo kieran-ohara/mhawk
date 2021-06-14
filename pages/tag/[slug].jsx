@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import { useRouter } from 'next/router'
 import { PaymentPlan } from '../../components/payment-plan';
 
 const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !== null;
@@ -15,8 +16,9 @@ const columns = [
   },
 ];
 
-export default function RecurringPayments(params) {
-  const { slug } = params;
+export default function TaggedPaymentPlans() {
+  const router = useRouter();
+  const { slug } = router.query;
 
   const { data } = useSWR(
     `/api/v0/payment-plans?tag=${slug}`,

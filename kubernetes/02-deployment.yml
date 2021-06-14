@@ -17,7 +17,7 @@ spec:
       spec:
         containers:
           - name: app
-            image: kieranbamforth/mhawk:31
+            image: kieranbamforth/mhawk:32
             ports:
               - containerPort: 3000
             env:
