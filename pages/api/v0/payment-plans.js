@@ -1,5 +1,7 @@
 import debug from 'debug';
-import { getPaymentPlans, getPaymentPlansActiveForMonth, addPaymentPlans, getPaymentPlansWithTag } from '../../../lib/payment-plans';
+import {
+  getPaymentPlans, getPaymentPlansActiveForMonth, addPaymentPlans, getPaymentPlansWithTag,
+} from '../../../lib/payment-plans';
 
 const log = debug('mhawk-payment-plans');
 
@@ -7,9 +9,8 @@ const getController = async function getController(req, res) {
   let content = {};
   try {
     if (req.query.tag) {
-      content = await getPaymentPlansWithTag(req.query.tag)
-    }
-    else if (req.query.payments_for_month) {
+      content = await getPaymentPlansWithTag(req.query.tag);
+    } else if (req.query.payments_for_month) {
       const date = new Date(req.query.payments_for_month);
       content = await getPaymentPlansActiveForMonth(date);
     } else {

@@ -1,25 +1,25 @@
 import React from 'react';
 
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
 import DateFnsUtils from '@date-io/date-fns';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 
 export default function CreatePaymentPlanWithTotalDialog(props) {
-  const { open, handleOk: handleOkProp, handleCancel, totalLabel } = props;
+  const {
+    open, handleOk: handleOkProp, handleCancel, totalLabel,
+  } = props;
   const [reference, setReference] = React.useState('');
   const [totalPrice, setTotalPrice] = React.useState('0');
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
-  const [isShared, setIsShared] = React.useState(false);
+  const [isShared] = React.useState(false);
 
   const handleOk = () => {
     handleOkProp({
@@ -41,10 +41,6 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
     return (event) => {
       setter(event.target.value);
     };
-  };
-
-  const handleIsSharedChanged = (event) => {
-    setIsShared(event.target.checked);
   };
 
   return (

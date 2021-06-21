@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { PaymentPlan } from '../../components/payment-plan';
 
 const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !== null;
