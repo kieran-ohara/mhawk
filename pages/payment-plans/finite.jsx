@@ -1,8 +1,6 @@
 import React from 'react';
 import differenceInMonths from 'date-fns/differenceInMonths';
 
-import { makeStyles } from '@material-ui/core/styles';
-
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import Fab from '@material-ui/core/Fab';
@@ -12,6 +10,8 @@ import CreatePaymentPlanWithTotalDialog from '../../components/create-payment-pl
 import usePaymentPlanMutations from '../../hooks/payment-plan-mutations';
 import usePaymentPlans from '../../hooks/payment-plans';
 import { PaymentPlan, renderDate } from '../../components/payment-plan';
+
+import FabContainer from '../../components/fab-container';
 
 const columns = [
   {
@@ -56,23 +56,11 @@ const columns = [
   },
 ];
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-    '& > *': {
-      marginRight: theme.spacing(2),
-    },
-  },
-}));
-
 export default function FinitePayments() {
   const { paymentPlans } = usePaymentPlans(
     { has_end_date: true },
   );
   const { createPaymentPlan, commitMutations } = usePaymentPlanMutations();
-  const classes = useStyles();
 
   const [openDialogWithTotal, setOpenDialogWithTotal] = React.useState(false);
   const handleOkWithTotal = (okData) => {
@@ -135,7 +123,7 @@ export default function FinitePayments() {
         data={paymentPlans}
         columns={columns}
       />
-      <div className={classes.root}>
+      <FabContainer>
         <Tooltip title="Add with Total" aria-label="add">
           <Fab color="primary" aria-label="add" onClick={() => { setOpenDialogWithTotal(true); }}>
             <AddIcon />
@@ -151,7 +139,7 @@ export default function FinitePayments() {
             <SaveIcon />
           </Fab>
         </Tooltip>
-      </div>
+      </FabContainer>
       <CreatePaymentPlanWithTotalDialog
         handleOk={handleOkWithTotal}
         open={openDialogWithTotal}
