@@ -86,6 +86,7 @@ export default function usePaymentPlanMutations() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(mutations.create.map((m) => {
+        // eslint-disable-next-line
         delete m.id;
         return m;
       })),
