@@ -5,7 +5,7 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import CreateRucurringPaymentDialog from '../../components/create-recurring-payment-dialog';
-import usePaymentPlans from '../../hooks/payment-plans';
+import usePaymentPlans from '../../hooks/payment-plan-mutations';
 import { PaymentPlan } from '../../components/payment-plan';
 
 import FabContainer from '../../components/fab-container';
@@ -20,9 +20,10 @@ const columns = [
 ];
 
 export default function RecurringPayments() {
-  const { paymentPlans } = usePaymentPlans(
-    { has_end_date: false },
-  );
+  const { paymentPlans } = usePaymentPlans({
+    apiQueryParams: { has_end_date: false },
+    createMutationFilter: (mutation) => !('end_date' in mutation),
+  });
 
   const [dialogOpen, setDialogOpen] = React.useState(false);
 

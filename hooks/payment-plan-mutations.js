@@ -1,3 +1,5 @@
+import useSWR from 'swr';
+
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import differenceInMonths from 'date-fns/differenceInMonths';
@@ -12,8 +14,7 @@ const initialValue = {
 };
 
 // eslint-disable-next-line
-export default function usePaymentPlanMutations() {
-
+export default function usePaymentPlanMutations(opts) {
   const [mutations, setMutationsProp] = useState(() => {
     try {
       const item = window.localStorage.getItem(key);
@@ -22,6 +23,34 @@ export default function usePaymentPlanMutations() {
       return initialValue;
     }
   });
+
+  const {
+    createMutationFilter = () => true,
+    apiQueryParams = {},
+  } = opts;
+
+  const paramsToSearch = new URLSearchParams(apiQueryParams);
+  const { data, error } = useSWR(
+    `/api/v0/payment-plans?${paramsToSearch.toString()}`,
+    (req) => {
+      return Promise.all([
+        fetch(req),
+        mutations,
+      ]).then(async (res) => {
+        const [fetchResult, localMutations] = res;
+
+        let fetchJson = await fetchResult.json();
+        fetchJson = fetchJson.map((entry) => ({ committed: true, ...entry }));
+
+        localMutations.create = localMutations.create.filter(createMutationFilter).map(
+          (entry) => ({ committed: false, ...entry }),
+        );
+
+        const concat = fetchJson.concat(localMutations.create);
+        return concat;
+      });
+    },
+  );
 
   const getActiveMutationsForDate = (date) => {
     const creations = mutations.create.filter((mutation) => {
@@ -103,5 +132,8 @@ export default function usePaymentPlanMutations() {
     createPaymentPlan,
     getActiveMutationsForDate,
     getMutations: mutations,
+    paymentPlans: data,
+    isLoading: !error && !data,
+    isError: error,
   };
 }
