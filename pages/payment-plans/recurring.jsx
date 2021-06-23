@@ -5,7 +5,7 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import CreateRucurringPaymentDialog from '../../components/create-recurring-payment-dialog';
-import usePaymentPlans from '../../hooks/payment-plan-mutations';
+import usePaymentPlans from '../../hooks/payment-plans';
 import { PaymentPlan } from '../../components/payment-plan';
 
 import FabContainer from '../../components/fab-container';

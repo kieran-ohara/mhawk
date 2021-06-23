@@ -11,7 +11,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 import { PaymentPlan } from '../components/payment-plan';
-import usePaymentPlanMutations from '../hooks/payment-plan-mutations';
+import usePaymentPlanMutations from '../hooks/payment-plans';
 
 const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !== null;
 
