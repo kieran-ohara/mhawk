@@ -1,5 +1,14 @@
-import useSWR from 'swr';
+import React from 'react';
+
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
+
+import CreateRucurringPaymentDialog from '../../components/create-recurring-payment-dialog';
+import usePaymentPlans from '../../hooks/payment-plans';
 import { PaymentPlan } from '../../components/payment-plan';
+
+import FabContainer from '../../components/fab-container';
 
 const columns = [
   {
@@ -11,15 +20,38 @@ const columns = [
 ];
 
 export default function RecurringPayments() {
-  const { data } = useSWR(
-    '/api/v0/payment-plans?has_end_date=false',
-    (req) => fetch(req).then((res) => res.json()),
+  const { paymentPlans } = usePaymentPlans(
+    { has_end_date: false },
   );
 
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+
+  const handleOkWithTotal = () => {
+    setDialogOpen(false);
+  };
+
+  const handleCancel = () => {
+    setDialogOpen(false);
+  };
+
   return (
-    <PaymentPlan
-      data={data}
-      columns={columns}
-    />
+    <>
+      <PaymentPlan
+        data={paymentPlans}
+        columns={columns}
+      />
+      <FabContainer>
+        <Tooltip title="Add with Total" aria-label="add">
+          <Fab color="primary" aria-label="add" onClick={() => { setDialogOpen(true); }}>
+            <AddIcon />
+          </Fab>
+        </Tooltip>
+      </FabContainer>
+      <CreateRucurringPaymentDialog
+        handleOk={handleOkWithTotal}
+        open={dialogOpen}
+        handleCancel={handleCancel}
+      />
+    </>
   );
 }
