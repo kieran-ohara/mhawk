@@ -101,9 +101,8 @@ export default function usePaymentPlanMutations(opts = {}) {
       createMutation['date_diff_months'] = (differenceInMonths(plan.endDate, startDate) + 1);
       /* eslint-enable */
     }
-    const concatCreateMutations = mutations.create.concat(createMutation);
     const newMutations = mutations;
-    newMutations.create = concatCreateMutations;
+    newMutations.create.push(createMutation);
 
     setMutations(newMutations);
   };
