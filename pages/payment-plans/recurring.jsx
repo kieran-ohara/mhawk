@@ -22,12 +22,30 @@ const columns = [
 export default function RecurringPayments() {
   const { paymentPlans } = usePaymentPlans({
     apiQueryParams: { has_end_date: false },
-    createMutationFilter: (mutation) => !('end_date' in mutation),
+    createMutationFilter: () => false,
   });
 
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
-  const handleOkWithTotal = () => {
+  const handleOk = (okData) => {
+    const {
+      reference,
+      monthlyPrice,
+      startDate,
+    } = okData;
+
+    fetch('/api/v0/payment-plans', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([{
+        reference,
+        monthly_price: monthlyPrice,
+        start_date: startDate,
+      }]),
+    });
+
     setDialogOpen(false);
   };
 
@@ -49,7 +67,7 @@ export default function RecurringPayments() {
         </Tooltip>
       </FabContainer>
       <CreateRucurringPaymentDialog
-        handleOk={handleOkWithTotal}
+        handleOk={handleOk}
         open={dialogOpen}
         handleCancel={handleCancel}
       />

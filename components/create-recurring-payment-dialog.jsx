@@ -13,11 +13,19 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 
 export default function CreatePaymentPlanWithTotalDialog(props) {
   const {
-    open, handleOk, handleCancel, totalLabel,
+    open, handleOk: handleOkProp, handleCancel, totalLabel,
   } = props;
   const [reference, setReference] = React.useState('');
-  const [totalPrice, setTotalPrice] = React.useState('0');
+  const [monthlyPrice, setMonthlyPrice] = React.useState('0');
   const [startDate, setStartDate] = React.useState(new Date());
+
+  const handleOk = () => {
+    handleOkProp({
+      reference,
+      monthlyPrice,
+      startDate,
+    });
+  };
 
   const onDateChanged = (setter) => {
     return (date) => {
@@ -61,8 +69,8 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
             InputProps={{
               startAdornment: <InputAdornment position="start">£</InputAdornment>,
             }}
-            value={totalPrice}
-            onChange={onInputChanged(setTotalPrice)}
+            value={monthlyPrice}
+            onChange={onInputChanged(setMonthlyPrice)}
           />
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container>
