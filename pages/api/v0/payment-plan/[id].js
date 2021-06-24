@@ -1,7 +1,17 @@
 import debug from 'debug';
-import { deletePaymentPlan } from '../../../../lib/payment-plans';
+import { updatePaymentPlan, deletePaymentPlan } from '../../../../lib/payment-plans';
 
 const log = debug('mhawk-payment-plans');
+
+const patchController = async function postController(req, res) {
+  try {
+    await updatePaymentPlan(req.query.id, req.body);
+    return res.status(204).end();
+  } catch (error) {
+    log(error);
+    return res.status(500).end();
+  }
+};
 
 const deleteController = async function postController(req, res) {
   try {
@@ -17,6 +27,8 @@ export default function handler(req, res) {
   const { method } = req;
 
   switch (method) {
+    case 'PATCH':
+      return patchController(req, res);
     case 'DELETE':
       return deleteController(req, res);
     default:
