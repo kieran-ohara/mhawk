@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import { PaymentPlan } from '../../components/payment-plan';
+import AppFrame from '../../components/app-frame';
 
 const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !== null;
 
@@ -26,9 +27,11 @@ export default function TaggedPaymentPlans() {
   );
 
   return (
-    <PaymentPlan
-      data={data}
-      columns={columns}
-    />
+    <AppFrame title={slug}>
+      <PaymentPlan
+        data={data}
+        columns={columns}
+      />
+    </AppFrame>
   );
 }

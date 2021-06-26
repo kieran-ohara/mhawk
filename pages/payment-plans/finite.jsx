@@ -12,6 +12,8 @@ import { PaymentPlan, renderDate } from '../../components/payment-plan';
 
 import FabContainer from '../../components/fab-container';
 
+import AppFrame from '../../components/app-frame';
+
 const columns = [
   {
     field: 'end_date',
@@ -122,39 +124,41 @@ export default function FinitePayments() {
 
   return (
     <>
-      <PaymentPlan
-        data={paymentPlans}
-        columns={columns}
-      />
-      <FabContainer>
-        <Tooltip title="Add with Total" aria-label="add">
-          <Fab color="primary" aria-label="add" onClick={() => { setOpenDialogWithTotal(true); }}>
-            <AddIcon />
-          </Fab>
-        </Tooltip>
-        <Tooltip title="Add" aria-label="add">
-          <Fab color="primary" aria-label="add" onClick={() => { setOpenDialog(true); }}>
-            <AddIcon />
-          </Fab>
-        </Tooltip>
-        <Tooltip title="Commit Changes" aria-label="add">
-          <Fab color="primary" aria-label="add" onClick={handleCommit}>
-            <SaveIcon />
-          </Fab>
-        </Tooltip>
-      </FabContainer>
-      <CreatePaymentPlanWithTotalDialog
-        handleOk={handleOkWithTotal}
-        open={openDialogWithTotal}
-        handleCancel={handleCancel}
-        totalLabel="Total Price"
-      />
-      <CreatePaymentPlanWithTotalDialog
-        handleOk={handleOk}
-        open={openDialog}
-        handleCancel={handleCancel}
-        totalLabel="Monthly Price"
-      />
+      <AppFrame title="Finite Payments">
+        <PaymentPlan
+          data={paymentPlans}
+          columns={columns}
+        />
+        <FabContainer>
+          <Tooltip title="Add with Total" aria-label="add">
+            <Fab color="primary" aria-label="add" onClick={() => { setOpenDialogWithTotal(true); }}>
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+          <Tooltip title="Add" aria-label="add">
+            <Fab color="primary" aria-label="add" onClick={() => { setOpenDialog(true); }}>
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+          <Tooltip title="Commit Changes" aria-label="add">
+            <Fab color="primary" aria-label="add" onClick={handleCommit}>
+              <SaveIcon />
+            </Fab>
+          </Tooltip>
+        </FabContainer>
+        <CreatePaymentPlanWithTotalDialog
+          handleOk={handleOkWithTotal}
+          open={openDialogWithTotal}
+          handleCancel={handleCancel}
+          totalLabel="Total Price"
+        />
+        <CreatePaymentPlanWithTotalDialog
+          handleOk={handleOk}
+          open={openDialog}
+          handleCancel={handleCancel}
+          totalLabel="Monthly Price"
+        />
+      </AppFrame>
     </>
   );
 }

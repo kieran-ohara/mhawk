@@ -10,6 +10,8 @@ import { PaymentPlan } from '../../components/payment-plan';
 
 import FabContainer from '../../components/fab-container';
 
+import AppFrame from '../../components/app-frame';
+
 const columns = [
   {
     field: 'payments_count',
@@ -55,22 +57,24 @@ export default function RecurringPayments() {
 
   return (
     <>
-      <PaymentPlan
-        data={paymentPlans}
-        columns={columns}
-      />
-      <FabContainer>
-        <Tooltip title="Add with Total" aria-label="add">
-          <Fab color="primary" aria-label="add" onClick={() => { setDialogOpen(true); }}>
-            <AddIcon />
-          </Fab>
-        </Tooltip>
-      </FabContainer>
-      <CreateRucurringPaymentDialog
-        handleOk={handleOk}
-        open={dialogOpen}
-        handleCancel={handleCancel}
-      />
+      <AppFrame title="Recurring Payments">
+        <PaymentPlan
+          data={paymentPlans}
+          columns={columns}
+        />
+        <FabContainer>
+          <Tooltip title="Add with Total" aria-label="add">
+            <Fab color="primary" aria-label="add" onClick={() => { setDialogOpen(true); }}>
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+        </FabContainer>
+        <CreateRucurringPaymentDialog
+          handleOk={handleOk}
+          open={dialogOpen}
+          handleCancel={handleCancel}
+        />
+      </AppFrame>
     </>
   );
 }
