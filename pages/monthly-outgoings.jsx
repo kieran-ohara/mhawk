@@ -13,6 +13,8 @@ import { useRouter } from 'next/router';
 import { PaymentPlan } from '../components/payment-plan';
 import usePaymentPlanMutations from '../hooks/payment-plans';
 
+import AppFrame from '../components/app-frame';
+
 const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !== null;
 
 const columns = [
@@ -123,36 +125,38 @@ export default function MonthlyOutgoings() {
 
   return (
     <>
-      <div className={classes.root}>
-        <div className={classes.content}>
-          <PaymentPlan
-            data={data.items}
-            columns={columns}
-          />
-        </div>
-        <Hidden xsDown>
-          <aside className={classes.aside}>
-            <div className={classes.calendar}>
-              <Link href={`?payments_for_month=${toYYYYMMDD(previousMonth)}`}>
-                <IconButton aria-label="delete">
-                  <NavigateBeforeIcon />
-                </IconButton>
-              </Link>
-              <Typography variant="subtitle1" noWrap className={classes.calendarMonth}>
-                {dateLocaleString}
+      <AppFrame title="Monthly Outgoings">
+        <div className={classes.root}>
+          <div className={classes.content}>
+            <PaymentPlan
+              data={data.items}
+              columns={columns}
+            />
+          </div>
+          <Hidden xsDown>
+            <aside className={classes.aside}>
+              <div className={classes.calendar}>
+                <Link href={`?payments_for_month=${toYYYYMMDD(previousMonth)}`}>
+                  <IconButton aria-label="delete">
+                    <NavigateBeforeIcon />
+                  </IconButton>
+                </Link>
+                <Typography variant="subtitle1" noWrap className={classes.calendarMonth}>
+                  {dateLocaleString}
+                </Typography>
+                <Link href={`?payments_for_month=${toYYYYMMDD(nextMonth)}`}>
+                  <IconButton aria-label="delete">
+                    <NavigateNextIcon />
+                  </IconButton>
+                </Link>
+              </div>
+              <Typography>
+                {`£${data.gross_month} - £${data.sum} = £${data.net_month}`}
               </Typography>
-              <Link href={`?payments_for_month=${toYYYYMMDD(nextMonth)}`}>
-                <IconButton aria-label="delete">
-                  <NavigateNextIcon />
-                </IconButton>
-              </Link>
-            </div>
-            <Typography>
-              {`£${data.gross_month} - £${data.sum} = £${data.net_month}`}
-            </Typography>
-          </aside>
-        </Hidden>
-      </div>
+            </aside>
+          </Hidden>
+        </div>
+      </AppFrame>
     </>
   );
 }
