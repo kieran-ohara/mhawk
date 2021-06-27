@@ -1,4 +1,4 @@
-import useSWR from 'swr';
+import useSWR, { mutate as swrMutate} from 'swr';
 
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
@@ -126,6 +126,10 @@ export default function usePaymentPlanMutations(opts = {}) {
     });
   };
 
+  const mutate = () => {
+    swrMutate(`/api/v0/payment-plans?${paramsToSearch.toString()}`);
+  };
+
   return {
     commitMutations,
     createPaymentPlan,
@@ -134,5 +138,6 @@ export default function usePaymentPlanMutations(opts = {}) {
     paymentPlans: data,
     isLoading: !error && !data,
     isError: error,
+    mutate,
   };
 }
