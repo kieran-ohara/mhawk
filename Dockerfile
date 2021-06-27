@@ -10,6 +10,7 @@ RUN npm install
 
 COPY cli ./cli
 COPY components ./components
+COPY containers ./containers
 COPY hooks ./hooks
 COPY lib ./lib
 COPY pages ./pages
