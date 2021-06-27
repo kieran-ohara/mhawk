@@ -1,3 +1,5 @@
+import useSWR from 'swr';
+
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useState } from 'react';
 
@@ -15,6 +17,8 @@ export default function PaymentPlanGridContainer(props) {
   } = props;
 
   const [selectedPaymentPlanName, setSeletctedPaymentPlanName] = useState('');
+  const [selectedPaymentPlanId, setSelectedPaymentPlanId] = useState(1);
+
   const [tagsFormOpen, setTagsFormOpen] = useState(false);
 
   const { paymentPlans, isLoading: paymentPlansLoading } = usePaymentPlans({
@@ -22,6 +26,14 @@ export default function PaymentPlanGridContainer(props) {
     createMutationFilter,
   });
   const { tags, isLoading: tagsLoading } = useTags();
+
+  const { data: paymentPlanTags, error: paymentPlanTagsErr } = useSWR(
+    ['paymentPlanTags', selectedPaymentPlanId],
+    async (key, ppId) => {
+      const result = await fetch(`/api/v0/payment-plan/${ppId}/tags`);
+      return result.json();
+    },
+  );
 
   if (paymentPlansLoading || tagsLoading) {
     return (
@@ -32,8 +44,9 @@ export default function PaymentPlanGridContainer(props) {
   }
 
   const handleTagsClick = (paymentPlan) => {
-    const { reference } = paymentPlan;
+    const { id, reference } = paymentPlan;
     setSeletctedPaymentPlanName(reference);
+    setSelectedPaymentPlanId(id);
     setTagsFormOpen(true);
   };
 
@@ -46,9 +59,11 @@ export default function PaymentPlanGridContainer(props) {
       />
       <TagsForm
         open={tagsFormOpen}
-        handleClose={() => setTagsFormOpen(false)}
+        loading={!paymentPlanTagsErr && !paymentPlanTags}
         paymentPlanName={selectedPaymentPlanName}
+        paymentPlanTags={paymentPlanTags}
         tags={tags}
+        handleClose={() => setTagsFormOpen(false)}
       />
     </>
   );
