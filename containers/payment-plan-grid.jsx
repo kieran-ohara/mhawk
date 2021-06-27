@@ -50,6 +50,29 @@ export default function PaymentPlanGridContainer(props) {
     setTagsFormOpen(true);
   };
 
+  const handleCheckboxChanged = (event) => {
+    const { checked, value: tagId } = event.target;
+    if (checked) {
+      fetch(
+        `/api/v0/payment-plan/${selectedPaymentPlanId}/tags`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            tag_id: tagId,
+          }),
+        },
+      );
+    } else {
+      fetch(
+        `/api/v0/payment-plan/${selectedPaymentPlanId}/tag/${tagId}`,
+        { method: 'DELETE' },
+      );
+    }
+  };
+
   return (
     <>
       <PaymentPlanGrid
@@ -63,6 +86,7 @@ export default function PaymentPlanGridContainer(props) {
         paymentPlanName={selectedPaymentPlanName}
         paymentPlanTags={paymentPlanTags}
         tags={tags}
+        handleCheckboxChanged={handleCheckboxChanged}
         handleClose={() => setTagsFormOpen(false)}
       />
     </>

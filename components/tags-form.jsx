@@ -13,28 +13,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 
-const checkboxes = (paymentPlanTags, data) => {
-  return (
-    <>
-      {data.map((value) => {
-        let checked = false;
-        paymentPlanTags.forEach((ppTag) => {
-          if (ppTag.id === value.id) {
-            checked = true;
-          }
-        });
-        return (
-          <FormControlLabel
-            key={value.slug}
-            control={<Checkbox checked={checked} name={value.name} value={value.slug} disabled />}
-            label={value.name}
-          />
-        );
-      })}
-    </>
-  );
-};
-
 export default function TagsForm(props) {
   const {
     open,
@@ -42,8 +20,38 @@ export default function TagsForm(props) {
     paymentPlanName,
     paymentPlanTags,
     tags,
+    handleCheckboxChanged,
     handleClose,
   } = props;
+
+  const checkboxes = () => {
+    return (
+      <>
+        {tags.map((value) => {
+          let extraProps = {};
+          paymentPlanTags.forEach((ppTag) => {
+            if (ppTag.id === value.id) {
+              extraProps = { defaultChecked: true };
+            }
+          });
+          return (
+            <FormControlLabel
+              key={value.slug}
+              control={(
+                <Checkbox
+                  name={value.name}
+                  value={value.id}
+                  onChange={(event) => handleCheckboxChanged(event)}
+                  {...extraProps}
+                />
+              )}
+              label={value.name}
+            />
+          );
+        })}
+      </>
+    );
+  };
 
   return (
     <>
