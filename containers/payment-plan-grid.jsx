@@ -1,4 +1,4 @@
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useState } from 'react';
@@ -21,7 +21,11 @@ export default function PaymentPlanGridContainer(props) {
 
   const [tagsFormOpen, setTagsFormOpen] = useState(false);
 
-  const { paymentPlans, isLoading: paymentPlansLoading } = usePaymentPlans({
+  const {
+    paymentPlans,
+    isLoading: paymentPlansLoading,
+    mutate: paymentPlansMutate,
+  } = usePaymentPlans({
     apiQueryParams,
     createMutationFilter,
   });
@@ -50,10 +54,10 @@ export default function PaymentPlanGridContainer(props) {
     setTagsFormOpen(true);
   };
 
-  const handleCheckboxChanged = (event) => {
+  const handleCheckboxChanged = async (event) => {
     const { checked, value: tagId } = event.target;
     if (checked) {
-      fetch(
+      await fetch(
         `/api/v0/payment-plan/${selectedPaymentPlanId}/tags`,
         {
           method: 'POST',
@@ -66,11 +70,13 @@ export default function PaymentPlanGridContainer(props) {
         },
       );
     } else {
-      fetch(
+      await fetch(
         `/api/v0/payment-plan/${selectedPaymentPlanId}/tag/${tagId}`,
         { method: 'DELETE' },
       );
     }
+    mutate(['paymentPlanTags', selectedPaymentPlanId]);
+    paymentPlansMutate();
   };
 
   return (
