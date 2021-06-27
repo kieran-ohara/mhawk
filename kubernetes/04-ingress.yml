@@ -40,4 +40,4 @@ spec:
          paths: [
            "/api/v0/payment-plan/*",
          ]
-         methods: ["PATCH", "DELETE"]
+         methods: ["POST", "PATCH", "DELETE"]
