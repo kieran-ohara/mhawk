@@ -1,7 +1,6 @@
-import useSWR from 'swr';
 import { useRouter } from 'next/router';
-import { PaymentPlan } from '../../components/payment-plan';
 import AppFrame from '../../components/app-frame';
+import PaymentPlanGrid from '../../containers/payment-plan-grid';
 
 const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !== null;
 
@@ -21,15 +20,14 @@ export default function TaggedPaymentPlans() {
   const router = useRouter();
   const { slug } = router.query;
 
-  const { data } = useSWR(
-    `/api/v0/payment-plans?tag=${slug}`,
-    (req) => fetch(req).then((res) => res.json()),
-  );
+  const apiQueryParams = {
+    tag: slug,
+  };
 
   return (
     <AppFrame title={slug}>
-      <PaymentPlan
-        data={data}
+      <PaymentPlanGrid
+        apiQueryParams={apiQueryParams}
         columns={columns}
       />
     </AppFrame>
