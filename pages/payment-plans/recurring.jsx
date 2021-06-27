@@ -1,16 +1,13 @@
 import React from 'react';
 
-import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
-
-import CreateRucurringPaymentDialog from '../../components/create-recurring-payment-dialog';
-import usePaymentPlans from '../../hooks/payment-plans';
-import { PaymentPlan } from '../../components/payment-plan';
-
-import FabContainer from '../../components/fab-container';
+import AddIcon from '@material-ui/icons/Add';
 
 import AppFrame from '../../components/app-frame';
+import PaymentPlanGrid from '../../containers/payment-plan-grid';
+import FabContainer from '../../components/fab-container';
+import CreateRucurringPaymentDialog from '../../components/create-recurring-payment-dialog';
 
 const columns = [
   {
@@ -22,11 +19,7 @@ const columns = [
 ];
 
 export default function RecurringPayments() {
-  const { paymentPlans } = usePaymentPlans({
-    apiQueryParams: { has_end_date: false },
-    createMutationFilter: () => false,
-  });
-
+  const apiQueryParams = { has_end_date: false };
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
   const handleOk = (okData) => {
@@ -58,8 +51,8 @@ export default function RecurringPayments() {
   return (
     <>
       <AppFrame title="Recurring Payments">
-        <PaymentPlan
-          data={paymentPlans}
+        <PaymentPlanGrid
+          apiQueryParams={apiQueryParams}
           columns={columns}
         />
         <FabContainer>

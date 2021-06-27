@@ -1,18 +1,18 @@
 import React from 'react';
 import differenceInMonths from 'date-fns/differenceInMonths';
 
-import AddIcon from '@material-ui/icons/Add';
-import SaveIcon from '@material-ui/icons/Save';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
-
-import CreatePaymentPlanWithTotalDialog from '../../components/create-payment-plan-with-total';
-import usePaymentPlans from '../../hooks/payment-plans';
-import { PaymentPlan, renderDate } from '../../components/payment-plan';
-
-import FabContainer from '../../components/fab-container';
+import AddIcon from '@material-ui/icons/Add';
+import SaveIcon from '@material-ui/icons/Save';
 
 import AppFrame from '../../components/app-frame';
+import PaymentPlanGrid from '../../containers/payment-plan-grid';
+import FabContainer from '../../components/fab-container';
+import CreatePaymentPlanWithTotalDialog from '../../components/create-payment-plan-with-total';
+
+import usePaymentPlans from '../../hooks/payment-plans';
+import { renderDate } from '../../components/payment-plan';
 
 const columns = [
   {
@@ -61,7 +61,6 @@ export default function FinitePayments() {
   const {
     createPaymentPlan,
     commitMutations,
-    paymentPlans,
   } = usePaymentPlans({
     apiQueryParams: { has_end_date: true },
     createMutationFilter: (mutation) => ('end_date' in mutation),
@@ -125,8 +124,9 @@ export default function FinitePayments() {
   return (
     <>
       <AppFrame title="Finite Payments">
-        <PaymentPlan
-          data={paymentPlans}
+        <PaymentPlanGrid
+          apiQueryParams={{ has_end_date: true }}
+          createMutationFilter={(mutation) => ('end_date' in mutation)}
           columns={columns}
         />
         <FabContainer>

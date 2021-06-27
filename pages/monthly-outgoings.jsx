@@ -10,7 +10,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
-import { PaymentPlan } from '../components/payment-plan';
+import { PaymentPlanGrid } from '../components/payment-plan';
 import usePaymentPlanMutations from '../hooks/payment-plans';
 
 import AppFrame from '../components/app-frame';
@@ -128,7 +128,7 @@ export default function MonthlyOutgoings() {
       <AppFrame title="Monthly Outgoings">
         <div className={classes.root}>
           <div className={classes.content}>
-            <PaymentPlan
+            <PaymentPlanGrid
               data={data.items}
               columns={columns}
             />

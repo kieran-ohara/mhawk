@@ -4,6 +4,9 @@ import {
 } from '@material-ui/data-grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
+import IconButton from '@material-ui/core/IconButton';
+import LabelIcon from '@material-ui/icons/Label';
+
 function renderDate(date) {
   if (date !== null) {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -57,11 +60,45 @@ const crudColumns = [
   },
 ];
 
-function PaymentPlan(props) {
-  const { columns, data } = props;
+const editColumns = (props) => [
+  {
+    field: 'tags',
+    headerName: 'Tags',
+    width: 120,
+    renderCell: (gridParams) => {
+      const paymentPlan = {
+        /* eslint-disable */
+        id: gridParams.getValue(gridParams.id, 'id'),
+        reference: gridParams.getValue(gridParams.id, 'reference'),
+        /* eslint-disable */
+      };
+      return (
+        <IconButton
+          variant="contained"
+          size="small"
+          style={{ marginLeft: 16 }}
+          onClick={(event) => props.handleTagsClick(paymentPlan, event)}
+        >
+          <LabelIcon />
+        </IconButton>
+      );
+    },
+  },
+];
+
+function PaymentPlanGrid(props) {
+  const {
+    columns,
+    data,
+    handleTagsClick = () => {},
+  } = props;
+
   const concatColumns = commonColumns
     .concat(columns)
-    .concat(crudColumns);
+    .concat(crudColumns)
+    .concat(editColumns({
+      handleTagsClick,
+    }));
 
   if (!data) {
     return (
@@ -88,4 +125,4 @@ function PaymentPlan(props) {
   );
 }
 
-export { renderDate, PaymentPlan };
+export { renderDate, PaymentPlanGrid };
