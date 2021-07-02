@@ -1,4 +1,5 @@
 import debug from 'debug';
+import { getSession } from 'next-auth/client';
 import { updatePaymentPlan, deletePaymentPlan } from '../../../../lib/payment-plans';
 
 const log = debug('mhawk-payment-plans');
@@ -23,8 +24,14 @@ const deleteController = async function postController(req, res) {
   }
 };
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   const { method } = req;
+
+  const session = await getSession({ req });
+  const hasSession = !!session;
+  if (!hasSession) {
+    return res.status(401).end();
+  }
 
   switch (method) {
     case 'PATCH':
@@ -32,6 +39,6 @@ export default function handler(req, res) {
     case 'DELETE':
       return deleteController(req, res);
     default:
-      return res.status(400);
+      return res.status(400).end();
   }
 }

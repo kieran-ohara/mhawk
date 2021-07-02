@@ -1,4 +1,4 @@
-import useSWR, { mutate as swrMutate} from 'swr';
+import useSWR, { mutate as swrMutate } from 'swr';
 
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
