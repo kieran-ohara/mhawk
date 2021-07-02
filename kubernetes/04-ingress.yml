@@ -30,14 +30,3 @@ spec:
            "/api/v0/auth/*",
          ]
          methods: ["GET"]
-     - operation:
-         paths: [
-           "/api/v0/payment-plans",
-           "/api/v0/monthly-payments"
-         ]
-         methods: ["POST"]
-     - operation:
-         paths: [
-           "/api/v0/payment-plan/*",
-         ]
-         methods: ["POST", "PATCH", "DELETE"]

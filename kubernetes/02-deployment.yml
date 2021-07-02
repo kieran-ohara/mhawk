@@ -17,7 +17,7 @@ spec:
       spec:
         containers:
           - name: app
-            image: kieranbamforth/mhawk:41
+            image: kieranbamforth/mhawk:42
             ports:
               - containerPort: 3000
             env:
@@ -56,8 +56,15 @@ spec:
                   secretKeyRef:
                     name: mhawk-secret
                     key: MONZO_CLIENT_SECRET
+              - name: KIERAN_MONZO
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-secret
+                    key: KIERAN_MONZO
               - name: MONZO_REDIRECT
                 value: "https://mhawk.k8s.istio.kieranbamforth.me/api/v0/auth/monzo/callback"
+              - name: NEXTAUTH_URL
+                value: "https://mhawk.k8s.istio.kieranbamforth.me"
               - name: DEBUG
                 value: mhawk-*
             resources:
