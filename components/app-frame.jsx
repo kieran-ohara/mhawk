@@ -5,6 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import Toolbar from '@material-ui/core/Toolbar';
 
 import Divider from '@material-ui/core/Divider';
@@ -14,6 +16,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import EventIcon from '@material-ui/icons/Event';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -27,6 +30,8 @@ import {
 } from '@material-ui/core/styles';
 
 import TagsLinks from './tags-links';
+
+import { signOut } from "next-auth/client"
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100vh',
   },
+  title: {
+    flexGrow: 1,
+  },
 }));
 
 function AppFrame(props) {
@@ -68,8 +76,17 @@ function AppFrame(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+  const handleClose = () => {
+    signOut();
+    setAnchorEl(null);
   };
 
   const drawer = (
@@ -120,9 +137,37 @@ function AppFrame(props) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap>
+            <Typography variant="h6" className={classes.title} noWrap>
               {title}
             </Typography>
+            <div>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>Log Out</MenuItem>
+              </Menu>
+            </div>
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer} aria-label="mailbox folders">

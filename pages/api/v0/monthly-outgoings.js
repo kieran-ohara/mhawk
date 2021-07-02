@@ -1,4 +1,5 @@
 import debug from 'debug';
+import { getSession } from 'next-auth/client';
 import { getTaxedWage } from '../../../lib/user';
 import { getPaymentPlansActiveForMonth } from '../../../lib/payment-plans';
 
@@ -31,13 +32,19 @@ const getController = async function getController(req, res) {
   }
 };
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   const { method } = req;
+
+  const session = await getSession({ req });
+  const hasSession = !!session;
+  if (!hasSession) {
+    return res.status(401).end();
+  }
 
   switch (method) {
     case 'GET':
       return getController(req, res);
     default:
-      return res.status(400);
+      return res.status(400).end();
   }
 }
