@@ -91,14 +91,18 @@ function PaymentPlanGrid(props) {
     columns,
     data,
     handleTagsClick = () => {},
+    showEditButtons = false,
   } = props;
 
-  const concatColumns = commonColumns
+  let concatColumns = commonColumns
     .concat(columns)
-    .concat(crudColumns)
-    .concat(editColumns({
+    .concat(crudColumns);
+
+  if (showEditButtons) {
+    concatColumns = concatColumns.concat(editColumns({
       handleTagsClick,
     }));
+  }
 
   if (!data) {
     return (
