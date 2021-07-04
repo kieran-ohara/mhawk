@@ -128,6 +128,7 @@ export default function FinitePayments() {
           apiQueryParams={{ has_end_date: true }}
           createMutationFilter={(mutation) => ('end_date' in mutation)}
           columns={columns}
+          showEditButtons="true"
         />
         <FabContainer>
           <Tooltip title="Add with Total" aria-label="add">

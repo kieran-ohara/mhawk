@@ -54,6 +54,7 @@ export default function RecurringPayments() {
         <PaymentPlanGrid
           apiQueryParams={apiQueryParams}
           columns={columns}
+          showEditButtons="true"
         />
         <FabContainer>
           <Tooltip title="Add with Total" aria-label="add">
