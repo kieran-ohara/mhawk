@@ -48,6 +48,24 @@ export default function RecurringPayments() {
     setDialogOpen(false);
   };
 
+  const isCellEditable = (params) => {
+    return params.colDef.field === 'monthly_price';
+  };
+
+  const onEditCellChangeCommitted = (params) => {
+    const { id, field, props } = params;
+    const data = {};
+    data[field] = props.value;
+
+    fetch(`/api/v0/payment-plan/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  };
+
   return (
     <>
       <AppFrame title="Recurring Payments">
@@ -55,6 +73,8 @@ export default function RecurringPayments() {
           apiQueryParams={apiQueryParams}
           columns={columns}
           showEditButtons="true"
+          isCellEditable={isCellEditable}
+          onEditCellChangeCommitted={onEditCellChangeCommitted}
         />
         <FabContainer>
           <Tooltip title="Add with Total" aria-label="add">

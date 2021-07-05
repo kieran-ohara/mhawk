@@ -30,6 +30,7 @@ const commonColumns = [
     headerName: 'Monthly Price',
     width: 165,
     valueFormatter: (params) => `£${params.getValue(params.id, 'monthly_price')}`,
+    editable: true,
   },
   {
     field: 'start_date',
@@ -92,6 +93,8 @@ function PaymentPlanGrid(props) {
     data,
     handleTagsClick = () => {},
     showEditButtons = false,
+    isCellEditable = () => false,
+    onEditCellChangeCommitted = () => null,
   } = props;
 
   let concatColumns = commonColumns
@@ -123,6 +126,8 @@ function PaymentPlanGrid(props) {
           components={{
             Toolbar: GridToolbar,
           }}
+          isCellEditable={isCellEditable}
+          onEditCellChangeCommitted={onEditCellChangeCommitted}
         />
       </div>
     </div>
