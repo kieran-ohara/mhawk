@@ -15,6 +15,8 @@ export default function PaymentPlanGridContainer(props) {
     createMutationFilter = () => false,
     columns,
     showEditButtons,
+    isCellEditable,
+    onEditCellChangeCommitted,
   } = props;
 
   const [selectedPaymentPlanName, setSeletctedPaymentPlanName] = useState('');
@@ -87,6 +89,8 @@ export default function PaymentPlanGridContainer(props) {
         columns={columns}
         handleTagsClick={handleTagsClick}
         showEditButtons={showEditButtons}
+        isCellEditable={isCellEditable}
+        onEditCellChangeCommitted={onEditCellChangeCommitted}
       />
       <TagsForm
         open={tagsFormOpen}
