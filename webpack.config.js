@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     main: './cli/payment-plan-end-notification.js',
     dollar: './cli/daily-dollar.js',
+    index: './cli/index.js',
   },
   output: {
     filename: './cli/[name].bundle.js',
