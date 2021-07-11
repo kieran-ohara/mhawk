@@ -14,7 +14,7 @@ const getController = async function getController(req, res) {
 
     const result = await Promise.all([
       getPaymentPlansActiveForMonth(date),
-      getTaxedWage(),
+      getTaxedWage(1),
     ]);
     const [items, grossMonth] = result;
     const sumOutgoings = (items.reduce((acc, item) => acc + item.monthly_price, 0)).toFixed(2);

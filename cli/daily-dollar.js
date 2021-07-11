@@ -11,7 +11,7 @@ const {
 } = process.env;
 
 (async () => {
-  log(await daysUntilPayDay());
+  log(await daysUntilPayDay(1));
   const userDetails = await getLoginForUserId(1);
 
   const monzo = new MonzoClient(userDetails);

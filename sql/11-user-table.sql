@@ -1,0 +1,8 @@
+CREATE TABLE `mhawk`.`users`  (
+    `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+    `payday_day` int UNSIGNED NULL,
+    `monthly_wage_net` decimal(10, 2) NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
