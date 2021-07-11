@@ -1,7 +1,11 @@
 import debug from 'debug';
 import { getSession } from 'next-auth/client';
 import {
-  getPaymentPlans, getPaymentPlansActiveForMonth, addPaymentPlans, getPaymentPlansWithTag,
+  addPaymentPlans,
+  getPaymentPlans,
+  getPaymentPlansActiveForMonth,
+  getPaymentPlansWithTag,
+  searchPaymentPlansByReference,
 } from '../../../lib/payment-plans';
 
 const log = debug('mhawk-payment-plans');
@@ -14,6 +18,8 @@ const getController = async function getController(req, res) {
     } else if (req.query.payments_for_month) {
       const date = new Date(req.query.payments_for_month);
       content = await getPaymentPlansActiveForMonth(date);
+    } else if (req.query.search) {
+      content = await searchPaymentPlansByReference(req.query.search);
     } else {
       content = await getPaymentPlans((params) => {
         if (req.query.has_end_date === 'true') {
