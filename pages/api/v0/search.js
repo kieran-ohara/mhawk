@@ -1,4 +1,5 @@
 import { getSession } from 'next-auth/client';
+import { getPaymentPlansWithIds } from '../../../lib/payment-plans';
 const { Client } = require('@elastic/elasticsearch');
 
 const {
@@ -35,7 +36,7 @@ export default async (req, res) => {
       index: ES_INDEX,
       body: {
         suggest: {
-          'pp-suggest': {
+          ppsuggest: {
             prefix: q,
             completion: {
               field: 'reference',
@@ -44,7 +45,16 @@ export default async (req, res) => {
         },
       },
     });
-    return res.status(200).json(result.body);
+    const searchResults = result.body.suggest.ppsuggest[0].options;
+    if (searchResults.length === 0) {
+      return res.status(200).json([]);
+    }
+    const ids = searchResults.map((x) => {
+      // eslint-disable-next-line
+      return x._id;
+    });
+    const paymentPlans = await getPaymentPlansWithIds(ids);
+    return res.status(200).json(paymentPlans);
   } catch (error) {
     return res.status(500).json(error);
   }
