@@ -1,3 +1,4 @@
+import { getSession } from 'next-auth/client';
 const { Client } = require('@elastic/elasticsearch');
 
 const {
@@ -16,6 +17,18 @@ const client = new Client({
 });
 
 export default async (req, res) => {
+  const { method } = req;
+
+  if (method !== 'POST') {
+    return res.status(400).end();
+  }
+
+  const session = await getSession({ req });
+  const hasSession = !!session;
+  if (!hasSession) {
+    return res.status(401).end();
+  }
+
   const { q } = req.body;
   try {
     const result = await client.search({
