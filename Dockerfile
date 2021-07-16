@@ -13,6 +13,7 @@ COPY components ./components
 COPY containers ./containers
 COPY hooks ./hooks
 COPY lib ./lib
+COPY next.config.js ./next.config.js
 COPY pages ./pages
 COPY public ./public
 COPY styles ./styles
