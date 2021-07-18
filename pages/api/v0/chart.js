@@ -1,13 +1,13 @@
 import debug from 'debug';
 import { getSession } from 'next-auth/client';
-import { getChartDataForMonths } from '../../../lib/chart';
+import { getChartDataForMonthsAggregateEndDate } from '../../../lib/chart';
 
 const log = debug('mhawk-payment-chart');
 
 const getController = async function getController(req, res) {
   const { start_date: startDate, end_date: endDate } = req.query;
   try {
-    const content = await getChartDataForMonths(
+    const content = await getChartDataForMonthsAggregateEndDate(
       new Date(startDate),
       new Date(endDate),
     );
