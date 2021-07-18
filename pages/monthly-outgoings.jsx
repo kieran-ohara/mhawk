@@ -27,11 +27,14 @@ const columns = [
 
 const drawerWidth = 240;
 const chartHeight = 260;
+const chartWidth = 400;
 const appBarHeight = 64;
 
 const useStyles = makeStyles((theme) => ({
   centerMargin: {
+    width: `${chartWidth}px`,
     margin: '0 auto',
+    padding: '16px',
   },
   dataGrid: {
     display: 'flex',
@@ -123,7 +126,9 @@ export default function MonthlyOutgoings() {
       <AppFrame title="Monthly Outgoings">
         <Grid container>
           <Grid item xs={12} lg={6}>
-            <Chart height={chartHeight} />
+            <div className={classes.centerMargin}>
+              <Chart width={chartWidth} height={chartHeight} />
+            </div>
           </Grid>
           <Grid item xs={12} lg={6} className={classes.dataGrid}>
             <div className={classes.content}>

@@ -13,10 +13,10 @@ import {
 
 export default function Chart(props) {
   const {
+    width,
+    height,
     startDate = new Date('2021-06-14'),
     endDate = new Date('2021-12-14'),
-    height = 400,
-    width = 500,
   } = props;
 
   const fmt = (date) => {
