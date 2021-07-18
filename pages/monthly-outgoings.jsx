@@ -12,7 +12,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 import { PaymentPlanGrid } from '../components/payment-plan';
 import usePaymentPlanMutations from '../hooks/payment-plans';
+import Chart from '../components/chart';
 
+import Grid from '@material-ui/core/Grid';
 import AppFrame from '../components/app-frame';
 
 const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !== null;
@@ -30,11 +32,19 @@ const columns = [
 ];
 
 const drawerWidth = 240;
+const chartHeight = 260;
+const appBarHeight = 64;
 
-const useStyles = makeStyles(() => ({
-  root: {
+const useStyles = makeStyles((theme) => ({
+  centerMargin: {
+    margin: '0 auto',
+  },
+  dataGrid: {
     display: 'flex',
-    height: '100%',
+    height: `calc(100vh - ${appBarHeight + chartHeight}px)`,
+    [theme.breakpoints.up("lg")]: {
+      height: `calc(100vh - ${appBarHeight}px)`,
+    }
   },
   content: {
     flexGrow: 1,
@@ -126,36 +136,19 @@ export default function MonthlyOutgoings() {
   return (
     <>
       <AppFrame title="Monthly Outgoings">
-        <div className={classes.root}>
-          <div className={classes.content}>
-            <PaymentPlanGrid
-              data={data.items}
-              columns={columns}
-            />
-          </div>
-          <Hidden xsDown>
-            <aside className={classes.aside}>
-              <div className={classes.calendar}>
-                <Link href={`?payments_for_month=${toYYYYMMDD(previousMonth)}`}>
-                  <IconButton aria-label="delete">
-                    <NavigateBeforeIcon />
-                  </IconButton>
-                </Link>
-                <Typography variant="subtitle1" noWrap className={classes.calendarMonth}>
-                  {dateLocaleString}
-                </Typography>
-                <Link href={`?payments_for_month=${toYYYYMMDD(nextMonth)}`}>
-                  <IconButton aria-label="delete">
-                    <NavigateNextIcon />
-                  </IconButton>
-                </Link>
-              </div>
-              <Typography>
-                {`£${data.gross_month} - £${data.sum} = £${data.net_month}`}
-              </Typography>
-            </aside>
-          </Hidden>
-        </div>
+        <Grid container>
+          <Grid item xs={12} lg={6}>
+            <Chart height={chartHeight} />
+          </Grid>
+          <Grid item xs={12} lg={6} className={classes.dataGrid}>
+            <div className={classes.content}>
+              <PaymentPlanGrid
+                data={data.items}
+                columns={columns}
+              />
+            </div>
+          </Grid>
+        </Grid>
       </AppFrame>
     </>
   );
