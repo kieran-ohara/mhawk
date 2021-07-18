@@ -3,8 +3,8 @@ ARG NODE_VERSION=14
 # First pass: install all node dependences for next build.
 FROM node:$NODE_VERSION-alpine
 
-ADD package.json ./
-ADD package-lock.json ./
+COPY package.json ./
+COPY package-lock.json ./
 
 RUN npm install
 
@@ -25,8 +25,8 @@ RUN npm run build
 # Second pass: install only prod dependencies needed by server
 FROM node:$NODE_VERSION-alpine
 
-ADD package.json ./
-ADD package-lock.json ./
+COPY package.json ./
+COPY package-lock.json ./
 
 RUN npm install --production
 
