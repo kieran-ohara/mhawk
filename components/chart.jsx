@@ -10,6 +10,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  ResponsiveContainer,
 } from 'recharts';
 
 export default function Chart(props) {
@@ -40,34 +41,36 @@ export default function Chart(props) {
   }
 
   return (
-    <AreaChart
-      width={width}
-      height={height}
-      data={result.data}
-      margin={{
-        top: 10,
-        right: 30,
-        left: 0,
-        bottom: 0,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend verticalAlign="top" height={36}/>
-      {
-        result.meta.keys.map((key) => (
-          <Area
-            key={key.reference}
-            type="monotone"
-            dataKey={key.reference}
-            stackId="1"
-            stroke={key.colour}
-            fill={key.colour}
-          />
-        ))
-      }
-    </AreaChart>
+    <ResponsiveContainer width="100%" height={height}>
+      <AreaChart
+        width={width}
+        height={height}
+        data={result.data}
+        margin={{
+          top: 10,
+          right: 30,
+          left: 0,
+          bottom: 0,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend verticalAlign="top" height={36}/>
+        {
+          result.meta.keys.map((key) => (
+            <Area
+              key={key.reference}
+              type="monotone"
+              dataKey={key.reference}
+              stackId="1"
+              stroke={key.colour}
+              fill={key.colour}
+            />
+          ))
+        }
+      </AreaChart>
+    </ResponsiveContainer>
   );
 }

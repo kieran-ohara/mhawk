@@ -33,8 +33,6 @@ const legendHeight = 16;
 
 const useStyles = makeStyles((theme) => ({
   centerMargin: {
-    width: `${chartWidth}px`,
-    margin: '0 auto',
     padding: `${chartPadding}px`,
   },
   dataGrid: {
