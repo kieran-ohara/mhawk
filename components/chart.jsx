@@ -9,6 +9,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  Legend,
 } from 'recharts';
 
 export default function Chart(props) {
@@ -53,6 +54,7 @@ export default function Chart(props) {
       <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
+      <Legend verticalAlign="top" height={36}/>
       {
         result.meta.keys.map((key) => (
           <Area
