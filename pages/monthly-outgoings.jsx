@@ -75,9 +75,14 @@ export default function MonthlyOutgoings() {
   const [chartAggregate] = useState(qChartAggregate);
   const [chartStart] = useState(new Date(qChartStart));
   const [chartEnd] = useState(new Date(qChartEnd));
-  const [pointInTime] = useState(new Date(qPointInTime));
+  const [pointInTime, setPointInTime] = useState(qPointInTime);
 
   const apiQueryParams = { payments_for_date: pointInTime };
+
+  const onClick = (selectedPayload) => {
+    const selectedDate = selectedPayload.date;
+    setPointInTime(format(new Date(selectedDate), 'yyyy-MM-dd'));
+  };
 
   return (
     <>
@@ -91,6 +96,7 @@ export default function MonthlyOutgoings() {
                 startDate={new Date(chartStart)}
                 endDate={new Date(chartEnd)}
                 aggregatePaymentType={chartAggregate}
+                onClick={onClick}
               />
             </div>
           </Grid>
