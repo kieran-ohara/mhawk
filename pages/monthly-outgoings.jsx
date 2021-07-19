@@ -70,6 +70,8 @@ export default function MonthlyOutgoings() {
   const {
     payments_for_month,
     chart_aggregate = 'true',
+    chart_end = '2021-12-31',
+    chart_start = '2021-06-01',
   } = router.query;
 
   // LOL
@@ -133,6 +135,8 @@ export default function MonthlyOutgoings() {
               <Chart
                 width={chartWidth}
                 height={chartHeight}
+                startDate={new Date(chart_start)}
+                endDate={new Date(chart_end)}
                 aggregatePaymentType={chart_aggregate}
               />
             </div>
