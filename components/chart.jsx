@@ -20,6 +20,7 @@ export default function Chart(props) {
     startDate = new Date('2021-06-14'),
     endDate = new Date('2021-12-14'),
     aggregatePaymentType = 'true',
+    onClick = () => {},
   } = props;
 
   const fmt = (date) => {
@@ -40,6 +41,11 @@ export default function Chart(props) {
     return <></>;
   }
 
+  const handleClick = (data, event) => {
+    const index = data.activeTooltipIndex;
+    return onClick(result.data[index], data, event);
+  };
+
   return (
     <ResponsiveContainer width="100%" height={height}>
       <AreaChart
@@ -52,6 +58,7 @@ export default function Chart(props) {
           left: 0,
           bottom: 0,
         }}
+        onClick={handleClick}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
