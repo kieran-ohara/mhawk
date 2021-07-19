@@ -1,13 +1,16 @@
 import debug from 'debug';
 import { getSession } from 'next-auth/client';
-import { getChartDataForMonthsAggregateEndDate } from '../../../lib/chart';
+import { getChartDataForMonthsAggregateEndDate, getChartDataForMonths } from '../../../lib/chart';
 
 const log = debug('mhawk-payment-chart');
 
 const getController = async function getController(req, res) {
   const { start_date: startDate, end_date: endDate } = req.query;
   try {
-    const content = await getChartDataForMonthsAggregateEndDate(
+    const strategy = (req.query.aggregate_payment_type === 'false')
+      ? getChartDataForMonths
+      : getChartDataForMonthsAggregateEndDate;
+    const content = await strategy(
       new Date(startDate),
       new Date(endDate),
     );

@@ -18,6 +18,7 @@ export default function Chart(props) {
     height,
     startDate = new Date('2021-06-14'),
     endDate = new Date('2021-12-14'),
+    aggregatePaymentType = 'true',
   } = props;
 
   const fmt = (date) => {
@@ -25,7 +26,7 @@ export default function Chart(props) {
   };
 
   const { data: result, error } = useSWR(
-    `/api/v0/chart?start_date=${fmt(startDate)}&end_date=${fmt(endDate)}`,
+    `/api/v0/chart?start_date=${fmt(startDate)}&end_date=${fmt(endDate)}&aggregate_payment_type=${aggregatePaymentType}`,
     (req) => {
       return fetch(req).then(async (res) => {
         const fetchJson = await res.json();

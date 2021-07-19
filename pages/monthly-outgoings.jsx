@@ -67,7 +67,10 @@ export default function MonthlyOutgoings() {
   const classes = useStyles();
   const router = useRouter();
   // eslint-disable-next-line
-  const { payments_for_month } = router.query;
+  const {
+    payments_for_month,
+    chart_aggregate = 'true',
+  } = router.query;
 
   // LOL
   let paymentsForMonth;
@@ -127,7 +130,11 @@ export default function MonthlyOutgoings() {
         <Grid container>
           <Grid item xs={12} lg={6}>
             <div className={classes.centerMargin}>
-              <Chart width={chartWidth} height={chartHeight} />
+              <Chart
+                width={chartWidth}
+                height={chartHeight}
+                aggregatePaymentType={chart_aggregate}
+              />
             </div>
           </Grid>
           <Grid item xs={12} lg={6} className={classes.dataGrid}>
