@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
+
+import { format, addMonths, subMonths } from 'date-fns';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -60,16 +63,23 @@ const useStyles = makeStyles((theme) => ({
 export default function MonthlyOutgoings() {
   const classes = useStyles();
   const router = useRouter();
-  const apiQueryParams = { payments_for_date: new Date() };
 
-  /* eslint-disable */
+  const now = new Date();
+  const monthsEitherSide = 5;
+
   const {
-    payments_for_month,
-    chart_aggregate = 'true',
-    chart_end = '2021-12-31',
-    chart_start = '2021-06-01',
+    chart_aggregate: qChartAggregate = 'true',
+    chart_end: qChartEnd = format(addMonths(now, monthsEitherSide), 'yyyy-MM-dd'),
+    chart_start: qChartStart = format(subMonths(now, monthsEitherSide), 'yyyy-MM-dd'),
+    payments_for_month: qPointInTime = format(now, 'yyyy-MM-dd'),
   } = router.query;
-  /* eslint-enable */
+
+  const [chartAggregate] = useState(qChartAggregate);
+  const [chartStart] = useState(new Date(qChartStart));
+  const [chartEnd] = useState(new Date(qChartEnd));
+  const [pointInTime] = useState(new Date(qPointInTime));
+
+  const apiQueryParams = { payments_for_date: pointInTime };
 
   return (
     <>
@@ -80,9 +90,9 @@ export default function MonthlyOutgoings() {
               <Chart
                 width={chartWidth}
                 height={chartHeight}
-                startDate={new Date(chart_start)}
-                endDate={new Date(chart_end)}
-                aggregatePaymentType={chart_aggregate}
+                startDate={new Date(chartStart)}
+                endDate={new Date(chartEnd)}
+                aggregatePaymentType={chartAggregate}
               />
             </div>
           </Grid>
