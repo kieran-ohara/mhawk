@@ -73,8 +73,8 @@ export default function MonthlyOutgoings() {
   } = router.query;
 
   const [chartAggregate] = useState(qChartAggregate);
-  const [chartStart] = useState(new Date(qChartStart));
-  const [chartEnd] = useState(new Date(qChartEnd));
+  const [chartStart, setChartStart] = useState(new Date(qChartStart));
+  const [chartEnd, setChartEnd] = useState(new Date(qChartEnd));
   const [pointInTime, setPointInTime] = useState(qPointInTime);
 
   const apiQueryParams = { payments_for_date: pointInTime };
@@ -82,6 +82,8 @@ export default function MonthlyOutgoings() {
   const onClick = (selectedPayload) => {
     const selectedDate = selectedPayload.date;
     setPointInTime(format(new Date(selectedDate), 'yyyy-MM-dd'));
+    setChartStart(subMonths(new Date(selectedDate), monthsEitherSide));
+    setChartEnd(addMonths(new Date(selectedDate), monthsEitherSide));
   };
 
   return (
