@@ -2,7 +2,7 @@
 name: Feature
 about: Provides sections to help shape a new feature
 title: ''
-labels: ''
+labels: 'enhancement'
 assignees: ''
 
 ---
