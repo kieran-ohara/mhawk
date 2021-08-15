@@ -1,0 +1,4 @@
+resources:
+  - ./01-namespace.yml
+  - ./02-deployment.yml
+  - ./03-service.yml

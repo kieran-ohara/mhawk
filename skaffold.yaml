@@ -1,0 +1,25 @@
+apiVersion: skaffold/v2beta10
+kind: Config
+metadata:
+  name: mhawk
+build:
+  artifacts:
+  - image: kieranbamforth/mhawk
+    sync:
+      infer:
+        - '**/*/*.js'
+        - '**/*/*.jsx'
+        # - 'components/**/*'
+        # - 'containers/**/*'
+        # - 'hooks/**/*'
+        # - 'lib/**/*'
+        # - 'next.config.js'
+        # - 'pages/**/*'
+        # - 'public/**/*'
+        # - 'styles/**/*'
+        # - 'webpack.config.js'
+        # - '.eslintrc.js'
+deploy:
+  kustomize:
+    paths:
+      - kubernetes/dev

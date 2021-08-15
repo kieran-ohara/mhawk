@@ -1,0 +1,17 @@
+resources:
+- ../base
+namespace: mhawk-dev
+patches:
+  - path: ./02-deployment.yml
+    target:
+      name: mhawk-deployment
+secretGenerator:
+  - name: mhawk-es
+    envs:
+      - es.env
+  - name: mhawk-db
+    envs:
+      - db.env
+  - name: mhawk-secret
+    envs:
+      - secret.env

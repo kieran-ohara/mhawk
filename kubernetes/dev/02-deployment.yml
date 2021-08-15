@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: not-important
+  namespace: mhawk-dev
+spec:
+  template:
+    spec:
+      containers:
+        - name: app
+          command:
+            - ./node_modules/.bin/next
+            - dev
+          env:
+            - name: MONZO_REDIRECT
+              value: "http://localhost:3000/api/v0/auth/monzo/callback"
+            - name: NEXTAUTH_URL
+              value: "http://localhost:3000"
+          securityContext:
+            readOnlyRootFilesystem: false
+            runAsUser: 0
+            runAsNonRoot: false
