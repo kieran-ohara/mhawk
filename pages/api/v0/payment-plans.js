@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/client';
 import {
   addPaymentPlans,
   getPaymentPlans,
-  getPaymentPlansActiveForMonth,
+  getPaymentPlansActiveForPointInTime,
   getPaymentPlansWithTag,
   searchPaymentPlansByReference,
 } from '../../../lib/payment-plans';
@@ -15,9 +15,9 @@ const getController = async function getController(req, res) {
   try {
     if (req.query.tag) {
       content = await getPaymentPlansWithTag(req.query.tag);
-    } else if (req.query.payments_for_month) {
-      const date = new Date(req.query.payments_for_month);
-      content = await getPaymentPlansActiveForMonth(date);
+    } else if (req.query.payments_for_date) {
+      const date = new Date(req.query.payments_for_date);
+      content = await getPaymentPlansActiveForPointInTime(date);
     } else if (req.query.search) {
       content = await searchPaymentPlansByReference(req.query.search);
     } else {

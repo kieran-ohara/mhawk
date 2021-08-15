@@ -1,19 +1,14 @@
-import useSWR from 'swr';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 
-import Hidden from '@material-ui/core/Hidden';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import Link from 'next/link';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { format, addMonths, subMonths } from 'date-fns';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { useRouter } from 'next/router';
-import { PaymentPlanGrid } from '../components/payment-plan';
-import usePaymentPlanMutations from '../hooks/payment-plans';
+import Grid from '@material-ui/core/Grid';
 
 import AppFrame from '../components/app-frame';
+import Chart from '../components/chart';
+import PaymentPlanGrid from '../containers/payment-plan-grid';
 
 const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !== null;
 
@@ -29,12 +24,23 @@ const columns = [
   },
 ];
 
+const appBarHeight = 64;
+const chartHeight = 260;
+const chartPadding = 16;
+const chartWidth = 400;
 const drawerWidth = 240;
+const legendHeight = 16;
 
-const useStyles = makeStyles(() => ({
-  root: {
+const useStyles = makeStyles((theme) => ({
+  centerMargin: {
+    padding: `${chartPadding}px`,
+  },
+  dataGrid: {
     display: 'flex',
-    height: '100%',
+    height: `calc(100vh - ${appBarHeight + chartHeight + chartPadding + legendHeight}px)`,
+    [theme.breakpoints.up('lg')]: {
+      height: `calc(100vh - ${appBarHeight}px)`,
+    },
   },
   content: {
     flexGrow: 1,
@@ -52,110 +58,59 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function toYYYYMMDD(date) {
-  return date.toISOString().split('T')[0];
-}
-
 export default function MonthlyOutgoings() {
   const classes = useStyles();
   const router = useRouter();
-  // eslint-disable-next-line
-  const { payments_for_month } = router.query;
 
-  // LOL
-  let paymentsForMonth;
-  let dateString;
-  let previousMonth;
-  let nextMonth;
-  try {
-    paymentsForMonth = new Date(payments_for_month);
-    dateString = toYYYYMMDD(paymentsForMonth);
-    previousMonth = new Date(paymentsForMonth.setMonth(paymentsForMonth.getMonth() - 1));
-    nextMonth = new Date(paymentsForMonth.setMonth(paymentsForMonth.getMonth() + 2));
-    paymentsForMonth.setMonth(paymentsForMonth.getMonth() - 1);
-  } catch (error) {
-    paymentsForMonth = new Date();
-    dateString = toYYYYMMDD(paymentsForMonth);
-    previousMonth = new Date(paymentsForMonth.setMonth(paymentsForMonth.getMonth() - 1));
-    nextMonth = new Date(paymentsForMonth.setMonth(paymentsForMonth.getMonth() + 2));
-    paymentsForMonth.setMonth(paymentsForMonth.getMonth() - 1);
-  }
+  const now = new Date();
+  const monthsEitherSide = 5;
 
-  const options = { month: 'long' };
-  const dateLocaleString = paymentsForMonth.toLocaleString('en-GB', options);
+  const {
+    chart_aggregate: qChartAggregate = 'true',
+    chart_end: qChartEnd = format(addMonths(now, monthsEitherSide), 'yyyy-MM-dd'),
+    chart_start: qChartStart = format(subMonths(now, monthsEitherSide), 'yyyy-MM-dd'),
+    payments_for_month: qPointInTime = format(now, 'yyyy-MM-dd'),
+  } = router.query;
 
-  const { getActiveMutationsForDate } = usePaymentPlanMutations();
+  const [chartAggregate] = useState(qChartAggregate);
+  const [chartStart, setChartStart] = useState(new Date(qChartStart));
+  const [chartEnd, setChartEnd] = useState(new Date(qChartEnd));
+  const [pointInTime, setPointInTime] = useState(qPointInTime);
 
-  const { data, error } = useSWR(
-    `/api/v0/monthly-outgoings?date=${dateString}`,
-    (req) => {
-      return Promise.all([
-        fetch(req),
-        getActiveMutationsForDate(paymentsForMonth),
-      ]).then(async (res) => {
-        const [fetchResult, mutations] = res;
-        const fetchJson = await fetchResult.json();
-        fetchJson.items = fetchJson.items.concat(mutations.create);
+  const apiQueryParams = { payments_for_date: pointInTime };
 
-        const sumMutations = mutations.create.reduce((acc, mutation) => {
-          return acc + parseFloat(mutation.monthly_price);
-        }, 0);
-
-        fetchJson.sum = parseFloat(fetchJson.sum) + sumMutations;
-        return fetchJson;
-      });
-    },
-  );
-
-  if (error) {
-    return (
-      <>
-        <p>{error}</p>
-      </>
-    );
-  }
-
-  if (!data) {
-    return (
-      <>
-        <LinearProgress />
-      </>
-    );
-  }
+  const onClick = (selectedPayload) => {
+    const selectedDate = selectedPayload.date;
+    setPointInTime(format(new Date(selectedDate), 'yyyy-MM-dd'));
+    setChartStart(subMonths(new Date(selectedDate), monthsEitherSide));
+    setChartEnd(addMonths(new Date(selectedDate), monthsEitherSide));
+  };
 
   return (
     <>
       <AppFrame title="Monthly Outgoings">
-        <div className={classes.root}>
-          <div className={classes.content}>
-            <PaymentPlanGrid
-              data={data.items}
-              columns={columns}
-            />
-          </div>
-          <Hidden xsDown>
-            <aside className={classes.aside}>
-              <div className={classes.calendar}>
-                <Link href={`?payments_for_month=${toYYYYMMDD(previousMonth)}`}>
-                  <IconButton aria-label="delete">
-                    <NavigateBeforeIcon />
-                  </IconButton>
-                </Link>
-                <Typography variant="subtitle1" noWrap className={classes.calendarMonth}>
-                  {dateLocaleString}
-                </Typography>
-                <Link href={`?payments_for_month=${toYYYYMMDD(nextMonth)}`}>
-                  <IconButton aria-label="delete">
-                    <NavigateNextIcon />
-                  </IconButton>
-                </Link>
-              </div>
-              <Typography>
-                {`£${data.gross_month} - £${data.sum} = £${data.net_month}`}
-              </Typography>
-            </aside>
-          </Hidden>
-        </div>
+        <Grid container>
+          <Grid item xs={12} lg={6}>
+            <div className={classes.centerMargin}>
+              <Chart
+                width={chartWidth}
+                height={chartHeight}
+                startDate={new Date(chartStart)}
+                endDate={new Date(chartEnd)}
+                aggregatePaymentType={chartAggregate}
+                onClick={onClick}
+              />
+            </div>
+          </Grid>
+          <Grid item xs={12} lg={6} className={classes.dataGrid}>
+            <div className={classes.content}>
+              <PaymentPlanGrid
+                apiQueryParams={apiQueryParams}
+                columns={columns}
+              />
+            </div>
+          </Grid>
+        </Grid>
       </AppFrame>
     </>
   );
