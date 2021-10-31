@@ -5,6 +5,8 @@ metadata:
 build:
   artifacts:
   - image: kieranbamforth/mhawk
+    custom:
+      buildCommand: ./build.sh
     sync:
       infer:
         - '**/*/*.js'
