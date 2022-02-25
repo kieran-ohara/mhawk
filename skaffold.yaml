@@ -24,4 +24,4 @@ build:
 deploy:
   kustomize:
     paths:
-      - kubernetes/dev
+      - kubernetes/base

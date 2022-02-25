@@ -2,6 +2,8 @@
 /.next/
 /build
 /dist
+/kubernetes/base/.env.config
+/kubernetes/base/.env.secret
 /next-env.d.ts
 /node_modules
 /out/

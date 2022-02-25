@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mhawk-deployment
+  namespace: mhawk
+  labels:
+    app.kubernetes.io/name: mhawk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mhawk
+  template:
+      metadata:
+        labels:
+          app: mhawk
+      spec:
+        containers:
+          - name: app
+            image: kieranbamforth/mhawk:54
+            ports:
+              - containerPort: 3000
+            envFrom:
+              - configMapRef:
+                  name: mhawk-configmap
+            env:
+              - name: DEBUG
+                value: mhawk-*
+              - name: MYSQL_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-secret
+                    key: MYSQL_PASSWORD
+              - name: MONZO_CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-secret
+                    key: MONZO_CLIENT_SECRET
+              - name: KIERAN_MONZO
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-secret
+                    key: KIERAN_MONZO
+              - name: ES_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: mhawk-secret
+                    key: ES_PASSWORD
+            resources:
+              limits:
+                memory: "400Mi"
+              requests:
+                cpu: 50m
+                memory: "300Mi"
+            securityContext:
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1000

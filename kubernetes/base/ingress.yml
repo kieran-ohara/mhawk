@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: mhawk-vservice
+  namespace: istio-system
+spec:
+  gateways:
+    - platform/default-gateway
+  hosts:
+  - mhawk.k8s.kieranbamforth.me
+  http:
+  - name: "mhawk"
+    route:
+    - destination:
+        host: mhawk-service.mhawk.svc.cluster.local
+        port:
+          number: 3000

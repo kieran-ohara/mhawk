@@ -1,4 +1,15 @@
+namespace: mhawk
 resources:
-  - ./01-namespace.yml
-  - ./02-deployment.yml
-  - ./03-service.yml
+  - ./namespace.yml
+  - ./deployment.yml
+  - ./service.yml
+  - ./ingress.yml
+
+configMapGenerator:
+  - name: mhawk-configmap
+    envs:
+      - .env.config
+secretGenerator:
+  - name: mhawk-secret
+    envs:
+      - .env.secret
