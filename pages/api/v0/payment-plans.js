@@ -2,10 +2,11 @@ import debug from 'debug';
 import { getSession } from 'next-auth/client';
 import {
   addPaymentPlans,
+  getAllPaymentPlans,
   getFinitePaymentPlans,
-  getPaymentPlans,
   getPaymentPlansActiveForPointInTime,
   getPaymentPlansWithTag,
+  getRecurringPaymentPlans,
   searchPaymentPlansByReference,
 } from '../../../lib/payment-plans';
 
@@ -23,13 +24,10 @@ const getController = async function getController(req, res) {
       content = await searchPaymentPlansByReference(req.query.search);
     } else if (req.query.has_end_date === 'true') {
       content = await getFinitePaymentPlans();
+    } else if (req.query.has_end_date === 'false') {
+      content = await getRecurringPaymentPlans();
     } else {
-      content = await getPaymentPlans((params) => {
-        if (req.query.has_end_date === 'false') {
-          return `WHERE ${params.plansTableName}.end_date IS NULL`;
-        }
-        return '';
-      });
+      content = getAllPaymentPlans();
     }
   } catch (error) {
     log(error);
