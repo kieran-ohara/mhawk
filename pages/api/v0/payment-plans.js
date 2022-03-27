@@ -2,6 +2,7 @@ import debug from 'debug';
 import { getSession } from 'next-auth/client';
 import {
   addPaymentPlans,
+  getFinitePaymentPlans,
   getPaymentPlans,
   getPaymentPlansActiveForPointInTime,
   getPaymentPlansWithTag,
@@ -20,11 +21,10 @@ const getController = async function getController(req, res) {
       content = await getPaymentPlansActiveForPointInTime(date);
     } else if (req.query.search) {
       content = await searchPaymentPlansByReference(req.query.search);
+    } else if (req.query.has_end_date === 'true') {
+      content = await getFinitePaymentPlans();
     } else {
       content = await getPaymentPlans((params) => {
-        if (req.query.has_end_date === 'true') {
-          return `WHERE ${params.plansTableName}.end_date IS NOT NULL`;
-        }
         if (req.query.has_end_date === 'false') {
           return `WHERE ${params.plansTableName}.end_date IS NULL`;
         }
