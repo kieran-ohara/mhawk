@@ -29,7 +29,7 @@ const columns = [
     width: 180,
     valueFormatter: (params) => {
       let string = `${params.getValue(params.id, 'payments_count')}`;
-      const dateDiff = params.getValue(params.id, 'date_diff_months');
+      const dateDiff = params.getValue(params.id, 'instalments');
       if (dateDiff !== null) {
         string = `${string}/${dateDiff}`;
       }
