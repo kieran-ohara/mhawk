@@ -50,10 +50,11 @@ const columns = [
     },
   },
   {
-    field: 'committed',
+    field: 'is_settled',
     type: 'boolean',
-    headerName: 'Committed',
-    width: 180,
+    headerName: 'Settled',
+    width: 122,
+    hide: true,
   },
 ];
 
