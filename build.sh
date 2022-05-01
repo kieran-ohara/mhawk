@@ -8,6 +8,6 @@ fi
 
 docker buildx build \
   --platform linux/amd64 \
-  --tag $IMAGE \
+  --tag "$IMAGE" \
   ${PUSH} \
-  $BUILD_CONTEXT
+  "$BUILD_CONTEXT"
