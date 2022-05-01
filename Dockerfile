@@ -3,8 +3,8 @@ FROM node:$NODE_VERSION-alpine
 
 WORKDIR /app
 
-ADD package.json ./
-ADD package-lock.json ./
+COPY package.json ./
+COPY package-lock.json ./
 
 RUN npm install
 
@@ -22,8 +22,7 @@ COPY .eslintrc.js ./.eslintrc.js
 
 RUN npm run build
 
-RUN rm -rf ./node_modules
-RUN npm install --production
+RUN rm -rf ./node_modules && npm install --production
 
 EXPOSE 3000
 
