@@ -4,10 +4,10 @@ import Fab from '@mui/material/Fab';
 import Tooltip from '@mui/material/Tooltip';
 import AddIcon from '@mui/icons-material/Add';
 
-import AppFrame from '../../components/app-frame';
-import PaymentPlanGrid from '../../containers/payment-plan-grid';
-import FabContainer from '../../components/fab-container';
-import CreateRucurringPaymentDialog from '../../components/create-recurring-payment-dialog';
+import AppFrame from '../components/app-frame';
+import PaymentPlanGrid from '../containers/payment-plan-grid';
+import FabContainer from '../components/fab-container';
+import CreateRucurringPaymentDialog from '../components/create-recurring-payment-dialog';
 
 const columns = [
   {
@@ -68,7 +68,7 @@ export default function RecurringPayments() {
 
   return (
     <>
-      <AppFrame title="Recurring Payments">
+      <AppFrame title="Subscriptions">
         <PaymentPlanGrid
           apiQueryParams={apiQueryParams}
           columns={columns}

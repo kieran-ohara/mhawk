@@ -18,7 +18,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
+import HomeIcon from '@mui/icons-material/Home';
 import EventIcon from '@mui/icons-material/Event';
 import MenuIcon from '@mui/icons-material/Menu';
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -136,24 +136,23 @@ function AppFrame(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        <ListSubheader>Live It</ListSubheader>
         <Link href="/monthly-outgoings">
           <ListItem button>
-            <ListItemIcon><EventIcon /></ListItemIcon>
-            <ListItemText primary="Monthly Outgoings" />
+            <ListItemIcon><HomeIcon /></ListItemIcon>
+            <ListItemText primary="Home" />
           </ListItem>
         </Link>
-        <ListSubheader>Plan It</ListSubheader>
-        <Link href="/payment-plans/finite">
+        <ListSubheader>Outgoings</ListSubheader>
+        <Link href="/payment-plans">
           <ListItem button>
-            <ListItemIcon><DoneAllIcon /></ListItemIcon>
-            <ListItemText primary="Finite Payments" />
+            <ListItemIcon><EventIcon /></ListItemIcon>
+            <ListItemText primary="Payment Plans" />
           </ListItem>
         </Link>
-        <Link href="/payment-plans/recurring">
+        <Link href="/subscriptions">
           <ListItem button>
             <ListItemIcon><ReplayIcon /></ListItemIcon>
-            <ListItemText primary="Recurring Payments" />
+            <ListItemText primary="Subscriptions" />
           </ListItem>
         </Link>
         <ListSubheader>Tags</ListSubheader>

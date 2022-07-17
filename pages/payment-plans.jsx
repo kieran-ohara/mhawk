@@ -6,13 +6,13 @@ import Tooltip from '@mui/material/Tooltip';
 import AddIcon from '@mui/icons-material/Add';
 import SaveIcon from '@mui/icons-material/Save';
 
-import AppFrame from '../../components/app-frame';
-import PaymentPlanGrid from '../../containers/payment-plan-grid';
-import FabContainer from '../../components/fab-container';
-import CreatePaymentPlanWithTotalDialog from '../../components/create-payment-plan-with-total';
+import AppFrame from '../components/app-frame';
+import PaymentPlanGrid from '../containers/payment-plan-grid';
+import FabContainer from '../components/fab-container';
+import CreatePaymentPlanWithTotalDialog from '../components/create-payment-plan-with-total';
 
-import usePaymentPlans from '../../hooks/payment-plans';
-import { renderDate } from '../../components/payment-plan';
+import usePaymentPlans from '../hooks/payment-plans';
+import { renderDate } from '../components/payment-plan';
 
 const columns = [
   {
@@ -124,7 +124,7 @@ export default function FinitePayments() {
 
   return (
     <>
-      <AppFrame title="Finite Payments">
+      <AppFrame title="Payment Plans">
         <PaymentPlanGrid
           apiQueryParams={{ has_end_date: true }}
           createMutationFilter={(mutation) => ('end_date' in mutation)}
