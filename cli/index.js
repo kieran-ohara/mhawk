@@ -33,7 +33,7 @@ const log = debug('mhawk-index');
       body: {
         id,
         datetime: now,
-        monthly_price,
+        monthly_price: parseFloat(monthly_price),
         start_date,
         end_date,
         reference,
