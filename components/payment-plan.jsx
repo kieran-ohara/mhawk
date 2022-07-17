@@ -71,8 +71,8 @@ const editColumns = (props) => [
     renderCell: (gridParams) => {
       const paymentPlan = {
         /* eslint-disable */
-        id: gridParams.value,
-        reference: gridParams.value,
+        id: gridParams.row.id,
+        reference: gridParams.row.reference,
         /* eslint-disable */
       };
       return (
