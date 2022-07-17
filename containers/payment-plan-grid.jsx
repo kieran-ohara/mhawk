@@ -17,6 +17,7 @@ export default function PaymentPlanGridContainer(props) {
     showEditButtons,
     isCellEditable,
     onEditCellChangeCommitted,
+    initialState = {},
   } = props;
 
   const [selectedPaymentPlanName, setSeletctedPaymentPlanName] = useState('');
@@ -91,6 +92,7 @@ export default function PaymentPlanGridContainer(props) {
         showEditButtons={showEditButtons}
         isCellEditable={isCellEditable}
         onEditCellChangeCommitted={onEditCellChangeCommitted}
+        initialState={initialState}
       />
       <TagsForm
         open={tagsFormOpen}

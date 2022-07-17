@@ -130,7 +130,14 @@ export default function FinitePayments() {
           createMutationFilter={(mutation) => ('end_date' in mutation)}
           columns={columns}
           showEditButtons="true"
-        />
+          initialState={{
+            filter: {
+              filterModel: {
+                items: [{ columnField: 'is_settled', operatorValue: 'is', value: 'false' }],
+              },
+            },
+          }}
+          />
         <FabContainer>
           <Tooltip title="Add with Total" aria-label="add">
             <Fab color="primary" aria-label="add" onClick={() => { setOpenDialogWithTotal(true); }}>

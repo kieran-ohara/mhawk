@@ -97,6 +97,7 @@ function PaymentPlanGrid(props) {
     showEditButtons = false,
     isCellEditable = () => false,
     onEditCellChangeCommitted = () => null,
+    initialState = {}
   } = props;
 
   let concatColumns = commonColumns
@@ -130,6 +131,7 @@ function PaymentPlanGrid(props) {
           }}
           isCellEditable={isCellEditable}
           onEditCellChangeCommitted={onEditCellChangeCommitted}
+          initialState={initialState}
         />
       </div>
     </div>
