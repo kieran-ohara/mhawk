@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import AppFrame from '../../components/app-frame';
 import PaymentPlanGrid from '../../containers/payment-plan-grid';
 
-const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !== null;
+const paymentHasEndDate = (params) => params.value !== null;
 
 const columns = [
   {

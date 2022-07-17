@@ -1,6 +1,6 @@
 import useSWR, { mutate } from 'swr';
 
-import LinearProgress from '@material-ui/core/LinearProgress';
+import LinearProgress from '@mui/material/LinearProgress';
 import { useState } from 'react';
 
 import usePaymentPlans from '../hooks/payment-plans';

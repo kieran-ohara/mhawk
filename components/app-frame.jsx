@@ -2,36 +2,36 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import AppBar from '@material-ui/core/AppBar';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Toolbar from '@material-ui/core/Toolbar';
+import AppBar from '@mui/material/AppBar';
+import Drawer from '@mui/material/Drawer';
+import Hidden from '@mui/material/Hidden';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Toolbar from '@mui/material/Toolbar';
 
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import ListSubheader from '@mui/material/ListSubheader';
 
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
-import EventIcon from '@material-ui/icons/Event';
-import MenuIcon from '@material-ui/icons/Menu';
-import ReplayIcon from '@material-ui/icons/Replay';
-import SearchIcon from '@material-ui/icons/Search';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import EventIcon from '@mui/icons-material/Event';
+import MenuIcon from '@mui/icons-material/Menu';
+import ReplayIcon from '@mui/icons-material/Replay';
+import SearchIcon from '@mui/icons-material/Search';
 
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
-import InputBase from '@material-ui/core/InputBase';
+import InputBase from '@mui/material/InputBase';
 
 import {
   makeStyles,
   useTheme,
-} from '@material-ui/core/styles';
+} from '@mui/styles';
 
 import { signOut } from 'next-auth/client';
 import TagsLinks from './tags-links';

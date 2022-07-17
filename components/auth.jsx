@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { useSession, signIn } from 'next-auth/client';
-import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@mui/styles';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const useStyles = makeStyles({
   container: {

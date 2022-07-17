@@ -1,10 +1,10 @@
 import React from 'react';
 import differenceInMonths from 'date-fns/differenceInMonths';
 
-import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
-import AddIcon from '@material-ui/icons/Add';
-import SaveIcon from '@material-ui/icons/Save';
+import Fab from '@mui/material/Fab';
+import Tooltip from '@mui/material/Tooltip';
+import AddIcon from '@mui/icons-material/Add';
+import SaveIcon from '@mui/icons-material/Save';
 
 import AppFrame from '../../components/app-frame';
 import PaymentPlanGrid from '../../containers/payment-plan-grid';
@@ -20,7 +20,7 @@ const columns = [
     type: 'date',
     headerName: 'End Date',
     width: 180,
-    valueFormatter: (params) => renderDate(new Date(params.getValue(params.id, 'end_date'))),
+    valueFormatter: (params) => renderDate(new Date(params.value)),
   },
   {
     field: 'payments_count',
@@ -28,8 +28,8 @@ const columns = [
     headerName: 'Payments Made',
     width: 180,
     valueFormatter: (params) => {
-      let string = `${params.getValue(params.id, 'payments_count')}`;
-      const dateDiff = params.getValue(params.id, 'instalments');
+      let string = `${params.value}`;
+      const dateDiff = params.value;
       if (dateDiff !== null) {
         string = `${string}/${dateDiff}`;
       }
@@ -42,7 +42,7 @@ const columns = [
     headerName: 'Total Paid',
     width: 180,
     valueFormatter: (params) => {
-      const string = `${params.getValue(params.id, 'payments_sum')}`;
+      const string = `${params.value}`;
       if (string !== 'null') {
         return `£${string}`;
       }

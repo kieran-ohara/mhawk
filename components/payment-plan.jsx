@@ -1,11 +1,11 @@
 import {
   DataGrid,
   GridToolbar,
-} from '@material-ui/data-grid';
-import LinearProgress from '@material-ui/core/LinearProgress';
+} from '@mui/x-data-grid';
+import LinearProgress from '@mui/material/LinearProgress';
 
-import IconButton from '@material-ui/core/IconButton';
-import LabelIcon from '@material-ui/icons/Label';
+import IconButton from '@mui/material/IconButton';
+import LabelIcon from '@mui/icons-material/Label';
 
 function renderDate(date) {
   if (date !== null) {
@@ -29,7 +29,9 @@ const commonColumns = [
     type: 'number',
     headerName: 'Monthly Price',
     width: 165,
-    valueFormatter: (params) => `£${params.getValue(params.id, 'monthly_price')}`,
+    valueFormatter: (params) => {
+      return `£${params.value}`
+    },
     editable: true,
   },
   {
@@ -38,7 +40,7 @@ const commonColumns = [
     hide: true,
     headerName: 'Start Date',
     width: 180,
-    valueFormatter: (params) => renderDate(new Date(params.getValue(params.id, 'start_date'))),
+    valueFormatter: (params) => renderDate(new Date(params.value)),
   },
 ];
 
@@ -49,7 +51,7 @@ const crudColumns = [
     hide: true,
     headerName: 'Created At',
     width: 180,
-    valueFormatter: (params) => renderDate(new Date(params.getValue(params.id, 'created_at'))),
+    valueFormatter: (params) => renderDate(new Date(params.value)),
   },
   {
     field: 'updated_at',
@@ -57,7 +59,7 @@ const crudColumns = [
     hide: true,
     headerName: 'Updated At',
     width: 180,
-    valueFormatter: (params) => renderDate(new Date(params.getValue(params.id, 'updated_at'))),
+    valueFormatter: (params) => renderDate(new Date(params.value)),
   },
 ];
 
@@ -69,8 +71,8 @@ const editColumns = (props) => [
     renderCell: (gridParams) => {
       const paymentPlan = {
         /* eslint-disable */
-        id: gridParams.getValue(gridParams.id, 'id'),
-        reference: gridParams.getValue(gridParams.id, 'reference'),
+        id: gridParams.value,
+        reference: gridParams.value,
         /* eslint-disable */
       };
       return (

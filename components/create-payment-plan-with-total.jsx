@@ -1,15 +1,18 @@
 import React from 'react';
 
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import DateFnsUtils from '@date-io/date-fns';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Grid from '@material-ui/core/Grid';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField from '@material-ui/core/TextField';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Grid from '@mui/material/Grid';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 export default function CreatePaymentPlanWithTotalDialog(props) {
   const {
@@ -76,9 +79,9 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
             value={totalPrice}
             onChange={onInputChanged(setTotalPrice)}
           />
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Grid container>
-              <KeyboardDatePicker
+              <DatePicker
                 disableToolbar
                 variant="inline"
                 margin="normal"
@@ -90,7 +93,7 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
                   'aria-label': 'change date',
                 }}
               />
-              <KeyboardDatePicker
+              <DatePicker
                 disableToolbar
                 variant="inline"
                 margin="normal"
@@ -103,7 +106,7 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
                 }}
               />
             </Grid>
-          </MuiPickersUtilsProvider>
+          </LocalizationProvider>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleCancel} color="primary">

@@ -1,11 +1,11 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import {
-  createMuiTheme,
+  createTheme,
   ThemeProvider,
-} from '@material-ui/core/styles';
-import pink from '@material-ui/core/colors/pink';
+} from '@mui/material/styles';
+import { pink } from '@mui/material/colors';
 
 import { Provider } from 'next-auth/client';
 import Auth from '../components/auth';
@@ -13,7 +13,7 @@ import Auth from '../components/auth';
 function App(props) {
   const { Component, pageProps } = props;
 
-  const darkTheme = createMuiTheme({
+  const darkTheme = createTheme({
     palette: {
       type: 'dark',
       primary: pink,

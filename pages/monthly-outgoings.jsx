@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 
 import { format, addMonths, subMonths } from 'date-fns';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@mui/styles';
+import Grid from '@mui/material/Grid';
 
 import AppFrame from '../components/app-frame';
 import Chart from '../components/chart';

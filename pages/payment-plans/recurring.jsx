@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
-import AddIcon from '@material-ui/icons/Add';
+import Fab from '@mui/material/Fab';
+import Tooltip from '@mui/material/Tooltip';
+import AddIcon from '@mui/icons-material/Add';
 
 import AppFrame from '../../components/app-frame';
 import PaymentPlanGrid from '../../containers/payment-plan-grid';
