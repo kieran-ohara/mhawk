@@ -14,6 +14,13 @@ const columns = [
       return !paymentHasEndDate(params);
     },
   },
+  {
+    field: 'is_settled',
+    type: 'boolean',
+    headerName: 'Settled',
+    width: 122,
+    hide: true,
+  },
 ];
 
 export default function TaggedPaymentPlans() {
@@ -29,6 +36,13 @@ export default function TaggedPaymentPlans() {
       <PaymentPlanGrid
         apiQueryParams={apiQueryParams}
         columns={columns}
+        initialState={{
+          filter: {
+            filterModel: {
+              items: [{ columnField: 'is_settled', operatorValue: 'is', value: 'false' }],
+            },
+          },
+        }}
       />
     </AppFrame>
   );
