@@ -132,6 +132,7 @@ function PaymentPlanGrid(props) {
           isCellEditable={isCellEditable}
           onEditCellChangeCommitted={onEditCellChangeCommitted}
           initialState={initialState}
+          pageSize={100}
         />
       </div>
     </div>
