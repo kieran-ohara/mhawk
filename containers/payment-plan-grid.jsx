@@ -9,6 +9,12 @@ import { PaymentPlanGrid } from '../components/payment-plan';
 import useTags from '../hooks/tags';
 import TagsForm from '../components/tags-form';
 
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import LabelIcon from '@mui/icons-material/Label';
+import ListItemText from '@mui/material/ListItemText';
+
 export default function PaymentPlanGridContainer(props) {
   const {
     apiQueryParams,
@@ -24,6 +30,9 @@ export default function PaymentPlanGridContainer(props) {
   const [selectedPaymentPlanId, setSelectedPaymentPlanId] = useState(1);
 
   const [tagsFormOpen, setTagsFormOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
 
   const {
     paymentPlans,
@@ -51,10 +60,20 @@ export default function PaymentPlanGridContainer(props) {
     );
   }
 
-  const handleTagsClick = (paymentPlan) => {
+  const handleMoreClick = (paymentPlan, event) => {
     const { id, reference } = paymentPlan;
     setSeletctedPaymentPlanName(reference);
     setSelectedPaymentPlanId(id);
+    setAnchorEl(event.currentTarget)
+    setMenuOpen(true);
+  }
+
+  const handleMenuClose = () => {
+    setMenuOpen(false);
+  }
+
+  const handleTagsClick = (paymentPlan, event) => {
+    setMenuOpen(false);
     setTagsFormOpen(true);
   };
 
@@ -88,12 +107,28 @@ export default function PaymentPlanGridContainer(props) {
       <PaymentPlanGrid
         data={paymentPlans}
         columns={columns}
-        handleTagsClick={handleTagsClick}
+        handleTagsClick={handleMoreClick}
         showEditButtons={showEditButtons}
         isCellEditable={isCellEditable}
         onEditCellChangeCommitted={onEditCellChangeCommitted}
         initialState={initialState}
       />
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={menuOpen}
+        onClose={handleMenuClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={handleTagsClick}>
+          <ListItemIcon>
+            <LabelIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Tags</ListItemText>
+        </MenuItem>
+      </Menu>
       <TagsForm
         open={tagsFormOpen}
         loading={!paymentPlanTagsErr && !paymentPlanTags}

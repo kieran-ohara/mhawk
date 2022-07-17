@@ -5,7 +5,7 @@ import {
 import LinearProgress from '@mui/material/LinearProgress';
 
 import IconButton from '@mui/material/IconButton';
-import LabelIcon from '@mui/icons-material/Label';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 function renderDate(date) {
   if (date !== null) {
@@ -66,7 +66,7 @@ const crudColumns = [
 const editColumns = (props) => [
   {
     field: 'tags',
-    headerName: 'Tags',
+    headerName: 'Actions',
     width: 120,
     renderCell: (gridParams) => {
       const paymentPlan = {
@@ -82,7 +82,7 @@ const editColumns = (props) => [
           style={{ marginLeft: 16 }}
           onClick={(event) => props.handleTagsClick(paymentPlan, event)}
         >
-          <LabelIcon />
+          <MoreVertIcon />
         </IconButton>
       );
     },
