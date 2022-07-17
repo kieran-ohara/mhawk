@@ -23,6 +23,7 @@ import EventIcon from '@mui/icons-material/Event';
 import MenuIcon from '@mui/icons-material/Menu';
 import ReplayIcon from '@mui/icons-material/Replay';
 import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
 
 import Typography from '@mui/material/Typography';
 
@@ -32,8 +33,10 @@ import {
   makeStyles,
   useTheme,
 } from '@mui/styles';
-
 import { signOut } from 'next-auth/client';
+import useSubscriptions from '../hooks/subscriptions';
+import CreateRucurringPaymentDialog from './create-recurring-payment-dialog';
+
 import TagsLinks from './tags-links';
 
 const drawerWidth = 240;
@@ -118,6 +121,7 @@ function AppFrame(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  // Handle user-menu
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleMenu = (event) => {
@@ -129,6 +133,39 @@ function AppFrame(props) {
   const handleClose = () => {
     signOut();
     setAnchorEl(null);
+  };
+
+  // Handle add-menu
+  const [addMenuOpen, setAddMenuOpen] = React.useState(false);
+  const [addMenuEl, setAddMenuEl] = React.useState(false);
+  const handleAddMenuClick = (event) => {
+    setAddMenuEl(event.eventTarget);
+    setAddMenuOpen(true);
+  };
+  const handleAddMenuClose = () => {
+    setAddMenuEl(null);
+    setAddMenuOpen(false);
+  };
+
+  // Handle new subscription
+  const {
+    create: createSubscription,
+    mutate: mutateSubscriptions,
+  } = useSubscriptions();
+  const [newSubscriptionOpen, setNewSubscriptionOpen] = React.useState(false);
+
+  const handleNewSubscriptionClick = () => {
+    setAddMenuOpen(false);
+    setNewSubscriptionOpen(true);
+  };
+  const handleNewSubscriptionOk = async (newSubscriptionData) => {
+    setNewSubscriptionOpen(false);
+    await createSubscription(newSubscriptionData);
+    mutateSubscriptions();
+  };
+
+  const handleNewSubscriptionCancel = () => {
+    setNewSubscriptionOpen(false);
   };
 
   const drawer = (
@@ -204,6 +241,34 @@ function AppFrame(props) {
               />
             </div>
             <div>
+
+              <IconButton
+                aria-label="add new outgoing"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleAddMenuClick}
+                color="inherit"
+              >
+                <AddIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={addMenuEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={addMenuOpen}
+                onClose={handleAddMenuClose}
+              >
+                <MenuItem onClick={handleNewSubscriptionClick}>New Subscription&hellip;</MenuItem>
+              </Menu>
+
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -269,6 +334,11 @@ function AppFrame(props) {
           <div style={{ height: 'calc(100vh - 64px)' }}>
             {children}
           </div>
+          <CreateRucurringPaymentDialog
+            handleOk={handleNewSubscriptionOk}
+            open={newSubscriptionOpen}
+            handleCancel={handleNewSubscriptionCancel}
+          />
         </main>
       </div>
     </>
