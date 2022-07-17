@@ -1,0 +1,51 @@
+{
+  "settings": {
+    "analysis": {
+
+      "tokenizer": {
+        "my_tokenizer": {
+          "type": "ngram",
+          "min_gram": 3,
+          "max_gram": 3,
+          "token_chars": [
+            "letter",
+            "digit"
+          ]
+        }
+      },
+
+      "analyzer": {
+        "my_custom_analyzer": {
+          "tokenizer": "my_tokenizer",
+          "filter": [
+            "lowercase", "asciifolding"
+          ]
+        }
+      }
+
+    }
+  },
+  "mappings": {
+    "properties": {
+      "monthly_price": {
+        "type": "float"
+      },
+      "end_date": {
+        "type": "date"
+      },
+      "reference": {
+        "type": "text",
+        "analyzer": "my_custom_analyzer"
+      },
+      "id": {
+        "type": "long"
+      },
+      "datetime": {
+        "type": "date"
+      },
+      "start_date": {
+        "type": "date"
+      }
+    }
+  }
+}
