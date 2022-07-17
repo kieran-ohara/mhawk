@@ -30,7 +30,7 @@ const commonColumns = [
     headerName: 'Monthly Price',
     width: 165,
     valueFormatter: (params) => {
-      return `£${params.value}`
+      return `£${params.value}`;
     },
     editable: true,
   },

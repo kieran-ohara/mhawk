@@ -137,7 +137,7 @@ export default function FinitePayments() {
               },
             },
           }}
-          />
+        />
         <FabContainer>
           <Tooltip title="Add with Total" aria-label="add">
             <Fab color="primary" aria-label="add" onClick={() => { setOpenDialogWithTotal(true); }}>

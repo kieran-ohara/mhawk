@@ -3,17 +3,15 @@ import useSWR, { mutate } from 'swr';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useState } from 'react';
 
-import usePaymentPlans from '../hooks/payment-plans';
-import { PaymentPlanGrid } from '../components/payment-plan';
-
-import useTags from '../hooks/tags';
-import TagsForm from '../components/tags-form';
-
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import LabelIcon from '@mui/icons-material/Label';
 import ListItemText from '@mui/material/ListItemText';
+import TagsForm from '../components/tags-form';
+import useTags from '../hooks/tags';
+import { PaymentPlanGrid } from '../components/payment-plan';
+import usePaymentPlans from '../hooks/payment-plans';
 
 export default function PaymentPlanGridContainer(props) {
   const {
@@ -32,7 +30,6 @@ export default function PaymentPlanGridContainer(props) {
   const [tagsFormOpen, setTagsFormOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-
 
   const {
     paymentPlans,
@@ -64,15 +61,15 @@ export default function PaymentPlanGridContainer(props) {
     const { id, reference } = paymentPlan;
     setSeletctedPaymentPlanName(reference);
     setSelectedPaymentPlanId(id);
-    setAnchorEl(event.currentTarget)
+    setAnchorEl(event.currentTarget);
     setMenuOpen(true);
-  }
+  };
 
   const handleMenuClose = () => {
     setMenuOpen(false);
-  }
+  };
 
-  const handleTagsClick = (paymentPlan, event) => {
+  const handleTagsClick = () => {
     setMenuOpen(false);
     setTagsFormOpen(true);
   };
