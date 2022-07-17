@@ -7,6 +7,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import LabelIcon from '@mui/icons-material/Label';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ListItemText from '@mui/material/ListItemText';
 import TagsForm from '../components/tags-form';
 import useTags from '../hooks/tags';
@@ -99,6 +100,18 @@ export default function PaymentPlanGridContainer(props) {
     paymentPlansMutate();
   };
 
+  const handleDeleteClick = async () => {
+    await fetch(
+      `/api/v0/payment-plan/${selectedPaymentPlanId}`,
+      {
+        method: 'DELETE',
+      },
+    );
+    mutate(['paymentPlanTags', selectedPaymentPlanId]);
+    paymentPlansMutate();
+    setMenuOpen(false);
+  };
+
   return (
     <>
       <PaymentPlanGrid
@@ -124,6 +137,12 @@ export default function PaymentPlanGridContainer(props) {
             <LabelIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>Tags</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={handleDeleteClick}>
+          <ListItemIcon>
+            <DeleteIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Delete</ListItemText>
         </MenuItem>
       </Menu>
       <TagsForm
