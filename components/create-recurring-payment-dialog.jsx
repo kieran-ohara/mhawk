@@ -10,8 +10,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 export default function CreatePaymentPlanWithTotalDialog(props) {
   const {
@@ -74,22 +72,21 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
             value={monthlyPrice}
             onChange={onInputChanged(setMonthlyPrice)}
           />
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Grid container>
-              <DatePicker
-                disableToolbar
-                variant="inline"
-                margin="normal"
-                id="date-picker-inline"
-                label="Start Date"
-                value={startDate}
-                onChange={onDateChanged(setStartDate)}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </Grid>
-          </LocalizationProvider>
+          <Grid container>
+            <DatePicker
+              disableToolbar
+              variant="inline"
+              margin="normal"
+              id="date-picker-inline"
+              label="Start Date"
+              value={startDate}
+              onChange={onDateChanged(setStartDate)}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleCancel} color="primary">

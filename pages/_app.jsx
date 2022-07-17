@@ -7,6 +7,9 @@ import {
 } from '@mui/material/styles';
 import { pink } from '@mui/material/colors';
 
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
 import { Provider } from 'next-auth/client';
 import Auth from '../components/auth';
 
@@ -26,7 +29,9 @@ function App(props) {
         <CssBaseline />
         <Provider session={pageProps.session}>
           <Auth>
-            <Component {...pageProps} />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Component {...pageProps} />
+            </LocalizationProvider>
           </Auth>
         </Provider>
       </ThemeProvider>
