@@ -1,8 +1,28 @@
 import debug from 'debug';
 import { getSession } from 'next-auth/client';
-import { updatePaymentPlan, deletePaymentPlan } from '../../../../lib/payment-plans';
+import { getPaymentPlansWithIds, updatePaymentPlan, deletePaymentPlan } from '../../../../lib/payment-plans';
+import { getTagsForPaymentPlan } from '../../../../lib/tags';
 
 const log = debug('mhawk-payment-plans');
+
+const getController = async function postController(req, res) {
+  try {
+    const { id } = req.query;
+    return Promise.all([
+      getPaymentPlansWithIds([id]),
+      getTagsForPaymentPlan(id)
+    ]).then((data) => {
+        const [paymentPlan, tags] = data;
+        return res.status(200).json({
+          ...paymentPlan[0],
+          tags
+        });
+      }).catch(error => {throw error});
+  } catch (error) {
+    log(error);
+    return res.status(500).end();
+  }
+};
 
 const patchController = async function postController(req, res) {
   try {
@@ -34,6 +54,8 @@ export default async function handler(req, res) {
   }
 
   switch (method) {
+    case 'GET':
+      return getController(req, res);
     case 'PATCH':
       return patchController(req, res);
     case 'DELETE':
