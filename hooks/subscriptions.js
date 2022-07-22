@@ -3,7 +3,7 @@ import useSWR, { mutate as swrMutate } from 'swr';
 // eslint-disable-next-line
 export default function useSubscriptions() {
   const getSubscriptionsUrl = '/api/v0/payment-plans?has_end_date=false';
-  const { data, error } = useSWR(getSubscriptionsUrl, async (url) => {
+  const { data, error, mutate } = useSWR(getSubscriptionsUrl, async (url) => {
     const response = await fetch(url)
     return response.json();
   });
@@ -34,10 +34,6 @@ export default function useSubscriptions() {
     );
     mutate();
   }
-
-  const mutate = () => {
-    swrMutate(getSubscriptionsUrl);
-  };
 
   return {
     create,
