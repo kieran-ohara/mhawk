@@ -34,7 +34,7 @@ import {
   useTheme,
 } from '@mui/styles';
 import { signOut } from 'next-auth/client';
-import useSubscriptions from '../hooks/subscriptions';
+import { useSubscriptions } from '../hooks/subscriptions';
 import CreateRucurringPaymentDialog from './create-recurring-payment-dialog';
 
 import TagsLinks from './tags-links';
