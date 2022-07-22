@@ -124,7 +124,6 @@ function PaymentPlanGrid(props) {
         <DataGrid
           rows={data}
           columns={concatColumns}
-          pageSize={25}
           density="compact"
           components={{
             Toolbar: GridToolbar,
