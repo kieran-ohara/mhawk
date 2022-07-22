@@ -27,12 +27,21 @@ export default function useSubscriptions() {
     });
   };
 
+  const deleteSubscription = async(id) => {
+    await fetch(
+      `/api/v0/payment-plan/${id}`,
+      { method: 'DELETE' },
+    );
+    mutate();
+  }
+
   const mutate = () => {
     swrMutate(getSubscriptionsUrl);
   };
 
   return {
     create,
+    deleteSubscription,
     subscriptions: data,
     isLoading: !error && !data,
     isError: error,
