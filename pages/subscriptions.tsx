@@ -10,29 +10,19 @@ import PaymentTags from '../containers/payment-tags';
 
 export default function RecurringPayments() {
 
-  // const isCellEditable = (params) => {
-  //   return params.colDef.field === 'monthly_price';
-  // };
-  // const onEditCellChangeCommitted = (params) => {
-  //   const { id, field, props } = params;
-  //   const data = {};
-  //   data[field] = props.value;
-  //   fetch(`/api/v0/payment-plan/${id}`, {
-  //     method: 'PATCH',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(data),
-  //   });
-  // };
-
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const [tagsOpen, setTagsOpen] = useState(false);
 
   const {subscriptions, isLoading, deleteSubscription } = useSubscriptions();
 
   const [subscriptionId, setSubscriptionId] = useState(null);
-  const {subscription, isLoading: subscriptionLoading, addTag, removeTag} = useSubscription(subscriptionId);
+  const {
+    subscription,
+      isLoading: subscriptionLoading,
+      addTag,
+      removeTag,
+      update: updateSubscription
+  } = useSubscription(subscriptionId);
 
   const handlePaymentTagsClick = () => {
     setMenuAnchorEl(null)
@@ -57,6 +47,21 @@ export default function RecurringPayments() {
     }
   }
 
+  const handleIsCellEditable = (params) => {
+    return params.colDef.field === 'monthly_price';
+  };
+
+  const handleProcessRowUpdate = async (after, before) => {
+    const { monthly_price } = after;
+    await updateSubscription({
+      monthly_price
+    });
+    return after;
+  };
+
+  const handleProcessRowUpdateError = async () => {
+  }
+
   const columns = createPaymentsGridColumns({
     columns: [
       {
@@ -76,7 +81,9 @@ export default function RecurringPayments() {
           data={subscriptions}
           dataIsLoading={isLoading}
           columns={columns}
-          onEditCellChangeCommitted={() => {}}
+          isCellEditable={handleIsCellEditable}
+          processRowUpdate={handleProcessRowUpdate}
+          onProcessRowUpdateError={handleProcessRowUpdateError}
           onCellClick={event => setSubscriptionId(event.row.id)}
           />
         <PaymentMoreMenu

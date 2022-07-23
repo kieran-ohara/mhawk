@@ -84,7 +84,18 @@ const useSubscription = (id) => {
     }
   }
 
+  const update = (data) => {
+    return fetch(`/api/v0/payment-plan/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  }
+
   return {
+    update,
     subscription: data,
     isLoading: !error && !data,
     isError: error,

@@ -92,9 +92,11 @@ const PaymentsGrid = (props) => {
     data,
     dataIsLoading,
     columns,
-    isCellEditable = () => false,
-    initialState = {},
+    isCellEditable,
+    processRowUpdate,
+    onProcessRowUpdateError,
     onCellClick = () => { },
+    initialState = {},
   } = props;
 
 
@@ -118,9 +120,12 @@ const PaymentsGrid = (props) => {
               Toolbar: GridToolbar,
             }}
             isCellEditable={isCellEditable}
+            processRowUpdate={processRowUpdate}
+            onProcessRowUpdateError={onProcessRowUpdateError}
             initialState={initialState}
             pageSize={100}
             onCellClick={onCellClick}
+            experimentalFeatures={{ newEditingApi: true }}
           />
         </div>
       </div>
