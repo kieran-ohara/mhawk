@@ -12,7 +12,7 @@ import ListItemText from '@mui/material/ListItemText';
 import TagsForm from '../components/tags-form';
 import useTags from '../hooks/tags';
 import { PaymentPlanGrid } from '../components/payment-plan';
-import usePaymentPlans from '../hooks/payment-plans';
+import usePaymentPlans from '../hooks/payment-plans-old';
 
 export default function PaymentPlanGridContainer(props) {
   const {
