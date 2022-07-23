@@ -15,7 +15,21 @@ import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export default function CreatePaymentPlanDialog(props) {
+export interface CreatePaymentPlanOkResult {
+  reference: string,
+  amount: number;
+  amountType: string;
+  startDate: any
+  endDate: any
+}
+
+export interface CreatePaymentDialogProps {
+  open: boolean,
+  handleOk: (event: any, result: CreatePaymentPlanOkResult) => void,
+  handleCancel: Function,
+}
+
+export default function CreatePaymentPlanDialog(props: CreatePaymentDialogProps) {
   const {
     open, handleOk: handleOkProp, handleCancel,
   } = props;
