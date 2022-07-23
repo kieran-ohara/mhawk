@@ -37,7 +37,7 @@ import { signOut } from 'next-auth/client';
 import { useSubscriptions } from '../hooks/subscriptions';
 
 import CreateRucurringPaymentDialog from './create-recurring-payment-dialog';
-import CreatePaymentPlanDialog from './create-payment-plan';
+import {default as CreatePaymentPlanDialog, CreatePaymentPlanOkResult } from './create-payment-plan';
 
 import TagsLinks from './tags-links';
 
@@ -177,7 +177,7 @@ function AppFrame(props) {
     setNewPaymentPlanOpen(true)
     setAddMenuOpen(false)
   }
-  const handleNewPaymentPlanOk = (event, paymentPlan) => {
+  const handleNewPaymentPlanOk = (event, paymentPlan: CreatePaymentPlanOkResult) => {
     console.log(event, paymentPlan)
     setNewPaymentPlanOpen(false)
   }
