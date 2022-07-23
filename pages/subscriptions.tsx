@@ -8,7 +8,7 @@ import { useSubscriptions, useSubscription } from '../hooks/subscriptions';
 import PaymentMoreIcon from '../components/payment-more-icon';
 import PaymentTags from '../containers/payment-tags';
 
-export default function RecurringPayments() {
+export default function Subscriptions() {
 
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const [tagsOpen, setTagsOpen] = useState(false);
