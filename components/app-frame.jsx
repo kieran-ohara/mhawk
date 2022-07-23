@@ -35,7 +35,9 @@ import {
 } from '@mui/styles';
 import { signOut } from 'next-auth/client';
 import { useSubscriptions } from '../hooks/subscriptions';
+
 import CreateRucurringPaymentDialog from './create-recurring-payment-dialog';
+import CreatePaymentPlanDialog from './create-payment-plan';
 
 import TagsLinks from './tags-links';
 
@@ -168,6 +170,18 @@ function AppFrame(props) {
     setNewSubscriptionOpen(false);
   };
 
+  // Handle new payment plan
+  const [newPaymentPlanOpen, setNewPaymentPlanOpen] = React.useState(false);
+
+  const handleNewPaymentPlanClick = () => {
+    setNewPaymentPlanOpen(true)
+    setAddMenuOpen(false)
+  }
+  const handleNewPaymentPlanOk = (event, paymentPlan) => {
+    console.log(event, paymentPlan)
+    setNewPaymentPlanOpen(false)
+  }
+
   const drawer = (
     <div>
       <div className={classes.toolbar} />
@@ -266,6 +280,7 @@ function AppFrame(props) {
                 open={addMenuOpen}
                 onClose={handleAddMenuClose}
               >
+                <MenuItem onClick={handleNewPaymentPlanClick}>New Payment Plan&hellip;</MenuItem>
                 <MenuItem onClick={handleNewSubscriptionClick}>New Subscription&hellip;</MenuItem>
               </Menu>
 
@@ -338,6 +353,11 @@ function AppFrame(props) {
             handleOk={handleNewSubscriptionOk}
             open={newSubscriptionOpen}
             handleCancel={handleNewSubscriptionCancel}
+          />
+          <CreatePaymentPlanDialog
+            open={newPaymentPlanOpen}
+            handleOk={handleNewPaymentPlanOk}
+            handleCancel={() => setNewPaymentPlanOpen(false)}
           />
         </main>
       </div>
