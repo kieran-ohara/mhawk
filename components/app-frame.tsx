@@ -35,7 +35,10 @@ import { signOut } from "next-auth/client";
 import { useSubscriptions } from "../hooks/subscriptions";
 import { usePaymentPlans } from "../hooks/payment-plans";
 
-import CreateSubscriptionDialog from "./create-subscription-dialog";
+import {
+  default as CreateSubscriptionDialog ,
+  CreateSubscriptionOkResult,
+} from "./create-subscription-dialog";
 import {
   default as CreatePaymentPlanDialog,
   CreatePaymentPlanOkResult,
@@ -162,7 +165,7 @@ function AppFrame(props: any) {
     setAddMenuOpen(false);
     setNewSubscriptionOpen(true);
   };
-  const handleNewSubscriptionOk = async (newSubscriptionData: any) => {
+  const handleNewSubscriptionOk = async (event: MouseEvent<HTMLElement>, newSubscriptionData: CreateSubscriptionOkResult) => {
     setNewSubscriptionOpen(false);
     await createSubscription(newSubscriptionData);
     mutateSubscriptions();
