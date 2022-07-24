@@ -9,30 +9,22 @@ const useOutgoing = (id: number) => {
     }
   });
 
-  const addTag = async (tagId: number) => {
-    try {
-      await fetch(`/api/v0/payment-plan/${id}/tags`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          tag_id: tagId,
-        }),
-      });
-    } finally {
-      mutate();
-    }
+  const addTag = (tagId: number) => {
+    return fetch(`/api/v0/payment-plan/${id}/tags`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        tag_id: tagId,
+      }),
+    });
   };
 
-  const removeTag = async (tagId: number) => {
-    try {
-      await fetch(`/api/v0/payment-plan/${id}/tag/${tagId}`, {
-        method: "DELETE",
-      });
-    } finally {
-      mutate();
-    }
+  const removeTag = (tagId: number) => {
+    return fetch(`/api/v0/payment-plan/${id}/tag/${tagId}`, {
+      method: "DELETE",
+    });
   };
 
   const update = (data) => {
