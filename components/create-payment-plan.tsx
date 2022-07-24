@@ -15,10 +15,15 @@ import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
+export enum AmountType {
+  MONTHLY,
+  TOTAL,
+}
+
 export interface CreatePaymentPlanOkResult {
   reference: string,
   amount: number;
-  amountType: string;
+  amountType: AmountType;
   startDate: any
   endDate: any
 }
@@ -41,10 +46,24 @@ export default function CreatePaymentPlanDialog(props: CreatePaymentDialogProps)
   const [endDate, setEndDate] = React.useState(new Date());
 
   const handleOk = (event) => {
+    let amountTypeToEnum = null;
+    switch (amountType) {
+      case "monthly":
+        amountTypeToEnum = AmountType.MONTHLY;
+        break;
+      case "total":
+        amountTypeToEnum = AmountType.TOTAL;
+        break;
+    }
+
+    if (amountTypeToEnum === null) {
+      throw new Error(`Could not convert amount type "${amountType}" to enum.`)
+    }
+
     handleOkProp(event, {
       reference,
       amount: totalPrice,
-      amountType,
+      amountType: amountTypeToEnum,
       startDate,
       endDate,
     });

@@ -35,9 +35,14 @@ import {
 } from '@mui/styles';
 import { signOut } from 'next-auth/client';
 import { useSubscriptions } from '../hooks/subscriptions';
+import { usePaymentPlans } from '../hooks/payment-plans';
 
 import CreateRucurringPaymentDialog from './create-recurring-payment-dialog';
-import {default as CreatePaymentPlanDialog, CreatePaymentPlanOkResult } from './create-payment-plan';
+import {
+  default as CreatePaymentPlanDialog,
+  CreatePaymentPlanOkResult,
+  AmountType
+} from './create-payment-plan';
 
 import TagsLinks from './tags-links';
 
@@ -173,12 +178,28 @@ function AppFrame(props) {
   // Handle new payment plan
   const [newPaymentPlanOpen, setNewPaymentPlanOpen] = React.useState(false);
 
+  const { create: createPaymentPlan } = usePaymentPlans();
+
   const handleNewPaymentPlanClick = () => {
     setNewPaymentPlanOpen(true)
     setAddMenuOpen(false)
   }
-  const handleNewPaymentPlanOk = (event, paymentPlan: CreatePaymentPlanOkResult) => {
+
+  const handleNewPaymentPlanOk = async (event, paymentPlan: CreatePaymentPlanOkResult) => {
     console.log(event, paymentPlan)
+    const { reference, amount, startDate, endDate, amountType  } = paymentPlan;
+
+    if (amountType === AmountType.MONTHLY) {
+    await createPaymentPlan({
+      reference,
+      amount,
+      startDate,
+      endDate,
+    });
+    } else if (amountType === AmountType.TOTAL) {
+      console.log('Total Not Supported');
+    }
+
     setNewPaymentPlanOpen(false)
   }
 
