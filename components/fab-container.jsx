@@ -1,11 +1,11 @@
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    position: 'absolute',
+    position: "absolute",
     bottom: theme.spacing(2),
     right: theme.spacing(2),
-    '& > *': {
+    "& > *": {
       marginRight: theme.spacing(2),
     },
   },
@@ -14,12 +14,7 @@ const useStyles = makeStyles((theme) => ({
 const FabContainer = (props) => {
   const { children } = props;
   const classes = useStyles();
-  return (
-
-    <div className={classes.root}>
-      {children}
-    </div>
-  );
+  return <div className={classes.root}>{children}</div>;
 };
 
 export default FabContainer;

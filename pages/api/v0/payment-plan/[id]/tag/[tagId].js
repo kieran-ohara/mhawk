@@ -1,8 +1,8 @@
-import debug from 'debug';
-import { getSession } from 'next-auth/client';
-import { untagPaymentPlan } from '../../../../../../lib/tags';
+import debug from "debug";
+import { getSession } from "next-auth/client";
+import { untagPaymentPlan } from "../../../../../../lib/tags";
 
-const log = debug('mhawk-payment-plans');
+const log = debug("mhawk-payment-plans");
 
 const deleteController = async function postController(req, res) {
   try {
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   }
 
   switch (method) {
-    case 'DELETE':
+    case "DELETE":
       return deleteController(req, res);
     default:
       return res.status(400).end();

@@ -1,33 +1,27 @@
-import React from 'react';
+import React from "react";
 
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 
-import Checkbox from '@mui/material/Checkbox';
+import Checkbox from "@mui/material/Checkbox";
 
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import FormLabel from '@mui/material/FormLabel';
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import FormLabel from "@mui/material/FormLabel";
 
-import useTags from '../hooks/tags';
+import useTags from "../hooks/tags";
 
 export default function TagsForm(props) {
-  const {
-    open,
-    paymentLoading,
-    payment,
-    onTagChecked,
-    onClose,
-  } = props;
+  const { open, paymentLoading, payment, onTagChecked, onClose } = props;
 
   const { tags, isLoading: tagsLoading } = useTags();
 
   if (paymentLoading || tagsLoading) {
-    return <></>
+    return <></>;
   }
 
   const checkboxes = () => {
@@ -43,14 +37,14 @@ export default function TagsForm(props) {
           return (
             <FormControlLabel
               key={value.slug}
-              control={(
+              control={
                 <Checkbox
                   name={value.name}
                   value={value.id}
                   onChange={(event) => onTagChecked(event)}
                   {...extraProps}
                 />
-              )}
+              }
               label={value.name}
             />
           );
@@ -71,9 +65,7 @@ export default function TagsForm(props) {
         <DialogContent dividers>
           <FormControl component="fieldset">
             <FormLabel component="legend">{`Select tags for ${payment.reference}`}</FormLabel>
-            <FormGroup>
-              {checkboxes()}
-            </FormGroup>
+            <FormGroup>{checkboxes()}</FormGroup>
           </FormControl>
         </DialogContent>
         <DialogActions>

@@ -1,8 +1,8 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import React from "react";
+import { useRouter } from "next/router";
 
-import AppFrame from '../components/app-frame';
-import PaymentPlanGrid from '../containers/payment-plan-grid';
+import AppFrame from "../components/app-frame";
+import PaymentPlanGrid from "../containers/payment-plan-grid";
 
 const columns = [];
 

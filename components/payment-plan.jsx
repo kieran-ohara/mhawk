@@ -1,33 +1,30 @@
-import {
-  DataGrid,
-  GridToolbar,
-} from '@mui/x-data-grid';
-import LinearProgress from '@mui/material/LinearProgress';
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import LinearProgress from "@mui/material/LinearProgress";
 
-import IconButton from '@mui/material/IconButton';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import IconButton from "@mui/material/IconButton";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 function renderDate(date) {
   if (date !== null) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleString('en-GB', options);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return date.toLocaleString("en-GB", options);
   }
-  return '';
+  return "";
 }
 
 const commonColumns = [
   {
-    field: 'id',
-    type: 'number',
+    field: "id",
+    type: "number",
     hide: true,
-    headerName: 'ID',
+    headerName: "ID",
     width: 90,
   },
-  { field: 'reference', headerName: 'Reference', width: 160 },
+  { field: "reference", headerName: "Reference", width: 160 },
   {
-    field: 'monthly_price',
-    type: 'number',
-    headerName: 'Monthly Price',
+    field: "monthly_price",
+    type: "number",
+    headerName: "Monthly Price",
     width: 165,
     valueFormatter: (params) => {
       return `£${params.value}`;
@@ -35,10 +32,10 @@ const commonColumns = [
     editable: true,
   },
   {
-    field: 'start_date',
-    type: 'date',
+    field: "start_date",
+    type: "date",
     hide: true,
-    headerName: 'Start Date',
+    headerName: "Start Date",
     width: 180,
     valueFormatter: (params) => renderDate(new Date(params.value)),
   },
@@ -46,18 +43,18 @@ const commonColumns = [
 
 const crudColumns = [
   {
-    field: 'created_at',
-    type: 'date',
+    field: "created_at",
+    type: "date",
     hide: true,
-    headerName: 'Created At',
+    headerName: "Created At",
     width: 180,
     valueFormatter: (params) => renderDate(new Date(params.value)),
   },
   {
-    field: 'updated_at',
-    type: 'date',
+    field: "updated_at",
+    type: "date",
     hide: true,
-    headerName: 'Updated At',
+    headerName: "Updated At",
     width: 180,
     valueFormatter: (params) => renderDate(new Date(params.value)),
   },
@@ -65,8 +62,8 @@ const crudColumns = [
 
 const editColumns = (props) => [
   {
-    field: 'tags',
-    headerName: 'Actions',
+    field: "tags",
+    headerName: "Actions",
     width: 120,
     renderCell: (gridParams) => {
       const paymentPlan = {
@@ -97,17 +94,17 @@ function PaymentPlanGrid(props) {
     showEditButtons = false,
     isCellEditable = () => false,
     onEditCellChangeCommitted = () => null,
-    initialState = {}
+    initialState = {},
   } = props;
 
-  let concatColumns = commonColumns
-    .concat(columns)
-    .concat(crudColumns);
+  let concatColumns = commonColumns.concat(columns).concat(crudColumns);
 
   if (showEditButtons) {
-    concatColumns = concatColumns.concat(editColumns({
-      handleTagsClick,
-    }));
+    concatColumns = concatColumns.concat(
+      editColumns({
+        handleTagsClick,
+      })
+    );
   }
 
   if (!data) {
@@ -119,7 +116,7 @@ function PaymentPlanGrid(props) {
   }
 
   return (
-    <div style={{ display: 'flex', height: '100%' }}>
+    <div style={{ display: "flex", height: "100%" }}>
       <div style={{ flexGrow: 1 }}>
         <DataGrid
           rows={data}

@@ -1,9 +1,9 @@
-import debug from 'debug';
-import crypto from 'crypto';
-import { getSession } from 'next-auth/client';
-import { addPaymentPlanPayment } from '../../../../../lib/payment-plans';
+import debug from "debug";
+import crypto from "crypto";
+import { getSession } from "next-auth/client";
+import { addPaymentPlanPayment } from "../../../../../lib/payment-plans";
 
-const log = debug('mhawk-post-payments');
+const log = debug("mhawk-post-payments");
 
 const postController = async function postController(req, res) {
   try {
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
   }
 
   switch (method) {
-    case 'POST':
+    case "POST":
       return postController(req, res);
     default:
       return res.status(400).end();

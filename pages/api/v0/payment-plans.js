@@ -1,5 +1,5 @@
-import debug from 'debug';
-import { getSession } from 'next-auth/client';
+import debug from "debug";
+import { getSession } from "next-auth/client";
 import {
   addPaymentPlans,
   getAllPaymentPlans,
@@ -8,9 +8,9 @@ import {
   getPaymentPlansWithTag,
   getRecurringPaymentPlans,
   searchPaymentPlansByReference,
-} from '../../../lib/payment-plans';
+} from "../../../lib/payment-plans";
 
-const log = debug('mhawk-payment-plans');
+const log = debug("mhawk-payment-plans");
 
 const getController = async function getController(req, res) {
   let content = {};
@@ -22,9 +22,9 @@ const getController = async function getController(req, res) {
       content = await getPaymentPlansActiveForPointInTime(date);
     } else if (req.query.search) {
       content = await searchPaymentPlansByReference(req.query.search);
-    } else if (req.query.has_end_date === 'true') {
+    } else if (req.query.has_end_date === "true") {
       content = await getFinitePaymentPlans();
-    } else if (req.query.has_end_date === 'false') {
+    } else if (req.query.has_end_date === "false") {
       content = await getRecurringPaymentPlans();
     } else {
       content = getAllPaymentPlans();
@@ -59,9 +59,9 @@ export default async function handler(req, res) {
   }
 
   switch (method) {
-    case 'GET':
+    case "GET":
       return getController(req, res);
-    case 'POST':
+    case "POST":
       return postController(req, res);
     default:
       return res.status(400).end();

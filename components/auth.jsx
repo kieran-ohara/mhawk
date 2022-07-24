@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import { useSession, signIn } from 'next-auth/client';
-import { makeStyles } from '@mui/styles';
-import CircularProgress from '@mui/material/CircularProgress';
+import { useSession, signIn } from "next-auth/client";
+import { makeStyles } from "@mui/styles";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const useStyles = makeStyles({
   container: {
-    display: 'table',
-    width: '100%',
-    height: '100vh',
+    display: "table",
+    width: "100%",
+    height: "100vh",
   },
   content: {
-    display: 'table-cell',
-    verticalAlign: 'middle',
-    textAlign: 'center',
+    display: "table-cell",
+    verticalAlign: "middle",
+    textAlign: "center",
   },
 });
 

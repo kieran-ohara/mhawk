@@ -1,18 +1,16 @@
-import debug from 'debug';
-import { getPaymentPlansEndingNextMonth } from '../lib/payment-plans';
-import { closePool } from '../lib/mysql';
-import { MonzoClient, getLoginForUserId } from '../lib/monzo';
+import debug from "debug";
+import { getPaymentPlansEndingNextMonth } from "../lib/payment-plans";
+import { closePool } from "../lib/mysql";
+import { MonzoClient, getLoginForUserId } from "../lib/monzo";
 
-const log = debug('mhawk-payment-plan-end-notification');
+const log = debug("mhawk-payment-plan-end-notification");
 
-const {
-  NOTIFY_ACCOUNT,
-} = process.env;
+const { NOTIFY_ACCOUNT } = process.env;
 
 (async () => {
   const result = await getPaymentPlansEndingNextMonth();
   if (result.length === 0) {
-    log('No results found, exising.');
+    log("No results found, exising.");
     return;
   }
   log(`${result.length} results found, exising.`);
@@ -29,7 +27,7 @@ const {
     /* eslint-enable */
   } else if (result.length > 1) {
     title = `${result.length} payment plans are ending this month!`;
-    body = result.map((x) => `${x.reference} (£${x.monthly_price})`).join(', ');
+    body = result.map((x) => `${x.reference} (£${x.monthly_price})`).join(", ");
   } else {
     log(`Unknown length in result ${result.length}`);
     closePool();
@@ -37,12 +35,13 @@ const {
   }
 
   const monzo = new MonzoClient(userDetails);
-  await monzo.post('/feed', {
-    type: 'basic',
+  await monzo.post("/feed", {
+    type: "basic",
     account_id: NOTIFY_ACCOUNT,
-    'params[title]': title,
-    'params[image_url]': 'https://www.kieranbamforth.me/public/mhawk/mhawk.jpeg',
-    'params[body]': body,
+    "params[title]": title,
+    "params[image_url]":
+      "https://www.kieranbamforth.me/public/mhawk/mhawk.jpeg",
+    "params[body]": body,
   });
 
   closePool();

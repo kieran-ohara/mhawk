@@ -1,19 +1,14 @@
-import debug from 'debug';
-import { query, closePool } from '../lib/mysql';
+import debug from "debug";
+import { query, closePool } from "../lib/mysql";
 
-const { Client } = require('@elastic/elasticsearch');
+const { Client } = require("@elastic/elasticsearch");
 
-const log = debug('mhawk-index');
+const log = debug("mhawk-index");
 
 (async () => {
-  const plans = await query('SELECT * FROM payment_plans');
+  const plans = await query("SELECT * FROM payment_plans");
 
-  const {
-    ES_USERNAME,
-    ES_PASSWORD,
-    ES_ENDPOINT,
-    ES_INDEX,
-  } = process.env;
+  const { ES_USERNAME, ES_PASSWORD, ES_ENDPOINT, ES_INDEX } = process.env;
 
   const client = new Client({
     node: ES_ENDPOINT,

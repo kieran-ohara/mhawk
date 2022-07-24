@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import Grid from '@mui/material/Grid';
-import InputAdornment from '@mui/material/InputAdornment';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import TextField from '@mui/material/TextField';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import Grid from "@mui/material/Grid";
+import InputAdornment from "@mui/material/InputAdornment";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import TextField from "@mui/material/TextField";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export enum AmountType {
   MONTHLY,
@@ -21,27 +21,27 @@ export enum AmountType {
 }
 
 export interface CreatePaymentPlanOkResult {
-  reference: string,
+  reference: string;
   amount: number;
   amountType: AmountType;
-  startDate: any
-  endDate: any
+  startDate: any;
+  endDate: any;
 }
 
 export interface CreatePaymentDialogProps {
-  open: boolean,
-  handleOk: (event: any, result: CreatePaymentPlanOkResult) => void,
-  handleCancel: Function,
+  open: boolean;
+  handleOk: (event: any, result: CreatePaymentPlanOkResult) => void;
+  handleCancel: Function;
 }
 
-export default function CreatePaymentPlanDialog(props: CreatePaymentDialogProps) {
-  const {
-    open, handleOk: handleOkProp, handleCancel,
-  } = props;
+export default function CreatePaymentPlanDialog(
+  props: CreatePaymentDialogProps
+) {
+  const { open, handleOk: handleOkProp, handleCancel } = props;
 
-  const [reference, setReference] = React.useState('');
-  const [totalPrice, setTotalPrice] = React.useState('0');
-  const [amountType, setAmountType] = React.useState('monthly');
+  const [reference, setReference] = React.useState("");
+  const [totalPrice, setTotalPrice] = React.useState("0");
+  const [amountType, setAmountType] = React.useState("monthly");
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
 
@@ -57,7 +57,7 @@ export default function CreatePaymentPlanDialog(props: CreatePaymentDialogProps)
     }
 
     if (amountTypeToEnum === null) {
-      throw new Error(`Could not convert amount type "${amountType}" to enum.`)
+      throw new Error(`Could not convert amount type "${amountType}" to enum.`);
     }
 
     handleOkProp(event, {
@@ -81,7 +81,9 @@ export default function CreatePaymentPlanDialog(props: CreatePaymentDialogProps)
     };
   };
 
-  const handleAmountTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAmountTypeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setAmountType((event.target as HTMLInputElement).value);
   };
 
@@ -94,7 +96,9 @@ export default function CreatePaymentPlanDialog(props: CreatePaymentDialogProps)
         aria-labelledby="confirmation-dialog-title"
         open={open}
       >
-        <DialogTitle id="confirmation-dialog-title">Create A New Payment Plan</DialogTitle>
+        <DialogTitle id="confirmation-dialog-title">
+          Create A New Payment Plan
+        </DialogTitle>
         <DialogContent dividers>
           <TextField
             autoFocus
@@ -114,23 +118,33 @@ export default function CreatePaymentPlanDialog(props: CreatePaymentDialogProps)
             required
             type="number"
             InputProps={{
-              startAdornment: <InputAdornment position="start">£</InputAdornment>,
+              startAdornment: (
+                <InputAdornment position="start">£</InputAdornment>
+              ),
             }}
             value={totalPrice}
             onChange={onInputChanged(setTotalPrice)}
           />
 
-         <FormControl>
-          <RadioGroup
-            row
-            name="radio"
-            value={amountType}
-            onChange={handleAmountTypeChange}
-          >
-            <FormControlLabel value="monthly" control={<Radio />} label="Monthly" />
-            <FormControlLabel value="total" control={<Radio />} label="Total" />
-          </RadioGroup>
-        </FormControl>
+          <FormControl>
+            <RadioGroup
+              row
+              name="radio"
+              value={amountType}
+              onChange={handleAmountTypeChange}
+            >
+              <FormControlLabel
+                value="monthly"
+                control={<Radio />}
+                label="Monthly"
+              />
+              <FormControlLabel
+                value="total"
+                control={<Radio />}
+                label="Total"
+              />
+            </RadioGroup>
+          </FormControl>
 
           <Grid container>
             <DatePicker
@@ -142,7 +156,7 @@ export default function CreatePaymentPlanDialog(props: CreatePaymentDialogProps)
               value={startDate}
               onChange={onDateChanged(setStartDate)}
               KeyboardButtonProps={{
-                'aria-label': 'change date',
+                "aria-label": "change date",
               }}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -155,7 +169,7 @@ export default function CreatePaymentPlanDialog(props: CreatePaymentDialogProps)
               value={endDate}
               onChange={onDateChanged(setEndDate)}
               KeyboardButtonProps={{
-                'aria-label': 'change date',
+                "aria-label": "change date",
               }}
               renderInput={(params) => <TextField {...params} />}
             />

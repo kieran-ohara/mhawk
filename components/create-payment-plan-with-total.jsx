@@ -1,22 +1,20 @@
-import React from 'react';
+import React from "react";
 
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Grid from '@mui/material/Grid';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Grid from "@mui/material/Grid";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
 
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function CreatePaymentPlanWithTotalDialog(props) {
-  const {
-    open, handleOk: handleOkProp, handleCancel, totalLabel,
-  } = props;
-  const [reference, setReference] = React.useState('');
-  const [totalPrice, setTotalPrice] = React.useState('0');
+  const { open, handleOk: handleOkProp, handleCancel, totalLabel } = props;
+  const [reference, setReference] = React.useState("");
+  const [totalPrice, setTotalPrice] = React.useState("0");
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
   const [isShared] = React.useState(false);
@@ -52,7 +50,9 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
         aria-labelledby="confirmation-dialog-title"
         open={open}
       >
-        <DialogTitle id="confirmation-dialog-title">Create A New Payment</DialogTitle>
+        <DialogTitle id="confirmation-dialog-title">
+          Create A New Payment
+        </DialogTitle>
         <DialogContent dividers>
           <TextField
             autoFocus
@@ -71,7 +71,9 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
             required
             type="number"
             InputProps={{
-              startAdornment: <InputAdornment position="start">£</InputAdornment>,
+              startAdornment: (
+                <InputAdornment position="start">£</InputAdornment>
+              ),
             }}
             value={totalPrice}
             onChange={onInputChanged(setTotalPrice)}
@@ -86,7 +88,7 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
               value={startDate}
               onChange={onDateChanged(setStartDate)}
               KeyboardButtonProps={{
-                'aria-label': 'change date',
+                "aria-label": "change date",
               }}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -99,7 +101,7 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
               value={endDate}
               onChange={onDateChanged(setEndDate)}
               KeyboardButtonProps={{
-                'aria-label': 'change date',
+                "aria-label": "change date",
               }}
               renderInput={(params) => <TextField {...params} />}
             />

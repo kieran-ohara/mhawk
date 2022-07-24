@@ -1,50 +1,50 @@
-
-import useSWR from 'swr';
-import differenceInMonths from 'date-fns/differenceInMonths';
+import useSWR from "swr";
+import differenceInMonths from "date-fns/differenceInMonths";
 
 interface createPaymentPlanProps {
-  reference: string,
-  amount: any,
-  startDate: any,
-  endDate: any
+  reference: string;
+  amount: any;
+  startDate: any;
+  endDate: any;
 }
 
 // eslint-disable-next-line
 const usePaymentPlans = () => {
-  const getPaymentPlansUrl = '/api/v0/payment-plans?has_end_date=true';
+  const getPaymentPlansUrl = "/api/v0/payment-plans?has_end_date=true";
   const { data, error, mutate } = useSWR(getPaymentPlansUrl, async (url) => {
-    const response = await fetch(url)
+    const response = await fetch(url);
     return response.json();
   });
 
-  const create = async(okData: createPaymentPlanProps) => {
-    return fetch('/api/v0/payment-plans', {
-      method: 'POST',
+  const create = async (okData: createPaymentPlanProps) => {
+    return fetch("/api/v0/payment-plans", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify([{
-        monthly_price: okData.amount,
-        start_date: okData.startDate,
-        end_date: okData.endDate,
-        reference: okData.reference,
-      }]),
+      body: JSON.stringify([
+        {
+          monthly_price: okData.amount,
+          start_date: okData.startDate,
+          end_date: okData.endDate,
+          reference: okData.reference,
+        },
+      ]),
     });
-  }
+  };
 
-  const createWithTotal = async(okData: createPaymentPlanProps) => {
-    const {endDate, startDate, amount} = okData;
+  const createWithTotal = async (okData: createPaymentPlanProps) => {
+    const { endDate, startDate, amount } = okData;
 
-
-    const diffMonths = (differenceInMonths(endDate, startDate) + 1);
+    const diffMonths = differenceInMonths(endDate, startDate) + 1;
     const totalPriceAsFloat = parseFloat(amount);
     const monthlyPrice = (totalPriceAsFloat / diffMonths).toFixed(2);
 
     console.log(diffMonths, totalPriceAsFloat, monthlyPrice);
     const body = {
       ...okData,
-      amount: monthlyPrice
-    }
+      amount: monthlyPrice,
+    };
     return create(body);
   };
 
@@ -56,6 +56,6 @@ const usePaymentPlans = () => {
     isError: error,
     mutate,
   };
-}
+};
 
 export { usePaymentPlans };

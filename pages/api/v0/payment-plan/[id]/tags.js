@@ -1,8 +1,8 @@
-import debug from 'debug';
-import { getSession } from 'next-auth/client';
-import { getTagsForPaymentPlan, tagPaymentPlan } from '../../../../../lib/tags';
+import debug from "debug";
+import { getSession } from "next-auth/client";
+import { getTagsForPaymentPlan, tagPaymentPlan } from "../../../../../lib/tags";
 
-const log = debug('mhawk-tags-by-id');
+const log = debug("mhawk-tags-by-id");
 
 const getController = async function postController(req, res) {
   try {
@@ -34,9 +34,9 @@ export default async function handler(req, res) {
   }
 
   switch (method) {
-    case 'GET':
+    case "GET":
       return getController(req, res);
-    case 'POST':
+    case "POST":
       return postController(req, res);
     default:
       return res.status(400).end();

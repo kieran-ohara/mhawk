@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth';
+import NextAuth from "next-auth";
 
 const {
   MONZO_CLIENT_ID: clientId,
@@ -13,28 +13,28 @@ export default NextAuth({
   // Configure one or more authentication providers
   providers: [
     {
-      id: 'monzo',
-      name: 'Monzo',
-      type: 'oauth',
-      version: '2.0',
-      accessTokenUrl: 'https://api.monzo.com/oauth2/token',
+      id: "monzo",
+      name: "Monzo",
+      type: "oauth",
+      version: "2.0",
+      accessTokenUrl: "https://api.monzo.com/oauth2/token",
       params: {
-        grant_type: 'authorization_code',
+        grant_type: "authorization_code",
         redirect_uri: NJS_MONZO_REDIRECT,
       },
-      authorizationUrl: 'https://auth.monzo.com',
+      authorizationUrl: "https://auth.monzo.com",
       authorizationParams: {
         client_id: clientId,
         redirect_uri: NJS_MONZO_REDIRECT,
-        response_type: 'code',
+        response_type: "code",
       },
-      profileUrl: 'https://api.monzo.com/ping/whoami',
+      profileUrl: "https://api.monzo.com/ping/whoami",
       profile: (profile) => {
         const result = {
           id: profile.user_id,
           name: profile.user_id,
-          email: 'test@email.com',
-          image: 'http://example.com/',
+          email: "test@email.com",
+          image: "http://example.com/",
         };
         return result;
       },

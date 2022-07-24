@@ -1,20 +1,17 @@
-import LinearProgress from '@mui/material/LinearProgress';
-import {
-  DataGrid,
-  GridToolbar,
-} from '@mui/x-data-grid';
+import LinearProgress from "@mui/material/LinearProgress";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
 function renderDate(date) {
   if (date !== null) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleString('en-GB', options);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return date.toLocaleString("en-GB", options);
   }
-  return '';
+  return "";
 }
 
 interface CreatePaymentGridColumnsProps {
-  columns: object[],
-  moreComponent?: Function
+  columns: object[];
+  moreComponent?: Function;
 }
 
 const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
@@ -22,21 +19,21 @@ const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
 
   let paymentGridColumns = [
     {
-      field: 'id',
-      type: 'number',
+      field: "id",
+      type: "number",
       hide: true,
-      headerName: 'ID',
+      headerName: "ID",
       width: 90,
     },
     {
-      field: 'reference',
-      headerName: 'Reference',
-      width: 160
+      field: "reference",
+      headerName: "Reference",
+      width: 160,
     },
     {
-      field: 'monthly_price',
-      type: 'number',
-      headerName: 'Monthly Price',
+      field: "monthly_price",
+      type: "number",
+      headerName: "Monthly Price",
       width: 165,
       valueFormatter: (params) => {
         return `£${params.value}`;
@@ -44,27 +41,27 @@ const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
       editable: true,
     },
     {
-      field: 'start_date',
-      type: 'date',
+      field: "start_date",
+      type: "date",
       hide: true,
-      headerName: 'Start Date',
+      headerName: "Start Date",
       width: 180,
       valueFormatter: (params) => renderDate(new Date(params.value)),
     },
     ...columns,
     {
-      field: 'created_at',
-      type: 'date',
+      field: "created_at",
+      type: "date",
       hide: true,
-      headerName: 'Created At',
+      headerName: "Created At",
       width: 180,
       valueFormatter: (params) => renderDate(new Date(params.value)),
     },
     {
-      field: 'updated_at',
-      type: 'date',
+      field: "updated_at",
+      type: "date",
       hide: true,
-      headerName: 'Updated At',
+      headerName: "Updated At",
       width: 180,
       valueFormatter: (params) => renderDate(new Date(params.value)),
     },
@@ -73,19 +70,18 @@ const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
   if (MoreComponent) {
     paymentGridColumns = paymentGridColumns.concat([
       {
-        field: 'tags',
-        headerName: 'More',
+        field: "tags",
+        headerName: "More",
         width: 120,
         renderCell: (gridParams) => {
-          return MoreComponent
+          return MoreComponent;
         },
       },
-
-    ])
+    ]);
   }
 
   return paymentGridColumns;
-}
+};
 
 const PaymentsGrid = (props) => {
   const {
@@ -95,10 +91,9 @@ const PaymentsGrid = (props) => {
     isCellEditable,
     processRowUpdate,
     onProcessRowUpdateError,
-    onCellClick = () => { },
+    onCellClick = () => {},
     initialState = {},
   } = props;
-
 
   if (dataIsLoading) {
     return (
@@ -110,7 +105,7 @@ const PaymentsGrid = (props) => {
 
   return (
     <>
-      <div style={{ display: 'flex', height: '100%' }}>
+      <div style={{ display: "flex", height: "100%" }}>
         <div style={{ flexGrow: 1 }}>
           <DataGrid
             rows={data}
@@ -131,6 +126,6 @@ const PaymentsGrid = (props) => {
       </div>
     </>
   );
-}
+};
 
 export { createPaymentsGridColumns, PaymentsGrid };

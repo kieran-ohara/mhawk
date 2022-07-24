@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import AppFrame from '../components/app-frame';
-import { createPaymentsGridColumns, PaymentsGrid } from '../components/payments-grid';
+import AppFrame from "../components/app-frame";
+import {
+  createPaymentsGridColumns,
+  PaymentsGrid,
+} from "../components/payments-grid";
 
-import { usePaymentPlans } from '../hooks/payment-plans';
-import { renderDate } from '../components/payment-plan';
+import { usePaymentPlans } from "../hooks/payment-plans";
+import { renderDate } from "../components/payment-plan";
 
 export default function PaymentPlans() {
   const { paymentPlans, isLoading } = usePaymentPlans();
@@ -14,16 +17,16 @@ export default function PaymentPlans() {
   const columns = createPaymentsGridColumns({
     columns: [
       {
-        field: 'end_date',
-        type: 'date',
-        headerName: 'End Date',
+        field: "end_date",
+        type: "date",
+        headerName: "End Date",
         width: 180,
         valueFormatter: (params) => renderDate(new Date(params.value)),
       },
       {
-        field: 'payments_count',
-        type: 'number',
-        headerName: 'Payments Made',
+        field: "payments_count",
+        type: "number",
+        headerName: "Payments Made",
         width: 180,
         valueFormatter: (params) => {
           let string = `${params.value}`;
@@ -35,26 +38,26 @@ export default function PaymentPlans() {
         },
       },
       {
-        field: 'payments_sum',
-        type: 'number',
-        headerName: 'Total Paid',
+        field: "payments_sum",
+        type: "number",
+        headerName: "Total Paid",
         width: 180,
         valueFormatter: (params) => {
           const string = `${params.value}`;
-          if (string !== 'null') {
+          if (string !== "null") {
             return `£${string}`;
           }
-          return '£0';
+          return "£0";
         },
       },
       {
-        field: 'is_settled',
-        type: 'boolean',
-        headerName: 'Settled',
+        field: "is_settled",
+        type: "boolean",
+        headerName: "Settled",
         width: 122,
         hide: true,
       },
-    ]
+    ],
   });
 
   return (
@@ -67,14 +70,20 @@ export default function PaymentPlans() {
           initialState={{
             filter: {
               filterModel: {
-                items: [{ columnField: 'is_settled', operatorValue: 'is', value: 'false' }],
+                items: [
+                  {
+                    columnField: "is_settled",
+                    operatorValue: "is",
+                    value: "false",
+                  },
+                ],
               },
             },
           }}
           isCellEditable={() => false}
           processRowUpdate={() => null}
           onProcessRowUpdateError={() => null}
-          onCellClick={event => setSubscriptionId(event.row.id)}
+          onCellClick={(event) => setSubscriptionId(event.row.id)}
         />
       </AppFrame>
     </>

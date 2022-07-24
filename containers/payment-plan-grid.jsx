@@ -1,18 +1,18 @@
-import useSWR, { mutate } from 'swr';
+import useSWR, { mutate } from "swr";
 
-import LinearProgress from '@mui/material/LinearProgress';
-import { useState } from 'react';
+import LinearProgress from "@mui/material/LinearProgress";
+import { useState } from "react";
 
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import LabelIcon from '@mui/icons-material/Label';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ListItemText from '@mui/material/ListItemText';
-import TagsForm from '../components/tags-form';
-import useTags from '../hooks/tags';
-import { PaymentPlanGrid } from '../components/payment-plan';
-import usePaymentPlans from '../hooks/payment-plans-old';
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import LabelIcon from "@mui/icons-material/Label";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ListItemText from "@mui/material/ListItemText";
+import TagsForm from "../components/tags-form";
+import useTags from "../hooks/tags";
+import { PaymentPlanGrid } from "../components/payment-plan";
+import usePaymentPlans from "../hooks/payment-plans-old";
 
 export default function PaymentPlanGridContainer(props) {
   const {
@@ -25,7 +25,7 @@ export default function PaymentPlanGridContainer(props) {
     initialState = {},
   } = props;
 
-  const [selectedPaymentPlanName, setSeletctedPaymentPlanName] = useState('');
+  const [selectedPaymentPlanName, setSeletctedPaymentPlanName] = useState("");
   const [selectedPaymentPlanId, setSelectedPaymentPlanId] = useState(1);
 
   const [tagsFormOpen, setTagsFormOpen] = useState(false);
@@ -43,11 +43,11 @@ export default function PaymentPlanGridContainer(props) {
   const { tags, isLoading: tagsLoading } = useTags();
 
   const { data: paymentPlanTags, error: paymentPlanTagsErr } = useSWR(
-    ['paymentPlanTags', selectedPaymentPlanId],
+    ["paymentPlanTags", selectedPaymentPlanId],
     async (key, ppId) => {
       const result = await fetch(`/api/v0/payment-plan/${ppId}/tags`);
       return result.json();
-    },
+    }
   );
 
   if (paymentPlansLoading || tagsLoading) {
@@ -78,36 +78,30 @@ export default function PaymentPlanGridContainer(props) {
   const handleCheckboxChanged = async (event) => {
     const { checked, value: tagId } = event.target;
     if (checked) {
-      await fetch(
-        `/api/v0/payment-plan/${selectedPaymentPlanId}/tags`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            tag_id: tagId,
-          }),
+      await fetch(`/api/v0/payment-plan/${selectedPaymentPlanId}/tags`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          tag_id: tagId,
+        }),
+      });
     } else {
       await fetch(
         `/api/v0/payment-plan/${selectedPaymentPlanId}/tag/${tagId}`,
-        { method: 'DELETE' },
+        { method: "DELETE" }
       );
     }
-    mutate(['paymentPlanTags', selectedPaymentPlanId]);
+    mutate(["paymentPlanTags", selectedPaymentPlanId]);
     paymentPlansMutate();
   };
 
   const handleDeleteClick = async () => {
-    await fetch(
-      `/api/v0/payment-plan/${selectedPaymentPlanId}`,
-      {
-        method: 'DELETE',
-      },
-    );
-    mutate(['paymentPlanTags', selectedPaymentPlanId]);
+    await fetch(`/api/v0/payment-plan/${selectedPaymentPlanId}`, {
+      method: "DELETE",
+    });
+    mutate(["paymentPlanTags", selectedPaymentPlanId]);
     paymentPlansMutate();
     setMenuOpen(false);
   };
@@ -129,7 +123,7 @@ export default function PaymentPlanGridContainer(props) {
         open={menuOpen}
         onClose={handleMenuClose}
         MenuListProps={{
-          'aria-labelledby': 'basic-button',
+          "aria-labelledby": "basic-button",
         }}
       >
         <MenuItem onClick={handleTagsClick}>

@@ -1,13 +1,13 @@
-import useSWR, { mutate as swrMutate } from 'swr';
+import useSWR, { mutate as swrMutate } from "swr";
 
-import isAfter from 'date-fns/isAfter';
-import isBefore from 'date-fns/isBefore';
-import differenceInMonths from 'date-fns/differenceInMonths';
+import isAfter from "date-fns/isAfter";
+import isBefore from "date-fns/isBefore";
+import differenceInMonths from "date-fns/differenceInMonths";
 
-import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-const key = 'paymentPlanMutations';
+const key = "paymentPlanMutations";
 const initialValue = {
   create: [],
   delete: [],
@@ -24,32 +24,26 @@ export default function usePaymentPlanMutations(opts = {}) {
     }
   });
 
-  const {
-    createMutationFilter = () => true,
-    apiQueryParams = {},
-  } = opts;
+  const { createMutationFilter = () => true, apiQueryParams = {} } = opts;
 
   const paramsToSearch = new URLSearchParams(apiQueryParams);
   const { data, error } = useSWR(
     `/api/v0/payment-plans?${paramsToSearch.toString()}`,
     (req) => {
-      return Promise.all([
-        fetch(req),
-        mutations,
-      ]).then(async (res) => {
+      return Promise.all([fetch(req), mutations]).then(async (res) => {
         const [fetchResult, localMutations] = res;
 
         let fetchJson = await fetchResult.json();
         fetchJson = fetchJson.map((entry) => ({ committed: true, ...entry }));
 
-        localMutations.create = localMutations.create.filter(createMutationFilter).map(
-          (entry) => ({ committed: false, ...entry }),
-        );
+        localMutations.create = localMutations.create
+          .filter(createMutationFilter)
+          .map((entry) => ({ committed: false, ...entry }));
 
         const concat = fetchJson.concat(localMutations.create);
         return concat;
       });
-    },
+    }
   );
 
   const getActiveMutationsForDate = (date) => {
@@ -76,12 +70,7 @@ export default function usePaymentPlanMutations(opts = {}) {
   };
 
   const createPaymentPlan = (plan) => {
-    const {
-      reference,
-      monthlyPrice,
-      startDate,
-      isShared,
-    } = plan;
+    const { reference, monthlyPrice, startDate, isShared } = plan;
 
     const now = new Date();
     const createMutation = {
@@ -97,8 +86,9 @@ export default function usePaymentPlanMutations(opts = {}) {
     };
     if (plan.endDate !== null) {
       /* eslint-disable */
-      createMutation['end_date'] = plan.endDate;
-      createMutation['instalments'] = (differenceInMonths(plan.endDate, startDate) + 1);
+      createMutation["end_date"] = plan.endDate;
+      createMutation["instalments"] =
+        differenceInMonths(plan.endDate, startDate) + 1;
       /* eslint-enable */
     }
     const newMutations = mutations;
@@ -108,16 +98,18 @@ export default function usePaymentPlanMutations(opts = {}) {
   };
 
   const commitMutations = () => {
-    return fetch('/api/v0/payment-plans', {
-      method: 'POST',
+    return fetch("/api/v0/payment-plans", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(mutations.create.map((m) => {
-        // eslint-disable-next-line
-        delete m.id;
-        return m;
-      })),
+      body: JSON.stringify(
+        mutations.create.map((m) => {
+          // eslint-disable-next-line
+          delete m.id;
+          return m;
+        })
+      ),
     }).then(() => {
       setMutations({
         create: [],

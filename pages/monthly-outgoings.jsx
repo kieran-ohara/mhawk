@@ -1,22 +1,23 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useState } from "react";
+import { useRouter } from "next/router";
 
-import { format, addMonths, subMonths } from 'date-fns';
+import { format, addMonths, subMonths } from "date-fns";
 
-import { makeStyles } from '@mui/styles';
-import Grid from '@mui/material/Grid';
+import { makeStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
 
-import AppFrame from '../components/app-frame';
-import Chart from '../components/chart';
-import PaymentPlanGrid from '../containers/payment-plan-grid';
+import AppFrame from "../components/app-frame";
+import Chart from "../components/chart";
+import PaymentPlanGrid from "../containers/payment-plan-grid";
 
-const paymentHasEndDate = (params) => params.getValue(params.id, 'end_date') !== null;
+const paymentHasEndDate = (params) =>
+  params.getValue(params.id, "end_date") !== null;
 
 const columns = [
   {
-    field: 'is_recurring',
-    type: 'boolean',
-    headerName: 'Is Recurring',
+    field: "is_recurring",
+    type: "boolean",
+    headerName: "Is Recurring",
     width: 160,
     valueGetter: (params) => {
       return !paymentHasEndDate(params);
@@ -36,9 +37,11 @@ const useStyles = makeStyles((theme) => ({
     padding: `${chartPadding}px`,
   },
   dataGrid: {
-    display: 'flex',
-    height: `calc(100vh - ${appBarHeight + chartHeight + chartPadding + legendHeight}px)`,
-    [theme.breakpoints.up('lg')]: {
+    display: "flex",
+    height: `calc(100vh - ${
+      appBarHeight + chartHeight + chartPadding + legendHeight
+    }px)`,
+    [theme.breakpoints.up("lg")]: {
       height: `calc(100vh - ${appBarHeight}px)`,
     },
   },
@@ -49,11 +52,11 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   calendar: {
-    display: 'flex',
+    display: "flex",
   },
   calendarMonth: {
     flexGrow: 1,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 3,
   },
 }));
@@ -66,10 +69,16 @@ export default function MonthlyOutgoings() {
   const monthsEitherSide = 5;
 
   const {
-    chart_aggregate: qChartAggregate = 'true',
-    chart_end: qChartEnd = format(addMonths(now, monthsEitherSide), 'yyyy-MM-dd'),
-    chart_start: qChartStart = format(subMonths(now, monthsEitherSide), 'yyyy-MM-dd'),
-    payments_for_month: qPointInTime = format(now, 'yyyy-MM-dd'),
+    chart_aggregate: qChartAggregate = "true",
+    chart_end: qChartEnd = format(
+      addMonths(now, monthsEitherSide),
+      "yyyy-MM-dd"
+    ),
+    chart_start: qChartStart = format(
+      subMonths(now, monthsEitherSide),
+      "yyyy-MM-dd"
+    ),
+    payments_for_month: qPointInTime = format(now, "yyyy-MM-dd"),
   } = router.query;
 
   const [chartAggregate] = useState(qChartAggregate);
@@ -81,7 +90,7 @@ export default function MonthlyOutgoings() {
 
   const onClick = (selectedPayload) => {
     const selectedDate = selectedPayload.date;
-    setPointInTime(format(new Date(selectedDate), 'yyyy-MM-dd'));
+    setPointInTime(format(new Date(selectedDate), "yyyy-MM-dd"));
     setChartStart(subMonths(new Date(selectedDate), monthsEitherSide));
     setChartEnd(addMonths(new Date(selectedDate), monthsEitherSide));
   };

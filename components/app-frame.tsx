@@ -1,72 +1,69 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React from 'react';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
 
-import AppBar from '@mui/material/AppBar';
-import Drawer from '@mui/material/Drawer';
-import Hidden from '@mui/material/Hidden';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Toolbar from '@mui/material/Toolbar';
+import AppBar from "@mui/material/AppBar";
+import Drawer from "@mui/material/Drawer";
+import Hidden from "@mui/material/Hidden";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
 
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from "@mui/material/ListSubheader";
 
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import HomeIcon from '@mui/icons-material/Home';
-import EventIcon from '@mui/icons-material/Event';
-import MenuIcon from '@mui/icons-material/Menu';
-import ReplayIcon from '@mui/icons-material/Replay';
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import HomeIcon from "@mui/icons-material/Home";
+import EventIcon from "@mui/icons-material/Event";
+import MenuIcon from "@mui/icons-material/Menu";
+import ReplayIcon from "@mui/icons-material/Replay";
+import SearchIcon from "@mui/icons-material/Search";
+import AddIcon from "@mui/icons-material/Add";
 
-import Typography from '@mui/material/Typography';
+import Typography from "@mui/material/Typography";
 
-import InputBase from '@mui/material/InputBase';
+import InputBase from "@mui/material/InputBase";
 
-import {
-  makeStyles,
-  useTheme,
-} from '@mui/styles';
-import { signOut } from 'next-auth/client';
-import { useSubscriptions } from '../hooks/subscriptions';
-import { usePaymentPlans } from '../hooks/payment-plans';
+import { makeStyles, useTheme } from "@mui/styles";
+import { signOut } from "next-auth/client";
+import { useSubscriptions } from "../hooks/subscriptions";
+import { usePaymentPlans } from "../hooks/payment-plans";
 
-import CreateRucurringPaymentDialog from './create-recurring-payment-dialog';
+import CreateRucurringPaymentDialog from "./create-recurring-payment-dialog";
 import {
   default as CreatePaymentPlanDialog,
   CreatePaymentPlanOkResult,
-  AmountType
-} from './create-payment-plan';
+  AmountType,
+} from "./create-payment-plan";
 
-import TagsLinks from './tags-links';
+import TagsLinks from "./tags-links";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   drawer: {
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up("md")]: {
       width: drawerWidth,
       flexShrink: 0,
     },
   },
   appBar: {
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up("md")]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
+    [theme.breakpoints.up("md")]: {
+      display: "none",
     },
   },
   // necessary for content to be below app bar
@@ -76,47 +73,47 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    height: '100vh',
+    height: "100vh",
   },
   title: {
     flexGrow: 1,
   },
   search: {
-    position: 'relative',
+    position: "relative",
     borderRadius: theme.shape.borderRadius,
     // backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
+    "&:hover": {
       // backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(1),
-      width: 'auto',
+      width: "auto",
     },
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   inputRoot: {
-    color: 'inherit',
+    color: "inherit",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: '48px',
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
+    paddingLeft: "48px",
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "12ch",
+      "&:focus": {
+        width: "20ch",
       },
     },
   },
@@ -178,35 +175,42 @@ function AppFrame(props) {
   // Handle new payment plan
   const [newPaymentPlanOpen, setNewPaymentPlanOpen] = React.useState(false);
 
-  const { create: createPaymentPlan, createWithTotal: createPaymentPlanWithTotal, mutate: mutatePaymentPlans } = usePaymentPlans();
+  const {
+    create: createPaymentPlan,
+    createWithTotal: createPaymentPlanWithTotal,
+    mutate: mutatePaymentPlans,
+  } = usePaymentPlans();
 
   const handleNewPaymentPlanClick = () => {
-    setNewPaymentPlanOpen(true)
-    setAddMenuOpen(false)
-  }
+    setNewPaymentPlanOpen(true);
+    setAddMenuOpen(false);
+  };
 
-  const handleNewPaymentPlanOk = async (event, paymentPlan: CreatePaymentPlanOkResult) => {
-    const { reference, amount, startDate, endDate, amountType  } = paymentPlan;
+  const handleNewPaymentPlanOk = async (
+    event,
+    paymentPlan: CreatePaymentPlanOkResult
+  ) => {
+    const { reference, amount, startDate, endDate, amountType } = paymentPlan;
 
     if (amountType === AmountType.MONTHLY) {
-    await createPaymentPlan({
-      reference,
-      amount,
-      startDate,
-      endDate,
-    });
+      await createPaymentPlan({
+        reference,
+        amount,
+        startDate,
+        endDate,
+      });
     } else if (amountType === AmountType.TOTAL) {
-    await createPaymentPlanWithTotal({
-      reference,
-      amount,
-      startDate,
-      endDate,
-    });
+      await createPaymentPlanWithTotal({
+        reference,
+        amount,
+        startDate,
+        endDate,
+      });
     }
 
-    setNewPaymentPlanOpen(false)
+    setNewPaymentPlanOpen(false);
     mutatePaymentPlans();
-  }
+  };
 
   const drawer = (
     <div>
@@ -215,20 +219,26 @@ function AppFrame(props) {
       <List>
         <Link href="/monthly-outgoings">
           <ListItem button>
-            <ListItemIcon><HomeIcon /></ListItemIcon>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItem>
         </Link>
         <ListSubheader>Outgoings</ListSubheader>
         <Link href="/payment-plans">
           <ListItem button>
-            <ListItemIcon><EventIcon /></ListItemIcon>
+            <ListItemIcon>
+              <EventIcon />
+            </ListItemIcon>
             <ListItemText primary="Payment Plans" />
           </ListItem>
         </Link>
         <Link href="/subscriptions">
           <ListItem button>
-            <ListItemIcon><ReplayIcon /></ListItemIcon>
+            <ListItemIcon>
+              <ReplayIcon />
+            </ListItemIcon>
             <ListItemText primary="Subscriptions" />
           </ListItem>
         </Link>
@@ -239,12 +249,13 @@ function AppFrame(props) {
   );
 
   const { window, title } = props;
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   const router = useRouter();
 
   const onKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       router.push(`/search?q=${event.target.value}`);
     }
   };
@@ -276,12 +287,11 @@ function AppFrame(props) {
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
-                inputProps={{ 'aria-label': 'search' }}
+                inputProps={{ "aria-label": "search" }}
                 onKeyPress={onKeyPress}
               />
             </div>
             <div>
-
               <IconButton
                 aria-label="add new outgoing"
                 aria-controls="menu-appbar"
@@ -295,19 +305,23 @@ function AppFrame(props) {
                 id="menu-appbar"
                 anchorEl={addMenuEl}
                 anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 keepMounted
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 open={addMenuOpen}
                 onClose={handleAddMenuClose}
               >
-                <MenuItem onClick={handleNewPaymentPlanClick}>New Payment Plan&hellip;</MenuItem>
-                <MenuItem onClick={handleNewSubscriptionClick}>New Subscription&hellip;</MenuItem>
+                <MenuItem onClick={handleNewPaymentPlanClick}>
+                  New Payment Plan&hellip;
+                </MenuItem>
+                <MenuItem onClick={handleNewSubscriptionClick}>
+                  New Subscription&hellip;
+                </MenuItem>
               </Menu>
 
               <IconButton
@@ -323,13 +337,13 @@ function AppFrame(props) {
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 keepMounted
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 open={open}
                 onClose={handleClose}
@@ -345,7 +359,7 @@ function AppFrame(props) {
             <Drawer
               container={container}
               variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              anchor={theme.direction === "rtl" ? "right" : "left"}
               open={mobileOpen}
               onClose={handleDrawerToggle}
               classes={{
@@ -372,9 +386,7 @@ function AppFrame(props) {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <div style={{ height: 'calc(100vh - 64px)' }}>
-            {children}
-          </div>
+          <div style={{ height: "calc(100vh - 64px)" }}>{children}</div>
           <CreateRucurringPaymentDialog
             handleOk={handleNewSubscriptionOk}
             open={newSubscriptionOpen}

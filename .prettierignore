@@ -1,0 +1,7 @@
+.next
+dist
+*.d.ts
+*.yml
+*.md
+*.json
+*.css
