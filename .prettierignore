@@ -1,7 +1,8 @@
+*.css
+*.d.ts
+*.json
+*.md
+*.yaml
+*.yml
 .next
 dist
-*.d.ts
-*.yml
-*.md
-*.json
-*.css
