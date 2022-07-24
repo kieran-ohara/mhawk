@@ -6,6 +6,10 @@ interface createSubscriptionProps {
   startDate: any;
 }
 
+interface updateSubscriptionProps {
+  amount?: number;
+}
+
 const useSubscriptions = () => {
   const getSubscriptionsUrl = "/api/v0/payment-plans?has_end_date=false";
   const { data, error, mutate } = useSWR(getSubscriptionsUrl, async (url) => {
@@ -30,6 +34,19 @@ const useSubscriptions = () => {
     });
   };
 
+  const update = (id: number, data: updateSubscriptionProps) => {
+    const { amount } = data;
+    return fetch(`/api/v0/payment-plan/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        monthly_price: amount,
+      }),
+    });
+  };
+
   const deleteSubscription = async (id: number) => {
     await fetch(`/api/v0/payment-plan/${id}`, { method: "DELETE" });
     mutate();
@@ -37,6 +54,7 @@ const useSubscriptions = () => {
 
   return {
     create,
+    update,
     deleteSubscription,
     subscriptions: data,
     isLoading: !error && !data,

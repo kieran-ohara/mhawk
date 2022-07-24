@@ -155,8 +155,10 @@ function AppFrame(props: any) {
   };
 
   // Handle new subscription
-  const { create: createSubscription, mutate: mutateSubscriptions } =
-    useSubscriptions();
+  const {
+    create: createSubscription,
+    mutate: mutateSubscriptions,
+  } = useSubscriptions();
   const [newSubscriptionOpen, setNewSubscriptionOpen] = useState(false);
 
   const handleNewSubscriptionClick = () => {

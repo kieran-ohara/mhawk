@@ -17,7 +17,12 @@ export default function Subscriptions() {
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const [tagsOpen, setTagsOpen] = useState(false);
 
-  const { subscriptions, isLoading, deleteSubscription } = useSubscriptions();
+  const {
+    subscriptions,
+    isLoading,
+    update: updateSubscription,
+    deleteSubscription,
+  } = useSubscriptions();
 
   const [subscriptionId, setSubscriptionId] = useState(null);
   const {
@@ -25,7 +30,6 @@ export default function Subscriptions() {
     isLoading: outgoingLoading,
     addTag,
     removeTag,
-    update: updateSubscription,
   } = useOutgoing(subscriptionId);
 
   const handlePaymentTagsClick = () => {
@@ -52,9 +56,9 @@ export default function Subscriptions() {
   };
 
   const handleProcessRowUpdate = async (after: any) => {
-    const { monthly_price } = after;
-    await updateSubscription({
-      monthly_price,
+    const { monthly_price: amount } = after;
+    await updateSubscription(subscriptionId, {
+      amount,
     });
     return after;
   };

@@ -27,18 +27,7 @@ const useOutgoing = (id: number) => {
     });
   };
 
-  const update = (data) => {
-    return fetch(`/api/v0/payment-plan/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-  };
-
   return {
-    update,
     outgoing: data,
     isLoading: !error && !data,
     isError: error,
