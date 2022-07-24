@@ -178,7 +178,7 @@ function AppFrame(props) {
   // Handle new payment plan
   const [newPaymentPlanOpen, setNewPaymentPlanOpen] = React.useState(false);
 
-  const { create: createPaymentPlan } = usePaymentPlans();
+  const { create: createPaymentPlan, mutate: mutatePaymentPlans } = usePaymentPlans();
 
   const handleNewPaymentPlanClick = () => {
     setNewPaymentPlanOpen(true)
@@ -201,6 +201,7 @@ function AppFrame(props) {
     }
 
     setNewPaymentPlanOpen(false)
+    mutatePaymentPlans();
   }
 
   const drawer = (
