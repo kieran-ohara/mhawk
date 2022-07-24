@@ -1,5 +1,6 @@
 import LinearProgress from "@mui/material/LinearProgress";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { ReactElement } from 'React';
 
 function renderDate(date) {
   if (date !== null) {
@@ -11,7 +12,7 @@ function renderDate(date) {
 
 interface CreatePaymentGridColumnsProps {
   columns: object[];
-  moreComponent?: Function;
+  MoreComponent?: ReactElement;
 }
 
 const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
