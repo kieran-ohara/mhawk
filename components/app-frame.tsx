@@ -40,7 +40,7 @@ import {
   default as CreatePaymentPlanDialog,
   CreatePaymentPlanOkResult,
   AmountType,
-} from "./create-payment-plan";
+} from "./create-payment-plan-dialog";
 
 import TagsLinks from "./tags-links";
 
