@@ -1,4 +1,4 @@
-import React from "react";
+import {useState, MouseEvent} from "react";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -7,7 +7,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
 import Grid from "@mui/material/Grid";
 import InputAdornment from "@mui/material/InputAdornment";
 import Radio from "@mui/material/Radio";
@@ -31,7 +30,7 @@ export interface CreatePaymentPlanOkResult {
 export interface CreatePaymentDialogProps {
   open: boolean;
   handleOk: (event: any, result: CreatePaymentPlanOkResult) => void;
-  handleCancel: Function;
+  handleCancel: (event: any) => void;
 }
 
 export default function CreatePaymentPlanDialog(
@@ -39,13 +38,13 @@ export default function CreatePaymentPlanDialog(
 ) {
   const { open, handleOk: handleOkProp, handleCancel } = props;
 
-  const [reference, setReference] = React.useState("");
-  const [totalPrice, setTotalPrice] = React.useState("0");
-  const [amountType, setAmountType] = React.useState("monthly");
-  const [startDate, setStartDate] = React.useState(new Date());
-  const [endDate, setEndDate] = React.useState(new Date());
+  const [reference, setReference] = useState("");
+  const [totalPrice, setTotalPrice] = useState("0");
+  const [amountType, setAmountType] = useState("monthly");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
-  const handleOk = (event) => {
+  const handleOk = (event: MouseEvent<HTMLElement>) => {
     let amountTypeToEnum = null;
     switch (amountType) {
       case "monthly":
@@ -62,23 +61,11 @@ export default function CreatePaymentPlanDialog(
 
     handleOkProp(event, {
       reference,
-      amount: totalPrice,
+      amount: parseFloat(totalPrice),
       amountType: amountTypeToEnum,
       startDate,
       endDate,
     });
-  };
-
-  const onDateChanged = (setter) => {
-    return (date) => {
-      setter(date);
-    };
-  };
-
-  const onInputChanged = (setter) => {
-    return (event) => {
-      setter(event.target.value);
-    };
   };
 
   const handleAmountTypeChange = (
@@ -90,7 +77,6 @@ export default function CreatePaymentPlanDialog(
   return (
     <>
       <Dialog
-        disableBackdropClick
         disableEscapeKeyDown
         maxWidth="xs"
         aria-labelledby="confirmation-dialog-title"
@@ -107,7 +93,7 @@ export default function CreatePaymentPlanDialog(
             label="Reference"
             required
             value={reference}
-            onChange={onInputChanged(setReference)}
+            onChange={(event) => setReference(event.target.value)}
           />
 
           <TextField
@@ -123,7 +109,7 @@ export default function CreatePaymentPlanDialog(
               ),
             }}
             value={totalPrice}
-            onChange={onInputChanged(setTotalPrice)}
+            onChange={(event) => setTotalPrice(event.target.value)}
           />
 
           <FormControl>
@@ -148,29 +134,15 @@ export default function CreatePaymentPlanDialog(
 
           <Grid container>
             <DatePicker
-              disableToolbar
-              variant="inline"
-              margin="normal"
-              id="date-picker-inline"
               label="Start Date"
               value={startDate}
-              onChange={onDateChanged(setStartDate)}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
+              onChange={(date) => setStartDate(date)}
               renderInput={(params) => <TextField {...params} />}
             />
             <DatePicker
-              disableToolbar
-              variant="inline"
-              margin="normal"
-              id="date-picker-inline"
               label="End Date"
               value={endDate}
-              onChange={onDateChanged(setEndDate)}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
+              onChange={(date) => setEndDate(date)}
               renderInput={(params) => <TextField {...params} />}
             />
           </Grid>
