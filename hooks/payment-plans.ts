@@ -1,5 +1,6 @@
 
 import useSWR from 'swr';
+import differenceInMonths from 'date-fns/differenceInMonths';
 
 interface createPaymentPlanProps {
   reference: string,
@@ -31,8 +32,25 @@ const usePaymentPlans = () => {
     });
   }
 
+  const createWithTotal = async(okData: createPaymentPlanProps) => {
+    const {endDate, startDate, amount} = okData;
+
+
+    const diffMonths = (differenceInMonths(endDate, startDate) + 1);
+    const totalPriceAsFloat = parseFloat(amount);
+    const monthlyPrice = (totalPriceAsFloat / diffMonths).toFixed(2);
+
+    console.log(diffMonths, totalPriceAsFloat, monthlyPrice);
+    const body = {
+      ...okData,
+      amount: monthlyPrice
+    }
+    return create(body);
+  };
+
   return {
     create,
+    createWithTotal,
     paymentPlans: data,
     isLoading: !error && !data,
     isError: error,

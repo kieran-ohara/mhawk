@@ -178,7 +178,7 @@ function AppFrame(props) {
   // Handle new payment plan
   const [newPaymentPlanOpen, setNewPaymentPlanOpen] = React.useState(false);
 
-  const { create: createPaymentPlan, mutate: mutatePaymentPlans } = usePaymentPlans();
+  const { create: createPaymentPlan, createWithTotal: createPaymentPlanWithTotal, mutate: mutatePaymentPlans } = usePaymentPlans();
 
   const handleNewPaymentPlanClick = () => {
     setNewPaymentPlanOpen(true)
@@ -186,7 +186,6 @@ function AppFrame(props) {
   }
 
   const handleNewPaymentPlanOk = async (event, paymentPlan: CreatePaymentPlanOkResult) => {
-    console.log(event, paymentPlan)
     const { reference, amount, startDate, endDate, amountType  } = paymentPlan;
 
     if (amountType === AmountType.MONTHLY) {
@@ -197,7 +196,12 @@ function AppFrame(props) {
       endDate,
     });
     } else if (amountType === AmountType.TOTAL) {
-      console.log('Total Not Supported');
+    await createPaymentPlanWithTotal({
+      reference,
+      amount,
+      startDate,
+      endDate,
+    });
     }
 
     setNewPaymentPlanOpen(false)
