@@ -30,13 +30,13 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 
 import { makeStyles } from "@mui/styles";
-import { Theme } from '@mui/material/styles';
+import { Theme } from "@mui/material/styles";
 import { signOut } from "next-auth/client";
 import { useSubscriptions } from "../hooks/subscriptions";
 import { usePaymentPlans } from "../hooks/payment-plans";
 
 import {
-  default as CreateSubscriptionDialog ,
+  default as CreateSubscriptionDialog,
   CreateSubscriptionOkResult,
 } from "./create-subscription-dialog";
 import {
@@ -155,17 +155,18 @@ function AppFrame(props: any) {
   };
 
   // Handle new subscription
-  const {
-    create: createSubscription,
-    mutate: mutateSubscriptions,
-  } = useSubscriptions();
+  const { create: createSubscription, mutate: mutateSubscriptions } =
+    useSubscriptions();
   const [newSubscriptionOpen, setNewSubscriptionOpen] = useState(false);
 
   const handleNewSubscriptionClick = () => {
     setAddMenuOpen(false);
     setNewSubscriptionOpen(true);
   };
-  const handleNewSubscriptionOk = async (event: MouseEvent<HTMLElement>, newSubscriptionData: CreateSubscriptionOkResult) => {
+  const handleNewSubscriptionOk = async (
+    event: MouseEvent<HTMLElement>,
+    newSubscriptionData: CreateSubscriptionOkResult
+  ) => {
     setNewSubscriptionOpen(false);
     await createSubscription(newSubscriptionData);
     mutateSubscriptions();

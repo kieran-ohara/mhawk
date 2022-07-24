@@ -1,6 +1,10 @@
 import LinearProgress from "@mui/material/LinearProgress";
-import { DataGrid, GridToolbar, GridValueFormatterParams } from "@mui/x-data-grid";
-import { ReactElement } from 'React';
+import {
+  DataGrid,
+  GridToolbar,
+  GridValueFormatterParams,
+} from "@mui/x-data-grid";
+import { ReactElement } from "React";
 
 function renderDate(date: any) {
   if (date !== null) {
@@ -47,7 +51,8 @@ const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
       hide: true,
       headerName: "Start Date",
       width: 180,
-      valueFormatter: (params: GridValueFormatterParams) => renderDate(new Date(params.value)),
+      valueFormatter: (params: GridValueFormatterParams) =>
+        renderDate(new Date(params.value)),
     },
     ...columns,
     {
@@ -56,7 +61,8 @@ const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
       hide: true,
       headerName: "Created At",
       width: 180,
-      valueFormatter: (params: GridValueFormatterParams) => renderDate(new Date(params.value)),
+      valueFormatter: (params: GridValueFormatterParams) =>
+        renderDate(new Date(params.value)),
     },
     {
       field: "updated_at",
@@ -64,7 +70,8 @@ const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
       hide: true,
       headerName: "Updated At",
       width: 180,
-      valueFormatter: (params: GridValueFormatterParams) => renderDate(new Date(params.value)),
+      valueFormatter: (params: GridValueFormatterParams) =>
+        renderDate(new Date(params.value)),
     },
   ];
 

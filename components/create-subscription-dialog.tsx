@@ -1,4 +1,4 @@
-import {useState, MouseEvent} from "react";
+import { useState, MouseEvent } from "react";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -19,11 +19,16 @@ export interface CreateSubscriptionOkResult {
 
 export interface CreateSubscriptionDialogProps {
   open: boolean;
-  handleOk: (event: MouseEvent<HTMLElement>, result: CreateSubscriptionOkResult) => void;
+  handleOk: (
+    event: MouseEvent<HTMLElement>,
+    result: CreateSubscriptionOkResult
+  ) => void;
   handleCancel: (event: any) => void;
 }
 
-export default function CreatePaymentPlanWithTotalDialog(props: CreateSubscriptionDialogProps) {
+export default function CreatePaymentPlanWithTotalDialog(
+  props: CreateSubscriptionDialogProps
+) {
   const { open, handleOk: handleOkProp, handleCancel } = props;
   const [reference, setReference] = useState("");
   const [monthlyPrice, setMonthlyPrice] = useState("0");

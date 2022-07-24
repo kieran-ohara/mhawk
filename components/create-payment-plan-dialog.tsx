@@ -1,4 +1,4 @@
-import {useState, MouseEvent} from "react";
+import { useState, MouseEvent } from "react";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";

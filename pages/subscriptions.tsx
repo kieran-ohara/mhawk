@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, MouseEvent, } from "react";
+import { useState, ChangeEvent, MouseEvent } from "react";
 
 import AppFrame from "../components/app-frame";
 
@@ -8,10 +8,10 @@ import {
 } from "../components/payments-grid";
 import PaymentMoreMenu from "../components/payment-more-menu";
 import { useSubscriptions } from "../hooks/subscriptions";
-import { useOutgoing } from '../hooks/outgoings';
+import { useOutgoing } from "../hooks/outgoings";
 import PaymentMoreIcon from "../components/payment-more-icon";
 import PaymentTags from "../containers/payment-tags";
-import { GridCellParams } from '@mui/x-data-grid';
+import { GridCellParams } from "@mui/x-data-grid";
 
 export default function Subscriptions() {
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
@@ -70,9 +70,13 @@ export default function Subscriptions() {
         width: 180,
       },
     ],
-    MoreComponent:
-      <PaymentMoreIcon onClick={(event: MouseEvent<HTMLElement>) => setMenuAnchorEl(event.target)} />
-    ,
+    MoreComponent: (
+      <PaymentMoreIcon
+        onClick={(event: MouseEvent<HTMLElement>) =>
+          setMenuAnchorEl(event.target)
+        }
+      />
+    ),
   });
 
   return (
@@ -85,7 +89,9 @@ export default function Subscriptions() {
           isCellEditable={handleIsCellEditable}
           processRowUpdate={handleProcessRowUpdate}
           onProcessRowUpdateError={handleProcessRowUpdateError}
-          onCellClick={(event: GridCellParams) => setSubscriptionId(event.row.id)}
+          onCellClick={(event: GridCellParams) =>
+            setSubscriptionId(event.row.id)
+          }
         />
         <PaymentMoreMenu
           anchorEl={menuAnchorEl}
