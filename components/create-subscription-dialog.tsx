@@ -1,4 +1,4 @@
-import React from "react";
+import {useState, MouseEvent} from "react";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -11,43 +11,42 @@ import TextField from "@mui/material/TextField";
 
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-export default function CreatePaymentPlanWithTotalDialog(props) {
-  const { open, handleOk: handleOkProp, handleCancel, totalLabel } = props;
-  const [reference, setReference] = React.useState("");
-  const [monthlyPrice, setMonthlyPrice] = React.useState("0");
-  const [startDate, setStartDate] = React.useState(new Date());
+export interface CreateSubscriptionOkResult {
+  reference: string;
+  amount: number;
+  startDate: any;
+}
 
-  const handleOk = () => {
-    handleOkProp({
+export interface CreateSubscriptionDialogProps {
+  open: boolean;
+  handleOk: (event: MouseEvent<HTMLElement>, result: CreateSubscriptionOkResult) => void;
+  handleCancel: (event: any) => void;
+}
+
+export default function CreatePaymentPlanWithTotalDialog(props: CreateSubscriptionDialogProps) {
+  const { open, handleOk: handleOkProp, handleCancel } = props;
+  const [reference, setReference] = useState("");
+  const [monthlyPrice, setMonthlyPrice] = useState("0");
+  const [startDate, setStartDate] = useState(new Date());
+
+  const handleOk = (event: MouseEvent<HTMLElement>) => {
+    handleOkProp(event, {
       reference,
-      monthlyPrice,
+      amount: parseFloat(monthlyPrice),
       startDate,
     });
-  };
-
-  const onDateChanged = (setter) => {
-    return (date) => {
-      setter(date);
-    };
-  };
-
-  const onInputChanged = (setter) => {
-    return (event) => {
-      setter(event.target.value);
-    };
   };
 
   return (
     <>
       <Dialog
-        disableBackdropClick
         disableEscapeKeyDown
         maxWidth="xs"
         aria-labelledby="confirmation-dialog-title"
         open={open}
       >
         <DialogTitle id="confirmation-dialog-title">
-          Create A New Payment
+          Create A New Subscription
         </DialogTitle>
         <DialogContent dividers>
           <TextField
@@ -57,13 +56,13 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
             label="Reference"
             required
             value={reference}
-            onChange={onInputChanged(setReference)}
+            onChange={(event) => setReference(event.target.value)}
           />
           <TextField
             autoFocus
             margin="normal"
             id="total"
-            label={totalLabel}
+            label="amount"
             required
             type="number"
             InputProps={{
@@ -72,20 +71,13 @@ export default function CreatePaymentPlanWithTotalDialog(props) {
               ),
             }}
             value={monthlyPrice}
-            onChange={onInputChanged(setMonthlyPrice)}
+            onChange={(event) => setMonthlyPrice(event.target.value)}
           />
           <Grid container>
             <DatePicker
-              disableToolbar
-              variant="inline"
-              margin="normal"
-              id="date-picker-inline"
               label="Start Date"
               value={startDate}
-              onChange={onDateChanged(setStartDate)}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
+              onChange={(date) => setStartDate(date)}
               renderInput={(params) => <TextField {...params} />}
             />
           </Grid>

@@ -35,7 +35,7 @@ import { signOut } from "next-auth/client";
 import { useSubscriptions } from "../hooks/subscriptions";
 import { usePaymentPlans } from "../hooks/payment-plans";
 
-import CreateRucurringPaymentDialog from "./create-recurring-payment-dialog";
+import CreateSubscriptionDialog from "./create-subscription-dialog";
 import {
   default as CreatePaymentPlanDialog,
   CreatePaymentPlanOkResult,
@@ -386,7 +386,7 @@ function AppFrame(props: any) {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <div style={{ height: "calc(100vh - 64px)" }}>{children}</div>
-          <CreateRucurringPaymentDialog
+          <CreateSubscriptionDialog
             handleOk={handleNewSubscriptionOk}
             open={newSubscriptionOpen}
             handleCancel={handleNewSubscriptionCancel}
