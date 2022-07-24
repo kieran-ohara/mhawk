@@ -21,8 +21,8 @@ export default function Subscriptions() {
 
   const [subscriptionId, setSubscriptionId] = useState(null);
   const {
-    subscription,
-    isLoading: subscriptionLoading,
+    outgoing,
+    isLoading: outgoingLoading,
     addTag,
     removeTag,
     update: updateSubscription,
@@ -34,7 +34,7 @@ export default function Subscriptions() {
   };
 
   const handlePaymentDeleteClick = async () => {
-    await deleteSubscription(subscription.id);
+    await deleteSubscription(outgoing.id);
     setMenuAnchorEl(null);
   };
 
@@ -104,8 +104,8 @@ export default function Subscriptions() {
         />
         <PaymentTags
           open={tagsOpen}
-          paymentLoading={subscriptionLoading}
-          payment={subscription}
+          paymentLoading={outgoingLoading}
+          payment={outgoing}
           onTagChecked={handleTagChecked}
           onClose={() => setTagsOpen(false)}
         />
