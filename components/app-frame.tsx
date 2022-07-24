@@ -193,6 +193,7 @@ function AppFrame(props: any) {
   };
 
   const handleNewPaymentPlanOk = async (
+    event: MouseEvent<HTMLElement>,
     paymentPlan: CreatePaymentPlanOkResult
   ) => {
     const { reference, amount, startDate, endDate, amountType } = paymentPlan;
