@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import { MouseEvent, useState, KeyboardEvent } from "react";
 
 import AppBar from "@mui/material/AppBar";
 import Drawer from "@mui/material/Drawer";
@@ -29,7 +29,8 @@ import Typography from "@mui/material/Typography";
 
 import InputBase from "@mui/material/InputBase";
 
-import { makeStyles, useTheme } from "@mui/styles";
+import { makeStyles } from "@mui/styles";
+import { Theme } from '@mui/material/styles';
 import { signOut } from "next-auth/client";
 import { useSubscriptions } from "../hooks/subscriptions";
 import { usePaymentPlans } from "../hooks/payment-plans";
@@ -44,7 +45,7 @@ import {
 import TagsLinks from "./tags-links";
 
 const drawerWidth = 240;
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
   },
@@ -119,16 +120,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AppFrame(props) {
+function AppFrame(props: any) {
   const { children } = props;
   const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // Handle user-menu
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const handleMenu = (event) => {
+  const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleDrawerToggle = () => {
@@ -140,10 +140,10 @@ function AppFrame(props) {
   };
 
   // Handle add-menu
-  const [addMenuOpen, setAddMenuOpen] = React.useState(false);
-  const [addMenuEl, setAddMenuEl] = React.useState(false);
-  const handleAddMenuClick = (event) => {
-    setAddMenuEl(event.eventTarget);
+  const [addMenuOpen, setAddMenuOpen] = useState(false);
+  const [addMenuEl, setAddMenuEl] = useState(null);
+  const handleAddMenuClick = (event: MouseEvent<HTMLElement>) => {
+    setAddMenuEl(event.currentTarget);
     setAddMenuOpen(true);
   };
   const handleAddMenuClose = () => {
@@ -156,13 +156,13 @@ function AppFrame(props) {
     create: createSubscription,
     mutate: mutateSubscriptions,
   } = useSubscriptions();
-  const [newSubscriptionOpen, setNewSubscriptionOpen] = React.useState(false);
+  const [newSubscriptionOpen, setNewSubscriptionOpen] = useState(false);
 
   const handleNewSubscriptionClick = () => {
     setAddMenuOpen(false);
     setNewSubscriptionOpen(true);
   };
-  const handleNewSubscriptionOk = async (newSubscriptionData) => {
+  const handleNewSubscriptionOk = async (newSubscriptionData: any) => {
     setNewSubscriptionOpen(false);
     await createSubscription(newSubscriptionData);
     mutateSubscriptions();
@@ -173,7 +173,7 @@ function AppFrame(props) {
   };
 
   // Handle new payment plan
-  const [newPaymentPlanOpen, setNewPaymentPlanOpen] = React.useState(false);
+  const [newPaymentPlanOpen, setNewPaymentPlanOpen] = useState(false);
 
   const {
     create: createPaymentPlan,
@@ -187,7 +187,6 @@ function AppFrame(props) {
   };
 
   const handleNewPaymentPlanOk = async (
-    event,
     paymentPlan: CreatePaymentPlanOkResult
   ) => {
     const { reference, amount, startDate, endDate, amountType } = paymentPlan;
@@ -254,9 +253,9 @@ function AppFrame(props) {
 
   const router = useRouter();
 
-  const onKeyPress = (event) => {
+  const onKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      router.push(`/search?q=${event.target.value}`);
+      router.push(`/search?q=${event.currentTarget.value}`);
     }
   };
 
@@ -359,7 +358,7 @@ function AppFrame(props) {
             <Drawer
               container={container}
               variant="temporary"
-              anchor={theme.direction === "rtl" ? "right" : "left"}
+              anchor={"left"}
               open={mobileOpen}
               onClose={handleDrawerToggle}
               classes={{
