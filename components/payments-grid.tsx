@@ -1,8 +1,8 @@
 import LinearProgress from "@mui/material/LinearProgress";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, GridValueFormatterParams } from "@mui/x-data-grid";
 import { ReactElement } from 'React';
 
-function renderDate(date) {
+function renderDate(date: any) {
   if (date !== null) {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return date.toLocaleString("en-GB", options);
@@ -36,7 +36,7 @@ const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
       type: "number",
       headerName: "Monthly Price",
       width: 165,
-      valueFormatter: (params) => {
+      valueFormatter: (params: GridValueFormatterParams) => {
         return `£${params.value}`;
       },
       editable: true,
@@ -47,7 +47,7 @@ const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
       hide: true,
       headerName: "Start Date",
       width: 180,
-      valueFormatter: (params) => renderDate(new Date(params.value)),
+      valueFormatter: (params: GridValueFormatterParams) => renderDate(new Date(params.value)),
     },
     ...columns,
     {
@@ -56,7 +56,7 @@ const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
       hide: true,
       headerName: "Created At",
       width: 180,
-      valueFormatter: (params) => renderDate(new Date(params.value)),
+      valueFormatter: (params: GridValueFormatterParams) => renderDate(new Date(params.value)),
     },
     {
       field: "updated_at",
@@ -64,7 +64,7 @@ const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
       hide: true,
       headerName: "Updated At",
       width: 180,
-      valueFormatter: (params) => renderDate(new Date(params.value)),
+      valueFormatter: (params: GridValueFormatterParams) => renderDate(new Date(params.value)),
     },
   ];
 
@@ -74,7 +74,7 @@ const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
         field: "tags",
         headerName: "More",
         width: 120,
-        renderCell: (gridParams) => {
+        renderCell: () => {
           return MoreComponent;
         },
       },
@@ -84,7 +84,7 @@ const createPaymentsGridColumns = (props: CreatePaymentGridColumnsProps) => {
   return paymentGridColumns;
 };
 
-const PaymentsGrid = (props) => {
+const PaymentsGrid = (props: any) => {
   const {
     data,
     dataIsLoading,
