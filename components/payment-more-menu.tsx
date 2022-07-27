@@ -25,17 +25,17 @@ export default function PaymentMoreMenu(props) {
         "aria-labelledby": "basic-button",
       }}
     >
-      <MenuItem onClick={onRefinanceClick}>
-        <ListItemIcon>
-          <DirectionsIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>Refinance</ListItemText>
-      </MenuItem>
       <MenuItem onClick={onTagsClick}>
         <ListItemIcon>
           <LabelIcon fontSize="small" />
         </ListItemIcon>
         <ListItemText>Tags</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={onRefinanceClick}>
+        <ListItemIcon>
+          <DirectionsIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText>Refinance</ListItemText>
       </MenuItem>
       <MenuItem onClick={onDeleteClick}>
         <ListItemIcon>

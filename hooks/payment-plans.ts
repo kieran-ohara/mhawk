@@ -40,7 +40,6 @@ const usePaymentPlans = () => {
     const totalPriceAsFloat = parseFloat(amount);
     const monthlyPrice = (totalPriceAsFloat / diffMonths).toFixed(2);
 
-    console.log(diffMonths, totalPriceAsFloat, monthlyPrice);
     const body = {
       ...okData,
       amount: monthlyPrice,

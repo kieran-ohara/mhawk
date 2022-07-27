@@ -27,12 +27,25 @@ const useOutgoing = (id: number) => {
     });
   };
 
+  const refinance = (tagId: number) => {
+    return fetch(`/api/v0/payment-plan/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        refinance_payment_plan_id: tagId,
+      }),
+    });
+  };
+
   return {
     outgoing: data,
     isLoading: !error && !data,
     isError: error,
     addTag,
     removeTag,
+    refinance,
   };
 };
 

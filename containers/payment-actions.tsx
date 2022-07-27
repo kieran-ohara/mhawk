@@ -12,10 +12,16 @@ export interface PaymentActionsProps {
   outgoingId: number;
   actionsMenuEl: any;
   onDeleteOutgoingClick: (event: MouseEvent) => any;
+  onPaymentsModified: () => any | Promise<any>;
 }
 
 export default function PaymentActions(props: PaymentActionsProps) {
-  const { outgoingId, actionsMenuEl, onDeleteOutgoingClick } = props;
+  const {
+    outgoingId,
+    actionsMenuEl,
+    onDeleteOutgoingClick,
+    onPaymentsModified = () => {},
+  } = props;
   const [tagsOpen, setTagsOpen] = useState(false);
   const [refinanceOpen, setRefinanceOpen] = useState(false);
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
@@ -29,6 +35,7 @@ export default function PaymentActions(props: PaymentActionsProps) {
     isLoading: outgoingLoading,
     addTag,
     removeTag,
+    refinance,
   } = useOutgoing(outgoingId);
 
   const handleRefinanceClick = () => {
@@ -46,10 +53,14 @@ export default function PaymentActions(props: PaymentActionsProps) {
     onDeleteOutgoingClick(event);
   };
 
-  const handlePaymentRefinanceOk = (
+  const handlePaymentRefinanceOk = async (
     event: MouseEvent<HTMLElement>,
     result: RefinanceOkResult
-  ) => {};
+  ) => {
+    setRefinanceOpen(false);
+    await refinance(result.refinanceWithId);
+    onPaymentsModified();
+  };
 
   const handleTagChecked = (event: ChangeEvent<HTMLInputElement>) => {
     const { checked, value: tagId } = event.target;
@@ -81,7 +92,7 @@ export default function PaymentActions(props: PaymentActionsProps) {
       />
       <RefinancePaymentDialog
         onClose={() => setRefinanceOpen(false)}
-        onOk={() => handlePaymentRefinanceOk}
+        onOk={handlePaymentRefinanceOk}
         open={refinanceOpen}
         payment={outgoing}
         paymentLoading={outgoingLoading}

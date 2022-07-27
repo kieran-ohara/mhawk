@@ -109,6 +109,7 @@ export default function PaymentPlans() {
           outgoingId={selectedPaymentPlanId}
           actionsMenuEl={paymentActionsMenuEl}
           onDeleteOutgoingClick={handleDeleteOutgoingClick}
+          onPaymentsModified={mutate}
         />
       </AppFrame>
     </>

@@ -31,24 +31,20 @@ export default function RefinancePaymentDialog(
   const { outgoings, isLoading: outgoingsLoading } = useOutgoings();
   const [refinanceWith, setRefinanceWith] = useState<number>(null);
 
+  const [value, setValue] = useState<any | null>(null);
+  const [inputValue, setInputValue] = useState("");
+
   if (paymentLoading || outgoingsLoading) {
     return <></>;
   }
 
   const handleOk = (event: MouseEvent<HTMLElement>) => {
     onOk(event, {
-      refinanceWithId: refinanceWith,
+      refinanceWithId: parseInt(value.id),
     });
   };
 
-  // const handleAmountTypeChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   setAmountType((event.target as HTMLInputElement).value);
-  // };
-
   const outgoingsToOptions = (outgoings: any) => {
-    console.log(outgoings);
     return outgoings.map((outgoing) => ({
       label: outgoing.reference,
       id: outgoing.id,
@@ -71,9 +67,19 @@ export default function RefinancePaymentDialog(
             <Autocomplete
               disablePortal
               id="combo-box-demo"
-              options={outgoingsToOptions(outgoings)}
+              options={outgoings}
+              getOptionLabel={(option) => option.reference}
               sx={{ width: 300 }}
-              renderInput={(params) => <TextField {...params} label="Movie" />}
+              renderInput={(params) => (
+                <TextField {...params} label="Outgoing" />
+              )}
+              onChange={(event: any, newValue: string | null) => {
+                setValue(newValue);
+              }}
+              inputValue={inputValue}
+              onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
             />
           </Grid>
         </DialogContent>
