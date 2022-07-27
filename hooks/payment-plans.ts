@@ -48,9 +48,15 @@ const usePaymentPlans = () => {
     return create(body);
   };
 
+  const deletePaymentPlan = async (id: number) => {
+    await fetch(`/api/v0/payment-plan/${id}`, { method: "DELETE" });
+    mutate();
+  };
+
   return {
     create,
     createWithTotal,
+    deletePaymentPlan,
     paymentPlans: data,
     isLoading: !error && !data,
     isError: error,

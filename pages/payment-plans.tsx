@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 
 import AppFrame from "../components/app-frame";
 import {
@@ -8,11 +8,24 @@ import {
 
 import { usePaymentPlans } from "../hooks/payment-plans";
 import { renderDate } from "../components/payment-plan";
+import PaymentMoreIcon from "../components/payment-more-icon";
+import PaymentActions from "../containers/payment-actions";
 
 export default function PaymentPlans() {
-  const { paymentPlans, isLoading } = usePaymentPlans();
+  const {
+    paymentPlans,
+    isLoading,
+    deletePaymentPlan,
+    mutate,
+  } = usePaymentPlans();
 
-  const [subscriptionId, setSubscriptionId] = useState(null);
+  const [selectedPaymentPlanId, setPaymentPlanId] = useState(null);
+  const [paymentActionsMenuEl, setPaymentActionsMenuEl] = useState(null);
+
+  const handleDeleteOutgoingClick = async () => {
+    await deletePaymentPlan(selectedPaymentPlanId);
+    mutate();
+  };
 
   const columns = createPaymentsGridColumns({
     columns: [
@@ -58,6 +71,13 @@ export default function PaymentPlans() {
         hide: true,
       },
     ],
+    MoreComponent: (
+      <PaymentMoreIcon
+        onClick={(event: MouseEvent<HTMLElement>) =>
+          setPaymentActionsMenuEl(event.target)
+        }
+      />
+    ),
   });
 
   return (
@@ -83,7 +103,12 @@ export default function PaymentPlans() {
           isCellEditable={() => false}
           processRowUpdate={() => null}
           onProcessRowUpdateError={() => null}
-          onCellClick={(event) => setSubscriptionId(event.row.id)}
+          onCellClick={(event) => setPaymentPlanId(event.row.id)}
+        />
+        <PaymentActions
+          outgoingId={selectedPaymentPlanId}
+          actionsMenuEl={paymentActionsMenuEl}
+          onDeleteOutgoingClick={handleDeleteOutgoingClick}
         />
       </AppFrame>
     </>
