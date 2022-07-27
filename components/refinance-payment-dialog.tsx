@@ -68,7 +68,7 @@ export default function RefinancePaymentDialog(
               disablePortal
               id="combo-box-demo"
               options={outgoings}
-              getOptionLabel={(option) => option.reference}
+              getOptionLabel={(option: any) => option.reference}
               sx={{ width: 300 }}
               renderInput={(params) => (
                 <TextField {...params} label="Outgoing" />
