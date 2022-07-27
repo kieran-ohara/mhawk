@@ -27,7 +27,7 @@ const getController = async function getController(req, res) {
     } else if (req.query.has_end_date === "false") {
       content = await getRecurringPaymentPlans();
     } else {
-      content = getAllPaymentPlans();
+      content = await getAllPaymentPlans();
     }
   } catch (error) {
     log(error);
