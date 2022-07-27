@@ -260,9 +260,9 @@ function AppFrame(props: any) {
 
   const router = useRouter();
 
-  const onKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+  const onKeyPress = (event) => {
     if (event.key === "Enter") {
-      router.push(`/search?q=${event.currentTarget.value}`);
+      router.push(`/search?q=${event.target.value}`);
     }
   };
 
