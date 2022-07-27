@@ -4,7 +4,7 @@ import {
   GridToolbar,
   GridValueFormatterParams,
 } from "@mui/x-data-grid";
-import { ReactElement } from "React";
+import { ReactElement } from "react";
 
 function renderDate(date: any) {
   if (date !== null) {
