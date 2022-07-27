@@ -4,9 +4,17 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import LabelIcon from "@mui/icons-material/Label";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListItemText from "@mui/material/ListItemText";
+import DirectionsIcon from "@mui/icons-material/Directions";
 
 export default function PaymentMoreMenu(props) {
-  const { anchorEl, open, onClose, onTagsClick, onDeleteClick } = props;
+  const {
+    anchorEl,
+    open,
+    onClose,
+    onTagsClick,
+    onDeleteClick,
+    onRefinanceClick,
+  } = props;
   return (
     <Menu
       id="basic-menu"
@@ -17,6 +25,12 @@ export default function PaymentMoreMenu(props) {
         "aria-labelledby": "basic-button",
       }}
     >
+      <MenuItem onClick={onRefinanceClick}>
+        <ListItemIcon>
+          <DirectionsIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText>Refinance</ListItemText>
+      </MenuItem>
       <MenuItem onClick={onTagsClick}>
         <ListItemIcon>
           <LabelIcon fontSize="small" />

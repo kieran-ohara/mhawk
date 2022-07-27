@@ -3,6 +3,10 @@ import { useState, useEffect, ChangeEvent, MouseEvent } from "react";
 import PaymentMoreMenu from "../components/payment-more-menu";
 import { useOutgoing } from "../hooks/outgoings";
 import PaymentTags from "../containers/payment-tags";
+import {
+  default as RefinancePaymentDialog,
+  RefinanceOkResult,
+} from "../components/refinance-payment-dialog";
 
 export interface PaymentActionsProps {
   outgoingId: number;
@@ -13,6 +17,7 @@ export interface PaymentActionsProps {
 export default function PaymentActions(props: PaymentActionsProps) {
   const { outgoingId, actionsMenuEl, onDeleteOutgoingClick } = props;
   const [tagsOpen, setTagsOpen] = useState(false);
+  const [refinanceOpen, setRefinanceOpen] = useState(false);
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
   useEffect(() => {
@@ -26,6 +31,11 @@ export default function PaymentActions(props: PaymentActionsProps) {
     removeTag,
   } = useOutgoing(outgoingId);
 
+  const handleRefinanceClick = () => {
+    setMenuAnchorEl(null);
+    setRefinanceOpen(true);
+  };
+
   const handlePaymentTagsClick = () => {
     setMenuAnchorEl(null);
     setTagsOpen(true);
@@ -35,6 +45,11 @@ export default function PaymentActions(props: PaymentActionsProps) {
     setMenuAnchorEl(null);
     onDeleteOutgoingClick(event);
   };
+
+  const handlePaymentRefinanceOk = (
+    event: MouseEvent<HTMLElement>,
+    result: RefinanceOkResult
+  ) => {};
 
   const handleTagChecked = (event: ChangeEvent<HTMLInputElement>) => {
     const { checked, value: tagId } = event.target;
@@ -53,6 +68,7 @@ export default function PaymentActions(props: PaymentActionsProps) {
         onClose={() => {
           setMenuAnchorEl(null);
         }}
+        onRefinanceClick={handleRefinanceClick}
         onTagsClick={handlePaymentTagsClick}
         onDeleteClick={handlePaymentDeleteClick}
       />
@@ -62,6 +78,13 @@ export default function PaymentActions(props: PaymentActionsProps) {
         payment={outgoing}
         onTagChecked={handleTagChecked}
         onClose={() => setTagsOpen(false)}
+      />
+      <RefinancePaymentDialog
+        onClose={() => setRefinanceOpen(false)}
+        onOk={() => handlePaymentRefinanceOk}
+        open={refinanceOpen}
+        payment={outgoing}
+        paymentLoading={outgoingLoading}
       />
     </>
   );

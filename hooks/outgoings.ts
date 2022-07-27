@@ -36,4 +36,18 @@ const useOutgoing = (id: number) => {
   };
 };
 
-export { useOutgoing };
+const useOutgoings = () => {
+  const getOutgoingUrl = `/api/v0/payment-plans`;
+  const { data, error, mutate } = useSWR(getOutgoingUrl, async (url) => {
+    const response = await fetch(url);
+    return response.json();
+  });
+
+  return {
+    outgoings: data,
+    isLoading: !error && !data,
+    isError: error,
+    mutate,
+  };
+};
+export { useOutgoing, useOutgoings };
