@@ -5,6 +5,7 @@ metadata:
   namespace: mhawk
   labels:
     app.kubernetes.io/name: name
+    monitorWithPrometheus: "true"
 spec:
   selector:
     app: mhawk
