@@ -12,12 +12,8 @@ import PaymentMoreIcon from "../components/payment-more-icon";
 import PaymentActions from "../containers/payment-actions";
 
 export default function PaymentPlans() {
-  const {
-    paymentPlans,
-    isLoading,
-    deletePaymentPlan,
-    mutate,
-  } = usePaymentPlans();
+  const { paymentPlans, isLoading, deletePaymentPlan, mutate } =
+    usePaymentPlans();
 
   const [selectedPaymentPlanId, setPaymentPlanId] = useState(null);
   const [paymentActionsMenuEl, setPaymentActionsMenuEl] = useState(null);
