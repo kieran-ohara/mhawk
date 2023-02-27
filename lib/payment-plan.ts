@@ -86,7 +86,8 @@ export class PaymentPlan {
       return null;
     }
     const endDate: Date = new Date(this.data.end_date);
-    return differenceInCalendarMonths(endDate, Date.now());
+    const diff = differenceInCalendarMonths(endDate, Date.now());
+    return diff > 0 ? diff : 0;
   }
 }
 
