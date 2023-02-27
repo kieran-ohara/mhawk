@@ -10,6 +10,7 @@ import { usePaymentPlans } from "../hooks/payment-plans";
 import { renderDate } from "../components/payment-plan";
 import PaymentMoreIcon from "../components/payment-more-icon";
 import PaymentActions from "../containers/payment-actions";
+import { SettledStatus } from "../lib/payment-plan";
 
 export default function PaymentPlans() {
   const { paymentPlans, isLoading, deletePaymentPlan, mutate } =
@@ -60,10 +61,20 @@ export default function PaymentPlans() {
         },
       },
       {
-        field: "is_settled",
-        type: "boolean",
+        field: "settledStatus",
+        type: "string",
         headerName: "Settled",
         width: 122,
+        valueGetter: (params) => {
+          switch (params.value) {
+            case SettledStatus.SETTLED: {
+              return "Settled";
+            }
+            case SettledStatus.IN_PROGRESS: {
+              return "In Progress";
+            }
+          }
+        },
         hide: true,
       },
     ],
@@ -88,9 +99,9 @@ export default function PaymentPlans() {
               filterModel: {
                 items: [
                   {
-                    columnField: "is_settled",
-                    operatorValue: "is",
-                    value: "false",
+                    columnField: "settledStatus",
+                    operatorValue: "equals",
+                    value: "In Progress",
                   },
                 ],
               },
