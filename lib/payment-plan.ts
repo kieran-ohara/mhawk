@@ -3,7 +3,7 @@ import { differenceInCalendarMonths } from "date-fns";
 export enum SettledStatus {
   SETTLED,
   IN_PROGRESS,
-  OVERDUE,
+  UNDERPAID,
 }
 
 interface PaymentPlanAPIResponse {
@@ -32,6 +32,9 @@ export class PaymentPlan {
     }
     if (this.sumOutstanding <= this.sumRemainingInstalments) {
       return SettledStatus.IN_PROGRESS;
+    }
+    if (this.sumOutstanding > this.sumRemainingInstalments) {
+      return SettledStatus.UNDERPAID;
     }
     return SettledStatus.SETTLED;
   }

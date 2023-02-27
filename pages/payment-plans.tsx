@@ -82,6 +82,9 @@ export default function PaymentPlans() {
             case SettledStatus.IN_PROGRESS: {
               return "In Progress";
             }
+            case SettledStatus.UNDERPAID: {
+              return "Underpaid";
+            }
           }
         },
         hide: true,
@@ -109,8 +112,8 @@ export default function PaymentPlans() {
                 items: [
                   {
                     columnField: "settledStatus",
-                    operatorValue: "equals",
-                    value: "In Progress",
+                    operatorValue: "isAnyOf",
+                    value: ["In Progress", "Underpaid"],
                   },
                 ],
               },
