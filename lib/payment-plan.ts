@@ -78,3 +78,24 @@ export class PaymentPlan {
     return differenceInCalendarMonths(endDate, Date.now());
   }
 }
+
+export const paymentPlansFromAPIResponse = (
+  apiResponse: PaymentPlanAPIResponse[]
+): Promise<ProxyConstructor[]> => {
+  const data = apiResponse.map((planv1) => {
+    const target = new PaymentPlan(planv1);
+    const handler = {
+      get(target: any, prop: any) {
+        if (planv1.hasOwnProperty(prop)) {
+          return planv1[prop];
+        }
+        // @ts-ignore
+        return Reflect.get(...arguments);
+      },
+    };
+
+    return new Proxy(target, handler);
+  });
+
+  return new Promise((resolve) => resolve(data));
+};

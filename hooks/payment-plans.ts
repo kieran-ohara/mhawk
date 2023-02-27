@@ -1,6 +1,8 @@
 import useSWR from "swr";
 import differenceInMonths from "date-fns/differenceInMonths";
 
+import { paymentPlansFromAPIResponse } from "../lib/payment-plan";
+
 interface createPaymentPlanProps {
   reference: string;
   amount: any;
@@ -13,7 +15,7 @@ const usePaymentPlans = () => {
   const getPaymentPlansUrl = "/api/v0/payment-plans?has_end_date=true";
   const { data, error, mutate } = useSWR(getPaymentPlansUrl, async (url) => {
     const response = await fetch(url);
-    return response.json();
+    return paymentPlansFromAPIResponse(await response.json());
   });
 
   const create = async (okData: createPaymentPlanProps) => {
