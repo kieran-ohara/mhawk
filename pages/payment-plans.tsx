@@ -1,5 +1,7 @@
 import { useState, MouseEvent } from "react";
 
+import { GridValueFormatterParams } from "@mui/x-data-grid";
+
 import AppFrame from "../components/app-frame";
 import {
   createPaymentsGridColumns,
@@ -7,10 +9,10 @@ import {
 } from "../components/payments-grid";
 
 import { usePaymentPlans } from "../hooks/payment-plans";
+import { PaymentPlan, SettledStatus } from "../lib/payment-plan";
 import { renderDate } from "../components/payment-plan";
 import PaymentMoreIcon from "../components/payment-more-icon";
 import PaymentActions from "../containers/payment-actions";
-import { SettledStatus } from "../lib/payment-plan";
 
 export default function PaymentPlans() {
   const { paymentPlans, isLoading, deletePaymentPlan, mutate } =
@@ -38,9 +40,13 @@ export default function PaymentPlans() {
         type: "number",
         headerName: "Payments Made",
         width: 180,
-        valueFormatter: (params) => {
-          let string = `${params.value}`;
-          const dateDiff = params.value;
+        valueGetter: (params: any) => {
+          return params.row;
+        },
+        valueFormatter: (params: GridValueFormatterParams<PaymentPlan>) => {
+          // @ts-ignore
+          let string = `${params.value.payments_count}`;
+          const dateDiff = params.value.instalments;
           if (dateDiff !== null) {
             string = `${string}/${dateDiff}`;
           }
