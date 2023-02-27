@@ -64,7 +64,8 @@ export class PaymentPlan {
     if (this.isSubscription) {
       return null;
     }
-    return parseFloat(this.data.monthly_price * this.instalments).toFixed(2);
+    const number = this.data.monthly_price * this.instalments;
+    return Math.round((number + Number.EPSILON) * 100) / 100;
   }
 
   get sumOutstanding(): number | null {
