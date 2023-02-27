@@ -4,6 +4,8 @@ export enum SettledStatus {
   SETTLED,
   IN_PROGRESS,
   UNDERPAID,
+  OVERPAID,
+  UNKNOWN,
 }
 
 interface PaymentPlanAPIResponse {
@@ -27,6 +29,12 @@ export class PaymentPlan {
     if (this.isSubscription) {
       return SettledStatus.IN_PROGRESS;
     }
+    if (this.data.payments_sum > this.totalPrice) {
+      return SettledStatus.OVERPAID;
+    }
+    if (this.sumOutstanding === 0) {
+      return SettledStatus.SETTLED;
+    }
     if (this.data.refinance_payment_plan_id) {
       return SettledStatus.SETTLED;
     }
@@ -36,7 +44,7 @@ export class PaymentPlan {
     if (this.sumOutstanding > this.sumRemainingInstalments) {
       return SettledStatus.UNDERPAID;
     }
-    return SettledStatus.SETTLED;
+    return SettledStatus.UNKNOWN;
   }
 
   get isSubscription(): boolean {

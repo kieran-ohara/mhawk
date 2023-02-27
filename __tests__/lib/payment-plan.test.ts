@@ -43,6 +43,18 @@ describe("settledStatus", () => {
     });
     expect(plan.settledStatus).toBe(SettledStatus.SETTLED);
   });
+  it("reports OVERPAID when the total payment is greater than total cost  ", () => {
+    const plan = new PaymentPlan({
+      id: 0,
+      reference: "",
+      start_date: "2023-01-01T00:00:00.000Z",
+      end_date: "2023-06-01T00:00:00.000Z",
+      monthly_price: 10,
+      payments_sum: 61,
+      payments_count: 2,
+    });
+    expect(plan.settledStatus).toBe(SettledStatus.OVERPAID);
+  });
   it("reports UNDERPAID when outstanding amount cannot be paid of in plan's remaining month count", () => {
     const plan = new PaymentPlan({
       id: 0,

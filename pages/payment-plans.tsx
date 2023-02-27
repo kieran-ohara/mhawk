@@ -85,6 +85,9 @@ export default function PaymentPlans() {
             case SettledStatus.UNDERPAID: {
               return "Underpaid";
             }
+            case SettledStatus.OVERPAID: {
+              return "Overpaid";
+            }
           }
         },
         hide: true,
