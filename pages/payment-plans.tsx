@@ -70,6 +70,17 @@ export default function PaymentPlans() {
         },
       },
       {
+        field: "totalPrice",
+        type: "number",
+        headerName: "Total Cost",
+        width: 180,
+        valueFormatter: (params) => {
+          const string = `${params.value}`;
+          return `£${string}`;
+        },
+        hide: true,
+      },
+      {
         field: "settledStatus",
         type: "string",
         headerName: "Settled",
