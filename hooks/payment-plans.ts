@@ -66,3 +66,5 @@ const usePaymentPlans = () => {
 };
 
 export { usePaymentPlans };
+
+export { PaymentPlan, SettledStatus } from "../lib/payment-plan";

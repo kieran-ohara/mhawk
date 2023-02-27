@@ -8,8 +8,11 @@ import {
   PaymentsGrid,
 } from "../components/payments-grid";
 
-import { usePaymentPlans } from "../hooks/payment-plans";
-import { PaymentPlan, SettledStatus } from "../lib/payment-plan";
+import {
+  usePaymentPlans,
+  PaymentPlan,
+  SettledStatus,
+} from "../hooks/payment-plans";
 import { renderDate } from "../components/payment-plan";
 import PaymentMoreIcon from "../components/payment-more-icon";
 import PaymentActions from "../containers/payment-actions";
